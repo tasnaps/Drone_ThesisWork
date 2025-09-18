@@ -3,7 +3,7 @@ import math
 import torch
 from datasets import Dataset
 from TRANSFORMER.utils.audio_processing import (
-    load_audio_dataset, categorize_files_by_size, process_audio_chunk,
+    load_audio_dataset, process_audio_chunk,
     create_chunked_dataset, split_audio_to_clips, prepare_audio_for_model
 )
 from TRANSFORMER.evaluation.evaluation_common import get_file_size_mb
@@ -68,58 +68,6 @@ def load_and_prepare_clip_based(path: str, label_override: str = None, max_clips
     return all_splits, len(raw)
 
 
-def load_and_prepare_whole_file(path: str, label_override: str = None, max_files_per_split=1000,
-                               large_file_threshold=15.0, very_large_threshold=45.0,
-                               max_file_length=90.0, max_file_size_mb=50, trainer=None):
-    """
-    Load and prepare audio files for whole-file evaluation with special handling for large files.
-
-    Args:
-        path: Directory path containing audio files
-        label_override: Override label for all files (if provided)
-        max_files_per_split: Maximum files per dataset split
-        large_file_threshold: Files >X seconds processed individually
-        very_large_threshold: Files >X seconds get special handling
-        max_file_length: Absolute maximum - split files longer than this
-        max_file_size_mb: Maximum file size in MB before splitting
-        trainer: Trainer instance for processing chunks
-
-    Returns:
-        Tuple of (dataset_splits, num_files)
-    """
-    raw = load_audio_dataset(path, label_override)
-    print(f"Processing {len(raw)} audio files as whole files...")
-
-    # Categorize files by size for different processing strategies
-    regular_files, large_files, very_large_files = categorize_files_by_size(
-        raw, large_file_threshold, very_large_threshold, max_file_length, max_file_size_mb, get_file_size_mb
-    )
-
-    all_splits = []
-
-    # Process regular files in chunks
-    if regular_files:
-        regular_splits = _process_regular_files(regular_files, label_override, max_files_per_split)
-        all_splits.extend(regular_splits)
-
-    # Process large files individually (but not split)
-    if large_files:
-        large_splits = _process_large_files(large_files, label_override)
-        all_splits.extend(large_splits)
-
-    # Process very large files by splitting them with proper aggregation
-    if very_large_files:
-        very_large_splits = _process_very_large_files(very_large_files, label_override, trainer)
-        all_splits.extend(very_large_splits)
-
-    print(f"Created {len(all_splits)} splits from {len(raw)} files")
-
-    # Sort regular file splits by original length for more efficient batching
-    _sort_regular_file_splits(all_splits, len(large_files), len(very_large_files))
-
-    return all_splits, len(raw)
-
-
 def load_and_prepare_whole_file_optimized(path: str, label_override: str = None, max_files_per_split=1000,
                                large_file_threshold=45.0, very_large_threshold=180.0,
                                max_file_length=180.0, max_file_size_mb=100, trainer=None,
@@ -143,7 +91,7 @@ def load_and_prepare_whole_file_optimized(path: str, label_override: str = None,
         Tuple of (dataset_splits, num_files)
     """
     raw = load_audio_dataset(path, label_override)
-    print(f"🚀 Processing {len(raw)} audio files with intelligent batch optimization...")
+    print(f"Processing {len(raw)} audio files with intelligent batch optimization...")
 
     # Use intelligent batch optimization instead of simple categorization
     optimized_groups = create_optimized_file_groups(
@@ -153,7 +101,7 @@ def load_and_prepare_whole_file_optimized(path: str, label_override: str = None,
 
     # Print optimization statistics
     stats = get_batch_stats(optimized_groups)
-    print("📈 Optimization Results:")
+    print("Optimization Results:")
     for category, stat in stats.items():
         print(f"  {category.title()}: {stat['num_batches']} batches, {stat['total_files']} files (avg {stat['avg_batch_size']:.1f}/batch)")
 
@@ -172,7 +120,7 @@ def load_and_prepare_whole_file_optimized(path: str, label_override: str = None,
 
     # Process large files (individually)
     if "large" in optimized_groups:
-        print("🔄 Processing large files individually...")
+        print("Processing large files individually...")
         large_splits = []
         for file_batch in optimized_groups["large"]:
             # Each batch contains exactly one large file
@@ -183,7 +131,7 @@ def load_and_prepare_whole_file_optimized(path: str, label_override: str = None,
 
     # Process very large files (with chunking)
     if "very_large" in optimized_groups:
-        print("🔀 Processing very large files with chunking...")
+        print("Processing very large files with chunking...")
         very_large_splits = []
         for file_batch in optimized_groups["very_large"]:
             # Each batch contains exactly one very large file
@@ -192,60 +140,12 @@ def load_and_prepare_whole_file_optimized(path: str, label_override: str = None,
         
         all_splits.extend(very_large_splits)
 
-    print(f"✅ Created {len(all_splits)} optimized splits from {len(raw)} files")
+    print(f"Created {len(all_splits)} optimized splits from {len(raw)} files")
 
     # Sort splits by type and complexity for optimal processing order
     _sort_optimized_splits(all_splits, optimized_groups)
 
     return all_splits, len(raw)
-
-
-def _process_regular_files(regular_files, label_override, max_files_per_split):
-    """Process regular-sized files in batches."""
-    print("Processing regular files in chunks...")
-    splits = []
-
-    for chunk_start in range(0, len(regular_files), CHUNK_SIZE):
-        chunk_end = min(chunk_start + CHUNK_SIZE, len(regular_files))
-        print(f"  Processing regular files {chunk_start+1}-{chunk_end} of {len(regular_files)}")
-
-        files_chunk = regular_files[chunk_start:chunk_end]
-
-        # Process this chunk of regular files
-        chunk_input_arrays, chunk_labels, chunk_file_ids, chunk_lengths = process_audio_chunk(
-            files_chunk, label_override, prepare_audio_for_model
-        )
-
-        # Add original lengths for whole-file processing
-        chunk_original_lengths = [original_length for _, _, original_length in files_chunk]
-
-        # Create dataset splits from this chunk
-        if chunk_input_arrays:
-            chunk_data = {
-                "input_arrays": chunk_input_arrays,
-                "labels": chunk_labels,
-                "input_length": chunk_lengths,
-                "original_length": chunk_original_lengths,
-                "file_ids": chunk_file_ids
-            }
-
-            chunk_ds = Dataset.from_dict(chunk_data)
-
-            # Split this chunk if it's too large
-            if len(chunk_ds) > max_files_per_split:
-                for i in range(0, len(chunk_ds), max_files_per_split):
-                    end_idx = min(i + max_files_per_split, len(chunk_ds))
-                    split_ds = chunk_ds.select(range(i, end_idx))
-                    splits.append(split_ds)
-            else:
-                splits.append(chunk_ds)
-
-            # Clean up chunk data
-            del chunk_input_arrays, chunk_labels, chunk_file_ids, chunk_lengths, chunk_original_lengths, chunk_data, chunk_ds
-            gc.collect()
-
-    return splits
-
 
 def _process_large_files(large_files, label_override):
     """Process large files individually with better memory management."""
@@ -352,16 +252,6 @@ def _process_very_large_files(very_large_files, label_override, trainer=None):
 
     return splits
 
-
-def _sort_regular_file_splits(all_splits, num_large_files, num_very_large_files):
-    """Sort regular file splits by original length for more efficient batching."""
-    # Regular file splits count (excluding large and very large files)
-    regular_splits_count = len(all_splits) - num_large_files - num_very_large_files
-
-    # Sort regular file splits by original length for more efficient batching
-    for i in range(max(0, regular_splits_count)):
-        if i < len(all_splits):
-            all_splits[i] = all_splits[i].sort("original_length")
 
 
 def _process_optimized_regular_batch(file_batch, label_override, max_files_per_split):

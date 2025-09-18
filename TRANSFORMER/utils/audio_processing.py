@@ -5,10 +5,9 @@ This module contains functions for audio loading, preprocessing, and chunking op
 """
 
 import numpy as np
-import pathlib
 from datasets import load_dataset, Audio, Dataset
 from TRANSFORMER.config.dataset_config import SAMPLE_RATE, LABEL2ID, CHUNK_SIZE, extract_label_from_path
-import gc
+
 
 
 def split_audio_to_clips(audio_array, clip_samples):

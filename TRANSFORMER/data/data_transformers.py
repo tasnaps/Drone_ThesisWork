@@ -6,6 +6,7 @@ from typing import Dict, List, Any
 import numpy as np
 from audiomentations import AddGaussianNoise, BandPassFilter, Compose
 
+
 # 1) load the pretrained feature extractor
 feature_extractor = Wav2Vec2FeatureExtractor.from_pretrained(
     "ALM/wav2vec2-large-audioset"
@@ -273,8 +274,7 @@ def prepare_dataset_fast(ds, augment=False, shorten_for_training=False):
 
     return ds
 
-# 5) Use the same fast collator as model.py
-from transformers import DataCollatorWithPadding
+
 
 # Create the data collator instance (same as the fast model.py)
 data_collator = DataCollatorWithPadding(feature_extractor, padding=True)

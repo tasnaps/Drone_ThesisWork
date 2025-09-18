@@ -5,8 +5,8 @@ Whole-file evaluation using the evaluation strategy factory with centralized con
 
 import warnings
 from evaluation_strategy_factory import run_evaluation
-from aggregation_utils import analyze_logits_statistics
-from config import get_config, print_config
+from TRANSFORMER.utils.aggregation_utils import analyze_logits_statistics
+from TRANSFORMER.config.config import get_config, print_config
 
 # Try to import advanced analysis
 try:

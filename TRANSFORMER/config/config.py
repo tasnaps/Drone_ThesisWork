@@ -10,9 +10,11 @@ from typing import Optional
 from pathlib import Path
 
 
+
 @dataclass
-class ModelConfig:
-    """Configuration for model paths and basic settings."""
+class ModelConfigForEval:
+    """Configuration for model paths and basic settings. This is for eval only"""
+
     model_path: str = "C:/Users/tapio/PycharmProjects/gradu/TransformerModel/transformer_final/checkpoint-2930"
     sample_rate: int = 16000
 
@@ -70,7 +72,7 @@ class ClipEvaluationConfig:
     @property
     def clip_samples(self) -> int:
         """Calculate clip samples based on duration and sample rate."""
-        return int(ModelConfig().sample_rate * self.clip_duration)
+        return int(ModelConfigForEval().sample_rate * self.clip_duration)
 
     @classmethod
     def from_env(cls):
@@ -119,7 +121,7 @@ class ClipEvaluationConfig:
 
 @dataclass
 class FileEvaluationConfig:
-    """Configuration specific to whole-file evaluation."""
+    """Settings for the whole file evaluation."""
     batch_size: int = 6
     threshold: float = 0.006
     large_file_threshold: float = 45.0  # processed alone
@@ -178,65 +180,6 @@ class FileEvaluationConfig:
 
         return errors, warnings
 
-
-@dataclass
-class DataSplittingConfig:
-    """Configuration for data splitting into train/validation/test sets."""
-    validation_size: float = 0.1
-    test_size: float = 0.1
-    seed: int = 42
-    use_custom_validation: bool = False
-    use_custom_test: bool = False
-    custom_validation_path: Optional[str] = None
-    custom_test_path: Optional[str] = None
-
-    @classmethod
-    def from_env(cls):
-        """Create config from environment variables."""
-        return cls(
-            validation_size=float(os.getenv('VALIDATION_SIZE', cls.validation_size)),
-            test_size=float(os.getenv('TEST_SIZE', cls.test_size)),
-            seed=int(os.getenv('SPLIT_SEED', cls.seed)),
-            use_custom_validation=os.getenv('USE_CUSTOM_VALIDATION', 'false').lower() == 'true',
-            use_custom_test=os.getenv('USE_CUSTOM_TEST', 'false').lower() == 'true',
-            custom_validation_path=os.getenv('CUSTOM_VALIDATION_PATH'),
-            custom_test_path=os.getenv('CUSTOM_TEST_PATH')
-        )
-
-    def validate(self):
-        """Validate data splitting configuration."""
-        errors = []
-        warnings = []
-
-        # Validate split sizes
-        if not (0.0 < self.validation_size < 1.0):
-            errors.append(f"Validation size must be between 0 and 1, got: {self.validation_size}")
-        if not (0.0 < self.test_size < 1.0):
-            errors.append(f"Test size must be between 0 and 1, got: {self.test_size}")
-
-        if self.validation_size + self.test_size >= 1.0:
-            errors.append(f"Combined validation ({self.validation_size}) and test ({self.test_size}) sizes must be less than 1.0")
-
-        # Validate custom paths if they're being used
-        if self.use_custom_validation:
-            if not self.custom_validation_path:
-                errors.append("Custom validation is enabled but no validation path provided")
-            elif not Path(self.custom_validation_path).exists():
-                errors.append(f"Custom validation path does not exist: {self.custom_validation_path}")
-
-        if self.use_custom_test:
-            if not self.custom_test_path:
-                errors.append("Custom test is enabled but no test path provided")
-            elif not Path(self.custom_test_path).exists():
-                errors.append(f"Custom test path does not exist: {self.custom_test_path}")
-
-        # Validate seed
-        if self.seed < 0:
-            errors.append(f"Random seed must be non-negative, got: {self.seed}")
-
-        return errors, warnings
-
-
 @dataclass
 class OutputConfig:
     """Configuration for output directories and file naming."""
@@ -285,54 +228,14 @@ class OutputConfig:
 
         return errors, warnings
 
-
-def validate_dataset_paths():
-    """Validate dataset paths from dataset configuration."""
-    from dataset_config import ENHANCED_DATASETS
-
-    errors = []
-    warnings = []
-    accessible_datasets = []
-
-    for dataset_name, config in ENHANCED_DATASETS.items():
-        dataset_path = Path(config['path'])
-
-        if not dataset_path.exists():
-            errors.append(f"Dataset '{dataset_name}' path does not exist: {config['path']}")
-        elif not dataset_path.is_dir():
-            errors.append(f"Dataset '{dataset_name}' path is not a directory: {config['path']}")
-        else:
-            # Check for audio files
-            audio_extensions = {'.wav', '.mp3', '.flac', '.ogg', '.m4a'}
-            audio_files = []
-
-            try:
-                for ext in audio_extensions:
-                    audio_files.extend(list(dataset_path.rglob(f'*{ext}')))
-
-                if not audio_files:
-                    warnings.append(f"Dataset '{dataset_name}' contains no audio files")
-                elif len(audio_files) < 10:
-                    warnings.append(f"Dataset '{dataset_name}' has very few audio files ({len(audio_files)})")
-                else:
-                    accessible_datasets.append(dataset_name)
-
-            except PermissionError:
-                errors.append(f"No read permission for dataset '{dataset_name}': {config['path']}")
-            except Exception as e:
-                warnings.append(f"Error scanning dataset '{dataset_name}': {e}")
-
-    return errors, warnings, accessible_datasets
-
-
 class EvaluationConfig:
     """Main configuration class that combines all config sections."""
 
-    def __init__(self, model_config: Optional[ModelConfig] = None,
+    def __init__(self, model_config: Optional[ModelConfigForEval] = None,
                  clip_config: Optional[ClipEvaluationConfig] = None,
                  file_config: Optional[FileEvaluationConfig] = None,
                  output_config: Optional[OutputConfig] = None):
-        self.model = model_config or ModelConfig.from_env()
+        self.model = model_config or ModelConfigForEval.from_env()
         self.clip = clip_config or ClipEvaluationConfig.from_env()
         self.file = file_config or FileEvaluationConfig.from_env()
         self.output = output_config or OutputConfig.from_env()
@@ -341,7 +244,7 @@ class EvaluationConfig:
     def from_env(cls):
         """Create complete config from environment variables."""
         return cls(
-            ModelConfig.from_env(),
+            ModelConfigForEval.from_env(),
             ClipEvaluationConfig.from_env(),
             FileEvaluationConfig.from_env(),
             OutputConfig.from_env()
@@ -412,6 +315,44 @@ class EvaluationConfig:
             }
         }
 
+def validate_dataset_paths():
+    """Validate dataset paths from dataset configuration."""
+    from dataset_config import ENHANCED_DATASETS
+
+    errors = []
+    warnings = []
+    accessible_datasets = []
+
+    for dataset_name, config in ENHANCED_DATASETS.items():
+        dataset_path = Path(config['path'])
+
+        if not dataset_path.exists():
+            errors.append(f"Dataset '{dataset_name}' path does not exist: {config['path']}")
+        elif not dataset_path.is_dir():
+            errors.append(f"Dataset '{dataset_name}' path is not a directory: {config['path']}")
+        else:
+            # Check for audio files
+            audio_extensions = {'.wav', '.mp3', '.flac', '.ogg', '.m4a'}
+            audio_files = []
+
+            try:
+                for ext in audio_extensions:
+                    audio_files.extend(list(dataset_path.rglob(f'*{ext}')))
+
+                if not audio_files:
+                    warnings.append(f"Dataset '{dataset_name}' contains no audio files")
+                elif len(audio_files) < 10:
+                    warnings.append(f"Dataset '{dataset_name}' has very few audio files ({len(audio_files)})")
+                else:
+                    accessible_datasets.append(dataset_name)
+
+            except PermissionError:
+                errors.append(f"No read permission for dataset '{dataset_name}': {config['path']}")
+            except Exception as e:
+                warnings.append(f"Error scanning dataset '{dataset_name}': {e}")
+
+    return errors, warnings, accessible_datasets
+
 
 def get_config() -> EvaluationConfig:
     """Get the global configuration instance."""
@@ -424,33 +365,3 @@ def print_config(config: EvaluationConfig):
     import json
     print(json.dumps(config.to_dict(), indent=2))
     print("=" * 35)
-
-
-def validate_and_print_config(config: EvaluationConfig):
-    """Validate configuration and print results."""
-    validation_result = config.validate()
-
-    print("=== Configuration Validation ===")
-
-    if validation_result['is_valid']:
-        print("✅ Configuration is valid!")
-    else:
-        print("❌ Configuration has errors!")
-
-    if validation_result['errors']:
-        print("\n🔴 Errors:")
-        for error in validation_result['errors']:
-            print(f"  - {error}")
-
-    if validation_result['warnings']:
-        print("\n🟡 Warnings:")
-        for warning in validation_result['warnings']:
-            print(f"  - {warning}")
-
-    if validation_result['accessible_datasets']:
-        print(f"\n✅ Accessible datasets ({len(validation_result['accessible_datasets'])}):")
-        for dataset in validation_result['accessible_datasets']:
-            print(f"  - {dataset}")
-
-    print("=" * 35)
-    return validation_result

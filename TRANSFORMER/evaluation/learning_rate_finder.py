@@ -4,17 +4,14 @@ Learning Rate Finder for Transformer Models.
 This module implements a learning rate finder that helps determine the optimal learning rate
 by training with exponentially increasing learning rates and plotting the loss curve.
 """
-
+import os
+import copy
 import numpy as np
 import matplotlib.pyplot as plt
 import torch
-import torch.nn as nn
-from transformers import TrainingArguments, Trainer
 from tqdm.auto import tqdm
-import copy
-import warnings
-from typing import Dict, List, Tuple, Optional, Callable
-import os
+from typing import Dict
+
 
 
 class LearningRateFinder:
@@ -22,6 +19,8 @@ class LearningRateFinder:
     Learning Rate Finder for finding optimal learning rates.
     Based on the method described in "Cyclical Learning Rates for Training Neural Networks"
     and popularized by fast.ai.
+
+    Not tested with proper data yet.
     """
 
     def __init__(self, model, train_dataloader, data_collator, compute_metrics_fn=None, device=None):

@@ -9,7 +9,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from pathlib import Path
 import os
 from typing import Dict, List, Optional, Tuple
 
@@ -96,7 +95,6 @@ def plot_log_scale_probability_distributions(results: Dict, output_dir: str = ".
             print(f"Saved individual plot for {dataset_name}: {individual_filename}")
 
     return saved_plots
-
 
 def _plot_single_log_distribution(dataset_result: Dict, dataset_name: str, ax):
     """Helper function to plot log-scale distribution for a single dataset."""
@@ -577,101 +575,3 @@ def plot_class_separation_analysis(results: Dict, output_dir: str = "./plots") -
 
     print(f"Saved class separation analysis: {filename}")
     return filename
-
-
-def generate_comprehensive_plot_suite(results: Dict, output_dir: str = "./enhanced_plots") -> Dict[str, str]:
-    """
-    Generate a comprehensive suite of enhanced plots.
-
-    Args:
-        results: Dictionary of evaluation results by dataset
-        output_dir: Directory to save all plots
-
-    Returns:
-        Dictionary mapping plot type to filename
-    """
-    print(f"\n{'='*60}")
-    print("GENERATING COMPREHENSIVE PLOT SUITE")
-    print(f"{'='*60}")
-
-    os.makedirs(output_dir, exist_ok=True)
-    generated_plots = {}
-
-    # 1. Log-scale probability distributions (your requested feature)
-    print("1. Creating log-scale probability distributions...")
-    log_plots = plot_log_scale_probability_distributions(results, output_dir)
-    if log_plots:
-        generated_plots['log_probability_distributions'] = log_plots[0]
-
-    # 2. Probability heatmap
-    print("2. Creating probability heatmap...")
-    heatmap_plot = plot_probability_heatmap(results, output_dir)
-    if heatmap_plot:
-        generated_plots['probability_heatmap'] = heatmap_plot
-
-    # 3. Threshold sensitivity analysis
-    print("3. Creating threshold sensitivity analysis...")
-    threshold_plot = plot_threshold_sensitivity_analysis(results, output_dir)
-    if threshold_plot:
-        generated_plots['threshold_sensitivity'] = threshold_plot
-
-    # 4. Class separation analysis
-    print("4. Creating class separation analysis...")
-    separation_plot = plot_class_separation_analysis(results, output_dir)
-    if separation_plot:
-        generated_plots['class_separation'] = separation_plot
-
-    # 5. Summary report
-    _generate_plot_summary_report(generated_plots, results, output_dir)
-
-    print(f"\n✅ Comprehensive plot suite generated!")
-    print(f"📁 All plots saved to: {output_dir}")
-    print(f"📊 Generated {len(generated_plots)} plot types")
-
-    return generated_plots
-
-
-def _generate_plot_summary_report(generated_plots: Dict[str, str], results: Dict, output_dir: str):
-    """Generate a summary report of all generated plots."""
-    report_path = os.path.join(output_dir, "plot_summary_report.md")
-
-    with open(report_path, 'w') as f:
-        f.write("# Enhanced Plotting Summary Report\n\n")
-        f.write(f"Generated: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
-
-        f.write("## Generated Plots\n\n")
-        for plot_type, filename in generated_plots.items():
-            plot_name = plot_type.replace('_', ' ').title()
-            f.write(f"- **{plot_name}**: `{Path(filename).name}`\n")
-
-        f.write("\n## Dataset Overview\n\n")
-        f.write(f"- **Total Datasets**: {len(results)}\n")
-        f.write(f"- **Datasets with Valid Data**: {len([r for r in results.values() if 'probabilities' in r])}\n")
-
-        # Dataset statistics
-        total_samples = sum(len(r.get('probabilities', [])) for r in results.values())
-        f.write(f"- **Total Samples**: {total_samples:,}\n")
-
-        f.write("\n## Key Insights\n\n")
-        f.write("### Probability Distribution Insights\n")
-        f.write("- Log-scale probability distributions reveal where model predictions concentrate\n")
-        f.write("- Heatmap shows probability range distribution across datasets\n")
-        f.write("- Look for bimodal distributions indicating good class separation\n\n")
-
-        f.write("### Threshold Optimization Insights\n")
-        f.write("- Sensitivity analysis shows optimal thresholds per dataset\n")
-        f.write("- Current threshold (0.5) may not be optimal for all datasets\n")
-        f.write("- Consider dataset-specific thresholds for better performance\n\n")
-
-        f.write("### Class Separation Insights\n")
-        f.write("- Cohen's d values indicate separability quality\n")
-        f.write("- Separation values show mean probability differences between classes\n")
-        f.write("- Strong separation correlates with better performance\n\n")
-
-        f.write("## Recommendations\n\n")
-        f.write("1. **Review log-scale distributions** to understand model behavior\n")
-        f.write("2. **Consider optimal thresholds** identified in sensitivity analysis\n")
-        f.write("3. **Investigate datasets with poor separation** for potential issues\n")
-        f.write("4. **Use insights for model improvement** and threshold tuning\n")
-
-    print(f"Plot summary report saved: {report_path}")

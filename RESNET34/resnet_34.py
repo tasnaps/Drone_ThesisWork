@@ -59,8 +59,8 @@ class ResNetForAudioClassification(nn.Module):
         self.resnet.fc = nn.Linear(self.resnet.fc.in_features, num_labels)
         self.num_labels = num_labels
 
+        # we can choose to only train the last block
         if freeze_blocks:
-            # freeze all layers except the final block (layer4) and fc
             for name, module in self.resnet.named_modules():
                 if not name.startswith("layer4") and "fc" not in name:
                     # Freeze parameters

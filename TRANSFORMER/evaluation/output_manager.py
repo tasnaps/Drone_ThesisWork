@@ -4,14 +4,11 @@ Output management utilities for organizing evaluation results.
 This module provides centralized management of all evaluation outputs.
 """
 
-import os
 import shutil
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
-import glob
-
+from typing import Dict
 
 class EvaluationOutputManager:
     """Manages all evaluation outputs in a structured format."""

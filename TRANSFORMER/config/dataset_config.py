@@ -64,20 +64,6 @@ ENHANCED_DATASETS = {
     }
 }
 
-# Keep old format for backwards compatibility but deprecate it
-comparisonDatasets = {
-    #"Wonjun Yi":  ("C:/Gradu Juttui/Datasets/C",                                                           "yes_drone"),
-    #"Al-Emadi":   ("C:/Gradu Juttui/Datasets/DroneAudioDataset_Saraalemadi/Binary_Drone_Audio",          None),
-    #"H-2":        ("C:/Gradu Juttui/Datasets/H-2/converted/",                                            None),
-    "Fusion":     ("C:/Gradu Juttui/Datasets/FusionDataset/",                                           None),
-    #"DronePrint": ("C:/Gradu Juttui/Datasets/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected","yes_drone"),
-    #"Tapio":      ("C:/Gradu Juttui/Datasets/TapioCollection",                                          None),
-    #"S&E":        ("C:/Gradu Juttui/Datasets/Svanström & Englund/Drone-detection-dataset/Data/Audio",    None),
-    #"Emo":        ("C:/Gradu Juttui/Datasets/Emo-Soundscapes/Emo-Soundscapes-Audio/Parsed",             "unknown"),
-    #"ESC-50":     ("C:/Gradu Juttui/Datasets/ESC-50-master/audio",                                       "unknown"),
-    #"UrbanSound": ("C:/Gradu Juttui/Datasets/UrbanSound8K/mergedFolder",                                "unknown"),
-}
-
 def smart_label_detection(dataset_path, dataset_name, label_override=None):
     """
     Intelligently detect labels based on multiple strategies:

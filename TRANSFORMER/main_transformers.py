@@ -8,17 +8,17 @@ from win32con import MB_ICONASTERISK
 import numpy as np
 import torch
 from transformers import TrainingArguments, SchedulerType, EarlyStoppingCallback
-from datasets import ClassLabel, Audio
 import gc
 from data.data_transformers import load_and_split, prepare_dataset_fast, data_collator
 from models.model_transformers import model_init, ModelConfig
 from models.trainer import WeightedTrainer, compute_metrics, compute_class_weights
-from utils.utils_transformers import plot_cv_results, generate_detailed_report, plot_training_history
+from utils.utils_transformers import generate_detailed_report, plot_training_history
 import json
 import shutil
 
+
 def parse_args():
-    """Parse command line arguments for transformer training."""
+    """Parse command line arguments for transformer training. These override the config settings"""
     parser = argparse.ArgumentParser(description="Train/eval transformer model for drone detection")
     parser.add_argument("--config", help="Path to experiment config file (optional)")
     parser.add_argument("--data-dir", help="Override data directory")
@@ -34,9 +34,6 @@ def parse_args():
     parser.add_argument("--min-length-ratio", type=float, default=0.5, help="Minimum length ratio for audio shortening (default: 0.5)")
     parser.add_argument("--max-length-ratio", type=float, default=0.75, help="Maximum length ratio for audio shortening (default: 0.75)")
     parser.add_argument("--no-random-crop", action="store_true", help="Use start cropping instead of random cropping")
-
-    parser.add_argument("--no-smoke-eval", action="store_true", help="Skip post-training quick evaluation smoke test")
-
     return parser.parse_args()
 
 # Configuration class for better parameter management
@@ -45,33 +42,33 @@ class TrainingConfig:
         # Data settings
         self.data_dir = "C:/Gradu Juttui/Datasets/C/"
         self.augment_data = False  # Enable audio augmentation for training
-
+        self.disable_early_stopping = True  # Disable early stopping callback
         # Training hyperparameters
         self.seed = 42
         self.num_epochs = 0.1
         self.train_batch_size = 16
         self.eval_batch_size = 16
         self.gradient_accumulation_steps = 2
-        self.learning_rate = 1e-5  # Reduced from 3e-5
+        self.learning_rate = 1e-5
         self.warmup_steps = 500
         self.early_stopping_patience = 3
 
-        self.use_lr_finder = False  # Disabled to use manual LR tuning
+        self.use_lr_finder = False
         self.lr_finder_start_lr = 1e-7
         self.lr_finder_end_lr = 1.0
         self.lr_finder_num_iter = 100
         self.lr_finder_output_dir = "./lr_finder_results"
-        self.auto_use_suggested_lr = False  # Manual control over LR
+        self.auto_use_suggested_lr = False
 
         # Audio shortening configuration
         self.shorten_audio = False
-        self.min_length_ratio = 0.5  # 50% of original length
-        self.max_length_ratio = 0.75  # 75% of original length
-        self.random_crop = True  # Use random cropping instead of start cropping
+        self.min_length_ratio = 0.5
+        self.max_length_ratio = 0.75
+        self.random_crop = True
 
         # Output settings
         self.output_dir = ModelConfig.OUTPUT_DIR
-        self.save_total_limit = 5  # Increased to keep more checkpoints
+        self.save_total_limit = 5
         self.logging_steps = 250
 
         # Hardware optimization
@@ -170,7 +167,7 @@ def load_and_prepare_data(config):
     ds["train"] = prepare_dataset_fast(ds["train"], augment=config.augment_data, shorten_for_training=False)
     ds["validation"] = prepare_dataset_fast(ds["validation"], augment=False, shorten_for_training=False)
     ds["test"] = prepare_dataset_fast(ds["test"], augment=False, shorten_for_training=False)
-    print("✅ All audio preprocessing complete - data is now cached and ready for fast training!")
+    print("All audio preprocessing complete - data is now cached and ready for fast training!")
     return ds, raw_train, num_labels
 
 def run_learning_rate_finder_if_enabled(config, ds, num_labels):
@@ -215,11 +212,11 @@ def build_trainer(args, config, ds, raw_train, num_labels):
     cw = compute_class_weights(raw_train)
     print(f"Class weights: {cw}")
     callbacks = []
-    if not args.disable_early_stopping:
+    if args.disable_early_stopping or config.disable_early_stopping:
+        print(f"Either Args or Config early stopping: {config.disable_early_stopping} disabled training will run for full {config.num_epochs} epochs)")
+    else:
         callbacks.append(EarlyStoppingCallback(early_stopping_patience=config.early_stopping_patience))
         print(f"Early stopping enabled with patience: {config.early_stopping_patience}")
-    else:
-        print(f"Early stopping disabled - training will run for full {config.num_epochs} epochs")
     trainer = WeightedTrainer(
         class_weights=cw,
         model=model_init(num_labels=num_labels),
@@ -251,34 +248,6 @@ def save_model_and_feature_extractor(trainer, training_args):
     from data.data_transformers import feature_extractor as _fe
     _fe.save_pretrained(training_args.output_dir)
 
-def run_smoke_evaluation(args, training_args, ds):
-    if args.no_smoke_eval:
-        print("Skipping smoke evaluation test (flag --no-smoke-eval)")
-        return
-    print("\nIMMEDIATE EVALUATION TEST - Checking if evaluation will work...")
-    try:
-        from evaluation.evaluation_strategy_factory import EvaluationStrategyFactory
-        print("All evaluation imports successful")
-        print("Running quick evaluation test on validation set...")
-        test_strategy = EvaluationStrategyFactory.create_strategy(
-            "file",
-            training_args.output_dir,
-            batch_size=4,
-            output_dir="./quick_eval_test"
-        )
-        test_strategy.setup()
-        small_val_dataset = ds["validation"].select(range(min(10, len(ds["validation"]))))
-        test_results = test_strategy.trainer.predict(small_val_dataset)
-        print(f"✅ Quick evaluation test PASSED - processed {len(small_val_dataset)} files")
-        print(f"   Prediction shape: {test_results.predictions.shape}")
-        if os.path.exists("./quick_eval_test"):
-            shutil.rmtree("./quick_eval_test")
-    except Exception as eval_error:
-        print(f"❌ EVALUATION TEST FAILED: {eval_error}")
-        import traceback
-        traceback.print_exc()
-        print("Training completed but evaluation will fail - fix evaluation imports!")
-
 def finalize_and_save_results(training_args, val_results, test_results, detailed_report):
     all_results = {
         "validation": val_results,
@@ -287,11 +256,12 @@ def finalize_and_save_results(training_args, val_results, test_results, detailed
     }
     with open("./reports/final_results.json", 'w') as f:
         json.dump(all_results, f, indent=2)
+    ##TODO for linux we might want to use another library than winsound
     winsound.MessageBeep(MB_ICONASTERISK)
     print(f"Model saved to: {training_args.output_dir}")
     print("Results saved to: ./reports/final_results.json")
 
-def main():
+def handle_args():
     # ─── Parse command line arguments ─────────────────────────────────
     args = parse_args()
 
@@ -330,6 +300,12 @@ def main():
         # Apply config file settings here
         print(f"📋 Loaded config from: {args.config}")
 
+    return config, args
+
+def main():
+
+    #Handle args for config override
+    config, args = handle_args()
     # ─── Setup training environment ───────────────────────────────────
     setup_training_environment(config)
 
@@ -351,7 +327,6 @@ def main():
         print("Training finished.")
         val_results, test_results, detailed_report = evaluate_and_report(trainer, ds)
         save_model_and_feature_extractor(trainer, training_args)
-        run_smoke_evaluation(args, training_args, ds)
         finalize_and_save_results(training_args, val_results, test_results, detailed_report)
 
     except Exception as e:

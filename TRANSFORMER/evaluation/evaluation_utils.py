@@ -468,90 +468,33 @@ def print_performance_analysis(results, data_type="file"):
         all_non_drone_probs.extend(non_drone_probs)
 
     print(f"\nOverall Statistics ({data_type}-level):")
-    print(f"  Total {data_type}s analyzed: {len(all_drone_probs) + len(all_non_drone_probs)}")
-    print(f"  True drone {data_type}s: {len(all_drone_probs)}")
-    print(f"  True non-drone {data_type}s: {len(all_non_drone_probs)}")
+    print(f"Total {data_type}s analyzed: {len(all_drone_probs) + len(all_non_drone_probs)}")
+    print(f"True drone {data_type}s: {len(all_drone_probs)}")
+    print(f"True non-drone {data_type}s: {len(all_non_drone_probs)}")
 
     if len(all_drone_probs) > 0:
-        print(f"  Mean P(drone) for true drone {data_type}s: {np.mean(all_drone_probs):.4f}")
-        print(f"  Max P(drone) for true drone {data_type}s: {np.max(all_drone_probs):.4f}")
-        print(f"  Min P(drone) for true drone {data_type}s: {np.min(all_drone_probs):.4f}")
-        print(f"  Std P(drone) for true drone {data_type}s: {np.std(all_drone_probs):.4f}")
+        print(f"Mean P(drone) for true drone {data_type}s: {np.mean(all_drone_probs):.4f}")
+        print(f"Max P(drone) for true drone {data_type}s: {np.max(all_drone_probs):.4f}")
+        print(f"Min P(drone) for true drone {data_type}s: {np.min(all_drone_probs):.4f}")
+        print(f"Std P(drone) for true drone {data_type}s: {np.std(all_drone_probs):.4f}")
 
-    print(f"  Mean P(drone) for true non-drone {data_type}s: {np.mean(all_non_drone_probs):.4f}")
-    print(f"  Max P(drone) for true non-drone {data_type}s: {np.max(all_non_drone_probs):.4f}")
-    print(f"  Min P(drone) for true non-drone {data_type}s: {np.min(all_non_drone_probs):.4f}")
+    print(f"Mean P(drone) for true non-drone {data_type}s: {np.mean(all_non_drone_probs):.4f}")
+    print(f"Max P(drone) for true non-drone {data_type}s: {np.max(all_non_drone_probs):.4f}")
+    print(f"Min P(drone) for true non-drone {data_type}s: {np.min(all_non_drone_probs):.4f}")
 
     print("\nModel Performance Analysis:")
     if len(all_drone_probs) > 0:
         drone_mean = np.mean(all_drone_probs)
         non_drone_mean = np.mean(all_non_drone_probs)
         separation = drone_mean - non_drone_mean
+        print(f"Probability separation: {separation:.4f}")
 
-        print(f"  Probability separation: {separation:.4f}")
-
-        if drone_mean < 0.01:
-            print("  ⚠️  CRITICAL: Model predicts extremely low probabilities for drone files")
-            print("  ⚠️  This suggests a fundamental training or model architecture issue")
-        elif drone_mean < 0.1:
-            print("  ⚠️  WARNING: Model predicts very low probabilities for drone files")
-            print("  ⚠️  Model may be severely biased toward non-drone predictions")
-        elif separation < 0.05:
-            print("  ⚠️  WARNING: Poor class separation - model cannot distinguish classes well")
-        else:
-            print("  ✓  Model shows reasonable class separation")
-
-    print("\nThreshold Recommendations:")
     if len(all_drone_probs) > 0:
         drone_mean = np.mean(all_drone_probs)
         non_drone_mean = np.mean(all_non_drone_probs)
 
-        if drone_mean < 0.01:
-            print("  🔴 URGENT: Model performance is critically poor")
-            print("  📋 Recommended actions:")
-            print("     1. Check training data balance and quality")
-            print("     2. Verify model architecture and hyperparameters")
-            print("     3. Consider retraining from scratch")
-            print("     4. If forced to use current model, try threshold ≤ 0.01")
-            optimal_threshold = max(0.001, np.percentile(all_drone_probs, 75))
-            print(f"     5. Emergency threshold: {optimal_threshold:.4f}")
-        elif drone_mean < 0.1:
-            print("  🟡 Model shows poor drone detection performance")
-            print("  📋 Suggested improvements:")
-            print("     1. Retrain with better data augmentation")
-            print("     2. Adjust class weights during training")
-            print("     3. Use ensemble methods")
-            optimal_threshold = min(0.1, np.percentile(all_drone_probs, 50))
-            print(f"     4. Try lower threshold: {optimal_threshold:.3f}")
-        elif non_drone_mean > 0.3:
-            print("  🟠 High false positive rate detected")
-            optimal_threshold = np.percentile(all_non_drone_probs, 95)
-            print(f"  Consider raising threshold to ~{optimal_threshold:.3f} to reduce false positives")
-        else:
-            print("  ✅ Model performance appears reasonable")
-            # Find optimal threshold balancing precision and recall
-            thresholds = np.linspace(0.1, 0.9, 50)
-            best_f1 = 0
-            best_threshold = 0.5
-
-            for thresh in thresholds:
-                tp = np.sum(all_drone_probs >= thresh)
-                fp = np.sum(all_non_drone_probs >= thresh)
-                fn = np.sum(all_drone_probs < thresh)
-
-                if tp + fp > 0 and tp + fn > 0:
-                    precision = tp / (tp + fp)
-                    recall = tp / (tp + fn)
-                    if precision + recall > 0:
-                        f1 = 2 * (precision * recall) / (precision + recall)
-                        if f1 > best_f1:
-                            best_f1 = f1
-                            best_threshold = thresh
-
-            print(f"  Optimal F1 threshold: {best_threshold:.3f} (F1={best_f1:.3f})")
-            print(f"  Current 0.5 threshold is {'good' if abs(best_threshold - 0.5) < 0.1 else 'suboptimal'}")
     else:
-        print("  No drone files found in evaluation set")
+        print("No drone files found in evaluation set")
 
 
 def print_evaluation_summary(results, script_type="file"):
@@ -666,7 +609,6 @@ def print_detailed_prediction_summary(results):
         print(f"Total false alarms:    {false_alarms_total:,}")
 
 
-# Add missing integration functions for your existing analyze_probability_distributions.py
 def integrate_with_existing_analysis(results, analysis_output_dir="probability_analysis"):
     """
     Integration bridge to work with your existing analyze_probability_distributions.py
@@ -711,7 +653,7 @@ def create_unified_pipeline_runner():
         """
         Run the complete analysis pipeline combining all approaches
         """
-        print("🚀 STARTING UNIFIED ANALYSIS PIPELINE")
+        print("STARTING UNIFIED ANALYSIS PIPELINE")
         print("="*60)
 
         # Get configuration

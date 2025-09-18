@@ -15,7 +15,7 @@ sys.path.append(os.path.dirname(__file__))
 
 from evaluation.evaluation_strategy_factory import run_evaluation, EvaluationStrategyFactory
 from utils.aggregation_utils import analyze_logits_statistics
-from config.config import EvaluationConfig, ModelConfig, ClipEvaluationConfig, FileEvaluationConfig, OutputConfig, print_config
+from config.config import EvaluationConfig, ModelConfigForEval, ClipEvaluationConfig, FileEvaluationConfig, OutputConfig, print_config
 
 # Try to import advanced analysis and unified pipeline (optional)
 try:

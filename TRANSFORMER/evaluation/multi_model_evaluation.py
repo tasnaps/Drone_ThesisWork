@@ -3,18 +3,15 @@
 Multi-model ensemble evaluation for transformer model comparison.
 This module enables simultaneous evaluation of multiple models and ensemble methods.
 """
-
 import numpy as np
-import torch
-from typing import Dict, List, Tuple, Optional
+import time
+import json
+from typing import List, Optional
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import time
-from pathlib import Path
-import json
-
-from evaluation_strategy_factory import EvaluationStrategy, run_evaluation
+from evaluation_strategy_factory import run_evaluation
 from evaluation_common import calculate_performance_metrics
+from pathlib import Path
 
 
 @dataclass

@@ -258,7 +258,7 @@ class EvaluationStrategy(ABC):
             if len(csv_files) > 5:
                 print(f"    • ... and {len(csv_files) - 5} more")
         else:
-            print(f"  - ⚠️  CSV directory does not exist: {csv_dir}")
+            print(f"  - CSV directory does not exist: {csv_dir}")
 
         return results
 
@@ -595,7 +595,7 @@ class SequentialEvaluationRunner:
         self.base_config = base_config
         self.results = {}
         self.failed_runs = []
-
+    #TODO Check usage
     def run_sequential_evaluations(self, evaluation_configs: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
         Run multiple evaluations sequentially.
@@ -607,7 +607,7 @@ class SequentialEvaluationRunner:
         Returns:
             Dictionary mapping run names to their results
         """
-        print(f"\n🚀 Starting Sequential Evaluation Runner")
+        print(f"\nStarting Sequential Evaluation Runner")
         print(f"📋 {len(evaluation_configs)} configurations to process")
         print("="*80)
 
@@ -616,9 +616,9 @@ class SequentialEvaluationRunner:
             merged_config = self._merge_configs(self.base_config, config_override)
             run_name = config_override.get('run_name', f"run_{i}")
 
-            print(f"\n📊 Processing {run_name} ({i}/{len(evaluation_configs)})")
-            print(f"🤖 Model: {merged_config.get('model_path', 'default')}")
-            print(f"⚙️  Strategy: {merged_config.get('strategy_type', 'file')}")
+            print(f"\n Processing {run_name} ({i}/{len(evaluation_configs)})")
+            print(f"Model: {merged_config.get('model_path', 'default')}")
+            print(f"Strategy: {merged_config.get('strategy_type', 'file')}")
 
             try:
                 # Run single evaluation
@@ -640,7 +640,7 @@ class SequentialEvaluationRunner:
                         'config': merged_config,
                         'error': 'No results returned'
                     })
-                    print(f"❌ {run_name} failed: No results returned")
+                    print(f"{run_name} failed: No results returned")
 
             except Exception as e:
                 self.failed_runs.append({
@@ -648,7 +648,7 @@ class SequentialEvaluationRunner:
                     'config': merged_config,
                     'error': str(e)
                 })
-                print(f"❌ {run_name} failed: {e}")
+                print(f"{run_name} failed: {e}")
 
             # Cleanup between runs
             safe_cuda_cleanup()
@@ -708,20 +708,20 @@ class SequentialEvaluationRunner:
         """Generate and save a summary report of all runs."""
         print(f"\n📊 Sequential Evaluation Summary")
         print("="*80)
-        print(f"✅ Successful runs: {len(self.results)}")
+        print(f"Successful runs: {len(self.results)}")
         print(f"❌ Failed runs: {len(self.failed_runs)}")
 
         if self.results:
-            print(f"\n🏆 Successful Evaluations:")
+            print(f"\n Successful Evaluations:")
             for run_name, data in self.results.items():
                 elapsed = data['elapsed_time']
                 num_datasets = len(data['results'])
                 print(f"  📈 {run_name}: {num_datasets} datasets in {elapsed:.1f}s")
 
         if self.failed_runs:
-            print(f"\n💥 Failed Evaluations:")
+            print(f"\nFailed Evaluations:")
             for failed in self.failed_runs:
-                print(f"  ❌ {failed['run_name']}: {failed['error']}")
+                print(f"  {failed['run_name']}: {failed['error']}")
 
         # Save detailed report
         report_path = "sequential_evaluation_report.json"
@@ -737,9 +737,9 @@ class SequentialEvaluationRunner:
                         'failed_count': len(self.failed_runs)
                     }
                 }, f, indent=2, default=str)
-            print(f"\n📄 Detailed report saved to: {report_path}")
+            print(f"\n Detailed report saved to: {report_path}")
         except Exception as e:
-            print(f"⚠️  Could not save report: {e}")
+            print(f"⚠Could not save report: {e}")
 
 
 def run_sequential_evaluation(base_config: Dict[str, Any],
