@@ -15,8 +15,10 @@ from sklearn.metrics import (
     confusion_matrix,
     classification_report
 )
+from config import RUNS, TRAIN_SET
 from transformers import TrainingArguments, Trainer
 from torchvision import models
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -29,25 +31,37 @@ label2id, id2label = get_label_mappings()
 
 def load_and_split(
     data_dir: str,
-    val_size: float = 0.1,
-    test_size: float = 0.1,
+    val_size: float = 0.2,
     seed: int = 42
 ) -> DatasetDict:
+    """
+    Load an audio dataset from folders and split into train/validation with stratification fallback.
+    """
     raw = load_dataset("audiofolder", data_dir=data_dir)
-    tmp = raw["train"].train_test_split(
-        test_size=val_size + test_size,
-        seed=seed,
-        stratify_by_column="label"
-    )
-    vt = tmp["test"].train_test_split(
-        test_size=test_size / (val_size + test_size),
-        seed=seed,
-        stratify_by_column="label"
-    )
+    if "label" in raw["train"].column_names:
+        # Try stratified split first
+        try:
+            tmp = raw["train"].train_test_split(
+                test_size=val_size,
+                seed=seed,
+                stratify_by_column="label"
+            )
+        except (ValueError, TypeError):
+            # Fall back to regular split if stratification fails
+            tmp = raw["train"].train_test_split(
+                test_size=val_size,
+                seed=seed
+            )
+    else:
+        # No label column, use regular split
+        tmp = raw["train"].train_test_split(
+            test_size=val_size,
+            seed=seed
+        )
+
     return DatasetDict({
         "train": tmp["train"],
-        "validation": vt["train"],
-        "test": vt["test"]
+        "validation": tmp["test"],
     })
 
 class ResNetForAudioClassification(nn.Module):
@@ -187,7 +201,7 @@ def compute_metrics(eval_pred):
     )
     return {"accuracy": acc, "precision": precision, "recall": recall, "f1": f1}
 
-def main():
+def main_loop(epoch: int):
     seed = 42
     random.seed(seed)
     np.random.seed(seed)
@@ -198,10 +212,10 @@ def main():
 
     # Set output directory to desktop
     desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-    output_dir = os.path.join(desktop_path, "resnet34-audio")
+    output_dir = os.path.join(desktop_path, "resnet34-audio-model", f"run-{epoch}")
 
-    data_dir = "C:/Gradu Juttui/Datasets/DroneAudioDataset_Saraalemadi/Binary_Drone_Audio"
-    ds = load_and_split(data_dir)
+    data_dir = TRAIN_SET
+    ds = load_and_split(data_dir, val_size=0.2)
 
     # log class distributions
     for split in ds:
@@ -211,7 +225,7 @@ def main():
     class_weights = compute_class_weights(ds["train"])
 
     ds = ds.cast_column("audio", Audio(sampling_rate=16000))
-    for split in ["train", "validation", "test"]:
+    for split in ["train", "validation"]:
         ds[split] = ds[split].map(
             prepare_batch,
             remove_columns=["audio", "label"],
@@ -224,7 +238,7 @@ def main():
 
     # calculate total training steps for warmup
     per_device_bs = 16
-    num_epochs = 100
+    num_epochs = epoch
     total_steps = (len(ds["train"]) // per_device_bs) * num_epochs
 
     training_args = TrainingArguments(
@@ -242,7 +256,7 @@ def main():
         logging_steps=100,
         save_total_limit=2,
         save_strategy="epoch",
-        dataloader_num_workers=min(os.cpu_count()-1, 4),
+        dataloader_num_workers=min(os.cpu_count() - 1, 4),
         dataloader_pin_memory=True,
     )
 
@@ -257,30 +271,18 @@ def main():
     )
 
     trainer.train()
-    print("Validation:", trainer.evaluate())
-    print("Test:", trainer.evaluate(ds["test"]))
 
-    # threshold calibration
-    val_out = trainer.predict(ds["validation"])
-    val_probs = torch.softmax(torch.tensor(val_out.predictions), dim=-1).cpu().numpy()[:,1]
-    precs, recs, ths = precision_recall_curve(val_out.label_ids, val_probs)
-    f1s = 2 * precs * recs / (precs + recs + 1e-8)
-    best_t = ths[np.nanargmax(f1s)]
-    print(f"Best threshold: {best_t:.3f}")
-
-    test_out = trainer.predict(ds["test"])
-    test_probs = torch.softmax(torch.tensor(test_out.predictions), dim=-1).cpu().numpy()[:,1]
-    test_preds = (test_probs > best_t).astype(int)
-    print("Thresholded Test Metrics:",
-        accuracy_score(test_out.label_ids, test_preds),
-        precision_recall_fscore_support(test_out.label_ids, test_preds, average="binary", zero_division=0)
-    )
-    print("Confusion:\n", confusion_matrix(test_out.label_ids, test_preds))
-    print("Report:\n", classification_report(test_out.label_ids, test_preds,
-          target_names=[id2label[i] for i in sorted(id2label)]))
+    # Validation metrics:
+    final_val_metrics = trainer.evaluate()
+    print("Validation Metrics:", final_val_metrics)
 
     trainer.save_model(output_dir)
     print(f"Model saved to: {output_dir}")
+
+def main():
+    for run in RUNS:
+        print(f"\n\n=== RUN {run} ===")
+        main_loop(run)
 
 if __name__ == "__main__":
     main()

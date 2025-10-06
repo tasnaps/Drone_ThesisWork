@@ -148,25 +148,18 @@ def print_augmentation_info():
 # 2) split just like before
 def load_and_split(
     data_dir: str,
-    val_size: float = 0.1,
-    test_size: float = 0.1,
+    val_size: float = 0.2,
     seed: int = 42
 ) -> DatasetDict:
     raw = load_dataset("audiofolder", data_dir=data_dir)
     tmp = raw["train"].train_test_split(
-        test_size=val_size + test_size,
-        seed=seed,
-        stratify_by_column="label"
-    )
-    vt = tmp["test"].train_test_split(
-        test_size=test_size / (val_size + test_size),
+        test_size=val_size,
         seed=seed,
         stratify_by_column="label"
     )
     return DatasetDict({
         "train": tmp["train"],
-        "validation": vt["train"],
-        "test": vt["test"]
+        "validation": tmp["test"],
     })
 
 # 3) Simplified preprocessing function for individual examples (like model.py)

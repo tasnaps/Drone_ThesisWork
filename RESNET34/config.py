@@ -50,4 +50,8 @@ DATASETS = {
         "description": "The actual training dataset used to train the model"
     }
 }
+TRAIN_SET = "C:/Users/tapio/Desktop/Aineistot/TrainingDataset/Al-Emadi/Binary_Drone_Audio"
+CALIBRATION_SET = "C:/Users/tapio/Desktop/Aineistot/eval_threshold"
+
+RUNS = [1, 5, 10, 20, 50, 100]
 SAMPLE_RATE = 16000

@@ -2,6 +2,7 @@
 CNN-LSTM Evaluation script.
 """
 import os
+import traceback
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -10,15 +11,18 @@ import numpy as np
 from pathlib import Path
 import datetime
 import librosa
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional
 import warnings
 from dataclasses import dataclass
 import argparse
 import json
-from sklearn.metrics import precision_recall_curve
+from sklearn.metrics import (
+        accuracy_score, precision_recall_fscore_support,
+        confusion_matrix, roc_auc_score
+    )
+from collections import Counter
 from cnn_lstm_model import CNNLSTMModel
-from common import SAMPLE_RATE, N_MELS, HOP_LENGTH, DATASETS
-
+from common import SAMPLE_RATE, N_MELS, HOP_LENGTH, DATASETS, CALIBRATION_SET, LABEL2ID, ID2LABEL
 # Suppress warnings
 warnings.filterwarnings("ignore")
 
@@ -96,7 +100,7 @@ class LargeFileHandler:
         self.config = config
         self.preprocessor = AudioPreprocessor(config.sample_rate, config.n_mels)
 
-    def load_audio_file(self, file_path: str) -> Tuple[np.ndarray, float]:
+    def load_audio_file(self, file_path: str) -> Tuple[Optional[np.ndarray], float]:
         """Load audio file and return waveform and duration."""
         try:
             waveform, sr = librosa.load(file_path, sr=self.config.sample_rate)
@@ -172,13 +176,13 @@ class LargeFileHandler:
             return 0.0
 
         if method == "mean":
-            return np.mean(predictions)
+            return float(np.mean(predictions))
         elif method == "max":
-            return np.max(predictions)
+            return float(np.max(predictions))
         elif method == "median":
-            return np.median(predictions)
+            return float(np.median(predictions))
         else:
-            return np.mean(predictions)
+            return float(np.mean(predictions))
 
 
 class CNNLSTMEvaluator:
@@ -189,6 +193,8 @@ class CNNLSTMEvaluator:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.file_handler = LargeFileHandler(config)
         self.model = None
+        # Default to index 1 (common convention), will auto-infer during calibration
+        self.drone_class_index: int = 1
 
         print(f"Using device: {self.device}")
 
@@ -199,7 +205,7 @@ class CNNLSTMEvaluator:
         # Handle both file paths and directory paths
         model_file_path = self.config.model_path
 
-        # If it's a directory, look for model files inside
+        # If it's a directory, look for model files inside (including nested subdirectories)
         if os.path.isdir(self.config.model_path):
             # Try different common model file names
             potential_files = [
@@ -212,6 +218,8 @@ class CNNLSTMEvaluator:
             ]
 
             model_loaded = False
+
+            # First, try the direct directory
             for filename in potential_files:
                 potential_path = os.path.join(self.config.model_path, filename)
                 if os.path.exists(potential_path):
@@ -220,17 +228,37 @@ class CNNLSTMEvaluator:
                     model_loaded = True
                     break
 
+            # If not found, search in subdirectories (one level deep)
+            if not model_loaded:
+                for subdir in os.listdir(self.config.model_path):
+                    subdir_path = os.path.join(self.config.model_path, subdir)
+                    if os.path.isdir(subdir_path):
+                        for filename in potential_files:
+                            potential_path = os.path.join(subdir_path, filename)
+                            if os.path.exists(potential_path):
+                                model_file_path = potential_path
+                                print(f"Found model file in subdirectory: {subdir}/{filename}")
+                                model_loaded = True
+                                break
+                        if model_loaded:
+                            break
+
             if not model_loaded:
                 # List available files to help debug
-                available_files = [f for f in os.listdir(self.config.model_path)
-                                 if f.endswith(('.pth', '.bin', '.safetensors'))]
+                available_files = []
+                for root, dirs, files in os.walk(self.config.model_path):
+                    for file in files:
+                        if file.endswith(('.pth', '.bin', '.safetensors')):
+                            rel_path = os.path.relpath(os.path.join(root, file), self.config.model_path)
+                            available_files.append(rel_path)
+
                 raise FileNotFoundError(
                     f"No recognized model file found in {self.config.model_path}. "
                     f"Available model files: {available_files}. "
                     f"Expected one of: {potential_files}"
                 )
 
-        # Load the model file
+        # Rest of the loading logic remains the same...
         try:
             if model_file_path.endswith('.safetensors'):
                 # Handle safetensors files
@@ -241,9 +269,9 @@ class CNNLSTMEvaluator:
 
                     # For safetensors, we use the exact training script parameters
                     model_config = {
-                        'num_labels': 2,  # Binary classification - matches training script
+                        'num_labels': 2,  # Binary classification
                         'hidden_size': 128,  # Default from training script
-                        'lstm_layers': 1,  # Default from training script (not 2!)
+                        'lstm_layers': 1,
                     }
                     print(f"Using training script model config: {model_config}")
 
@@ -279,7 +307,6 @@ class CNNLSTMEvaluator:
 
                 # Initialize model
                 self.model = CNNLSTMModel(
-                    # The evaluation model signature differs from training checkpoint metadata; use defaults
                     num_labels=model_config.get('num_classes', 2),
                     hidden_size=model_config.get('hidden_dim', 128),
                     lstm_layers=model_config.get('num_layers', 1)
@@ -299,17 +326,7 @@ class CNNLSTMEvaluator:
 
         self.model.to(self.device)
         self.model.eval()
-
         print(f"Model loaded successfully!")
-
-        # Print training info if available (only for PyTorch checkpoints)
-        if not model_file_path.endswith('.safetensors'):
-            if 'training_info' in checkpoint:
-                training_info = checkpoint['training_info']
-                if 'best_val_acc' in training_info:
-                    print(f"Best training accuracy: {training_info['best_val_acc']:.2f}%")
-            elif 'best_val_acc' in checkpoint:
-                print(f"Best training accuracy: {checkpoint['best_val_acc']:.2f}%")
 
     def predict_chunks(self, chunks: List[np.ndarray]) -> List[float]:
         """Predict probabilities for a list of audio windows (1s by default)."""
@@ -342,12 +359,76 @@ class CNNLSTMEvaluator:
             with torch.no_grad():
                 outputs = self.model(batch_tensor)
                 probabilities = torch.softmax(outputs.logits, dim=1)
-                drone_probs = probabilities[:, 1].cpu().numpy()  # Probability of drone class
+                # Use the inferred class index for the 'drone' class
+                drone_probs = probabilities[:, self.drone_class_index].cpu().numpy()
                 predictions.extend(drone_probs.tolist())
 
         return predictions
 
-    def evaluate_file(self, file_path: str, true_label: int) -> Dict:
+    def infer_drone_class_index(self, calibration_dir: str, max_files: int = 100) -> int:
+        """Infer whether class index 0 or 1 corresponds to 'yes_drone' using a small sample.
+        Chooses the index that yields higher mean probability for drone-labeled files
+        than for unknown-labeled files, maximizing separation.
+        """
+        if not os.path.isdir(calibration_dir):
+            print("Calibration directory not found for class index inference; keeping default index 1")
+            return self.drone_class_index
+
+        # Gather a small balanced sample
+        sample_files: List[Tuple[str, int]] = []
+        drone_count = unknown_count = 0
+        for root, _, files in os.walk(calibration_dir):
+            for file in files:
+                if not file.lower().endswith(('.wav', '.mp3', '.flac', '.m4a')):
+                    continue
+                file_path = os.path.join(root, file)
+                label_str = get_label_for_file(file_path, None)
+                label = LABEL2ID.get(label_str, 0)
+                if label == 1 and drone_count < max_files // 2:
+                    sample_files.append((file_path, label))
+                    drone_count += 1
+                elif label == 0 and unknown_count < max_files // 2:
+                    sample_files.append((file_path, label))
+                    unknown_count += 1
+                if len(sample_files) >= max_files:
+                    break
+            if len(sample_files) >= max_files:
+                break
+
+        if len(sample_files) < 10:
+            print("Not enough files to infer class index; keeping default index 1")
+            return self.drone_class_index
+
+        def eval_with_index(idx: int) -> Tuple[float, float]:
+            saved_idx = self.drone_class_index
+            self.drone_class_index = idx
+            drone_probs_list, unknown_probs_list = [], []
+            for fp, lab in sample_files:
+                res = self.evaluate_file(fp, lab)
+                if res is None:
+                    continue
+                p = float(res['drone_probability'])
+                if lab == 1:
+                    drone_probs_list.append(p)
+                else:
+                    unknown_probs_list.append(p)
+            self.drone_class_index = saved_idx
+            d_mean = float(np.mean(drone_probs_list)) if drone_probs_list else 0.0
+            u_mean = float(np.mean(unknown_probs_list)) if unknown_probs_list else 0.0
+            return d_mean, u_mean
+
+        d0, u0 = eval_with_index(0)
+        d1, u1 = eval_with_index(1)
+
+        # Choose the index that maximizes (mean_drone - mean_unknown)
+        sep0 = d0 - u0
+        sep1 = d1 - u1
+        chosen = 1 if sep1 >= sep0 else 0
+        self.drone_class_index = chosen
+        print(f"Inferred drone class index: {chosen} (sep0={sep0:.4f}, sep1={sep1:.4f}, d0={d0:.4f}, u0={u0:.4f}, d1={d1:.4f}, u1={u1:.4f})")
+        return chosen
+
+    def evaluate_file(self, file_path: str, true_label: int) -> Optional[Dict]:
         """Evaluate a single audio file using 1-second sliding windows over the entire file."""
         # Load audio
         waveform, duration = self.file_handler.load_audio_file(file_path)
@@ -391,19 +472,19 @@ class CNNLSTMEvaluator:
         results = []
         file_count = 0
 
+        # Retrieve dataset config for potential label override
+        dataset_config = DATASETS.get(dataset_name, {})
+        label_override = dataset_config.get('label_override')
+
         # Walk through dataset directory
         for root, dirs, files in os.walk(data_dir):
             for file in files:
                 if file.lower().endswith(('.wav', '.mp3', '.flac', '.m4a')):
                     file_path = os.path.join(root, file)
 
-                    # Determine label from directory structure
-                    # Assuming structure: dataset/class_name/files
-                    class_name = os.path.basename(root).lower()
-                    if 'drone' in class_name or 'yes' in class_name or '1' in class_name:
-                        true_label = 1
-                    else:
-                        true_label = 0
+                    # Determine label using helper with optional override
+                    label_string = get_label_for_file(file_path, label_override)
+                    true_label = LABEL2ID.get(label_string, 0)
 
                     result = self.evaluate_file(file_path, true_label)
                     if result:
@@ -529,260 +610,424 @@ class CNNLSTMEvaluator:
 
         return output_dir
 
-def calibrate_threshold(model: nn.Module, config: EvaluationConfig) -> float:
-    """Calibrate threshold using validation data with the same 1s windowing logic."""
+LABEL2ID = {"unknown": 0, "yes_drone": 1}
+ID2LABEL = {v: k for k, v in LABEL2ID.items()}
+drone_pattern = ["yes_drone"]
+no_drone_pattern = ["unknown"]
+
+def get_label_for_file(file_path: str, label_override: Optional[str]) -> str:
+    """Get the appropriate label for a file."""
+    if label_override:
+        return label_override
+
+    # Extract from folder structure
+    parent = Path(file_path).parent.name.lower()
+
+    # Direct mapping
+    if parent in LABEL2ID:
+        return parent
+
+    # Pattern matching
+    drone_patterns = ['drone', 'yes_drone', 'positive', 'uav', 'quadcopter', 'target', '1']
+    non_drone_patterns = ['unknown', 'non_drone', 'negative', 'background', 'noise', '0']
+
+    for pattern in drone_patterns:
+        if pattern in parent:
+            return 'yes_drone'
+
+    for pattern in non_drone_patterns:
+        if pattern in parent:
+            return 'unknown'
+
+    print(f"Warning: Could not determine label for '{parent}', defaulting to 'unknown'")
+    return 'unknown'
+
+def calibrate_threshold(model: nn.Module, config: EvaluationConfig, calibration_data_dir: str = None,
+                        strategy: str = "f1", force_drone_index: Optional[int] = None) -> Tuple[float, 'CNNLSTMEvaluator']:
+    """Robust threshold calibration with improved label inference and tie-breaking."""
     print("\n=== Threshold Calibration ===")
+    print(f"Using optimization strategy: {strategy}")
+
+    data_dir = calibration_data_dir if calibration_data_dir else config.data_dir
+    print(f"Using calibration dataset: {data_dir}")
 
     evaluator = CNNLSTMEvaluator(config)
-    evaluator.model = model  # Use existing model
+    evaluator.model = model  # model already on device and in eval mode
 
-    all_probs = []
-    all_labels = []
+    # NEW: infer which class index corresponds to 'drone' using the calibration set
+    if force_drone_index is not None:
+        evaluator.drone_class_index = force_drone_index
+        print(f"Using forced drone class index: {force_drone_index}")
+    else:
+        try:
+            evaluator.infer_drone_class_index(data_dir, max_files=100)
+        except Exception as e:
+            print(f"Warning: Failed to infer class index ({e}); continuing with index {evaluator.drone_class_index}")
 
-    # Use a subset for calibration to be faster
-    file_count = 0
-    max_calibration_files = 200
+    all_probs: List[float] = []
+    all_labels: List[int] = []
 
-    for root, dirs, files in os.walk(config.data_dir):
-        if file_count >= max_calibration_files:
-            break
-
+    # Collect aggregated per-file probabilities
+    for root, _, files in os.walk(data_dir):
         for file in files:
-            if file_count >= max_calibration_files:
-                break
+            if not file.lower().endswith(('.wav', '.mp3', '.flac', '.m4a')):
+                continue
+            file_path = os.path.join(root, file)
+            # Determine label from folder structure (no override for calibration set)
+            label_string = get_label_for_file(file_path, None)
+            true_label = LABEL2ID.get(label_string, 0)
 
-            if file.lower().endswith(('.wav', '.mp3', '.flac', '.m4a')):
-                file_path = os.path.join(root, file)
-
-                # Determine label from directory structure
-                class_name = os.path.basename(root).lower()
-                if 'drone' in class_name or 'yes' in class_name or '1' in class_name:
-                    true_label = 1
-                else:
-                    true_label = 0
-
-                # Use the same evaluation path to compute file-level probability
-                result = evaluator.evaluate_file(file_path, true_label)
-                if result is not None:
-                    all_probs.append(float(result["drone_probability"]))
-                    all_labels.append(true_label)
-                    file_count += 1
+            result = evaluator.evaluate_file(file_path, true_label)
+            if result is not None:
+                all_probs.append(float(result["drone_probability"]))
+                all_labels.append(true_label)
 
     if len(all_probs) < 10:
-        print("Warning: Too few files for proper calibration, using default threshold 0.5")
-        return 0.5
+        print("Warning: Too few files for proper calibration, using default 0.5")
+        return 0.5, evaluator
 
-    # Check if we have both classes for calibration
-    unique_labels = set(all_labels)
-    if len(unique_labels) < 2:
-        print(f"Warning: Only one class found in calibration data ({unique_labels}), using default threshold 0.5")
-        return 0.5
+    labels = np.asarray(all_labels, dtype=np.int32)
+    probs = np.asarray(all_probs, dtype=np.float64)
 
-    # Find best threshold by F1 score
+    # Per-class diagnostics
+    pos_mask = labels == 1
+    neg_mask = labels == 0
+    n_pos, n_neg = int(pos_mask.sum()), int(neg_mask.sum())
+
+    if n_pos == 0 or n_neg == 0:
+        print(
+            f"Warning: Only one class present in calibration data (unknown: {n_neg}, drone: {n_pos}), using default 0.5")
+        return 0.5, evaluator
+
+    prevalence = float(labels.mean())
+
+    def safe_stats(x: np.ndarray):
+        if x.size == 0: return float("nan"), float("nan"), float("nan"), float("nan")
+        return float(np.min(x)), float(np.max(x)), float(np.mean(x)), float(np.std(x))
+
+    p_min, p_max, p_mean, p_std = safe_stats(probs)
+    n_min, n_max, n_mean, n_std = safe_stats(probs[neg_mask])
+    d_min, d_max, d_mean, d_std = safe_stats(probs[pos_mask])
+    n_unique = int(np.unique(np.round(probs, 8)).size)
+
+    print(f"Calibration used {len(probs)} files")
+    print(f"Class counts -> unknown: {n_neg}, drone: {n_pos}, prevalence: {prevalence:.4f}")
+    print(
+        f"All probs -> min: {p_min:.8f}, max: {p_max:.8f}, mean: {p_mean:.8f}, std: {p_std:.8f}, unique(~1e-8): {n_unique}")
+    print(f"Unknown probs -> min: {n_min:.8f}, max: {n_max:.8f}, mean: {n_mean:.8f}, std: {n_std:.8f}")
+    print(f"Drone probs   -> min: {d_min:.8f}, max: {d_max:.8f}, mean: {d_mean:.8f}, std: {d_std:.8f}")
+
+    # If drone mean is still lower and we haven't forced an index yet, try the other index
+    if d_mean < n_mean and force_drone_index is None:
+        print(f"Switching drone class index to 0 due to inverted probabilities (d_mean={d_mean:.4f} < n_mean={n_mean:.4f})")
+        # Use the opposite index (0 if we tried 1, 1 if we tried 0)
+        corrected_index = 0 if evaluator.drone_class_index == 1 else 1
+        return calibrate_threshold(model, config, calibration_data_dir, strategy, force_drone_index=corrected_index)
+
+    if not np.isfinite(p_std) or p_std < 1e-8 or n_unique <= 2:
+        print("Warning: Degenerate probability distribution; returning 0.5")
+        return 0.5, evaluator
+
+    # Candidate thresholds
+    grid = np.linspace(1e-6, 1 - 1e-6, 1001)
+    quantiles = np.quantile(probs, np.linspace(0.01, 0.99, 99))
+    candidates = np.unique(np.clip(np.concatenate([grid, quantiles]), 1e-6, 1 - 1e-6))
+
+    # Metrics per threshold
+    f1_scores, ba_scores, youden_scores, pos_rates = [], [], [], []
+
+    for thr in candidates:
+        preds = (probs >= thr).astype(np.int32)
+        tp = np.sum((labels == 1) & (preds == 1))
+        tn = np.sum((labels == 0) & (preds == 0))
+        fp = np.sum((labels == 0) & (preds == 1))
+        fn = np.sum((labels == 1) & (preds == 0))
+
+        precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+        recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        specificity = tn / (tn + fp) if (tn + fp) > 0 else 0.0
+
+        f1_scores.append((2.0 * precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0)
+        ba_scores.append(0.5 * (recall + specificity))
+        youden_scores.append(recall + specificity - 1.0)
+        pos_rates.append(np.mean(preds))
+    #Removed balanced acc since same as youden. And we dont need the interpretability.
+    metrics_map = {"f1": np.array(f1_scores, dtype=np.float64),
+                   "youden": np.array(youden_scores, dtype=np.float64)}
+    metric = metrics_map.get(strategy, metrics_map["f1"])
+    if strategy not in metrics_map:
+        print(f"Warning: Unknown strategy '{strategy}', falling back to f1")
+
+    # Replace non-finite with -inf so they won't win
+    metric = np.where(np.isfinite(metric), metric, -np.inf)
+    if not np.isfinite(metric).any() or np.all(metric == -np.inf):
+        print("Warning: Metric evaluation failed; returning default 0.5")
+        return 0.5, evaluator
+
+    best_score = float(np.max(metric))
+    best_indices = np.where(np.isclose(metric, best_score, atol=1e-9))[0]
+
+    # Tie-breaking toward prevalence, then median threshold
+    best_thresholds = candidates[best_indices]
+    best_pos_rates = np.array(pos_rates)[best_indices]
+
+    min_rate_diff = float(np.min(np.abs(best_pos_rates - prevalence)))
+    tied_indices = np.where(np.isclose(np.abs(best_pos_rates - prevalence), min_rate_diff, atol=1e-9))[0]
+
+    final_candidates = best_thresholds[tied_indices]
+    best_threshold = float(np.median(final_candidates))
+
+    if not (0.0 < best_threshold < 1.0) or not np.isfinite(best_threshold):
+        print(f"Warning: Invalid threshold {best_threshold}, using default 0.5")
+        return 0.5, evaluator
+
+    print(f"Best threshold ({strategy}): {best_threshold:.6f} (score: {best_score:.4f})")
+
+    # Save threshold with diagnostics
+    threshold_file = os.path.join(config.model_path, "CNN_LSTM_calibrated_threshold_chosen.json")
+    threshold_data = {
+        "threshold": best_threshold, "strategy": strategy, "score": best_score,
+        "calibration_files": len(probs),
+        "class_counts": {"unknown": n_neg, "drone": n_pos, "prevalence": prevalence},
+        "unknown_stats": {"min": n_min, "max": n_max, "mean": n_mean, "std": n_std},
+        "drone_stats": {"min": d_min, "max": d_max, "mean": d_mean, "std": d_std},
+        "all_stats": {"min": p_min, "max": p_max, "mean": p_mean, "std": p_std, "unique": n_unique},
+        "calibration_date": datetime.datetime.now().isoformat(),
+        "drone_class_index": evaluator.drone_class_index
+    }
+
     try:
-        precisions, recalls, thresholds = precision_recall_curve(all_labels, all_probs)
-        f1_scores = 2 * precisions * recalls / (precisions + recalls + 1e-8)
-        best_idx = np.nanargmax(f1_scores)
-        best_threshold = thresholds[best_idx] if len(thresholds) > 0 else 0.5
-
-        # Sanity check the threshold
-        if best_threshold <= 0.0 or best_threshold >= 1.0 or np.isnan(best_threshold):
-            print(f"Warning: Invalid threshold {best_threshold}, using default 0.5")
-            return 0.5
-
-        print(f"Calibration used {len(all_probs)} files")
-        print(f"Best threshold: {best_threshold:.6f} (F1: {f1_scores[best_idx]:.4f})")
-
-        # Save threshold for future use
-        threshold_file = os.path.join(config.model_path, "calibrated_threshold.json")
-        threshold_data = {
-            "threshold": float(best_threshold),
-            "f1_score": float(f1_scores[best_idx]),
-            "calibration_files": len(all_probs),
-            "calibration_date": datetime.datetime.now().isoformat()
-        }
         with open(threshold_file, 'w') as f:
             json.dump(threshold_data, f, indent=2)
         print(f"Threshold saved to: {threshold_file}")
-
-        return float(best_threshold)
-
     except Exception as e:
-        print(f"Warning: Threshold calibration failed ({e}), using default threshold 0.5")
-        return 0.5
+        print(f"Warning: Failed to save threshold file: {e}")
+
+
+
+    return best_threshold, evaluator
+
+
+def print_dataset_results(dataset_name: str, results: List[Dict]):
+    """Print evaluation results for a dataset (matching ResNet format)."""
+    if not results:
+        print(f"No results for dataset {dataset_name}")
+        return
+
+    # Calculate metrics
+    true_labels = [r["true_label"] for r in results]
+    predicted_labels = [r["predicted_label"] for r in results]
+    probabilities = [r["drone_probability"] for r in results]
+
+    # Basic metrics
+    accuracy = accuracy_score(true_labels, predicted_labels)
+    precision, recall, f1, _ = precision_recall_fscore_support(
+        true_labels, predicted_labels, average="binary", zero_division=0
+    )
+
+    # ROC AUC
+    try:
+        auc = roc_auc_score(true_labels, probabilities)
+    except ValueError:
+        auc = 0.0
+
+    # Confusion matrix and class distribution
+    cm = confusion_matrix(true_labels, predicted_labels)
+    class_distribution = Counter(true_labels)
+
+    # Get threshold from first result
+    threshold_used = results[0].get("aggregation_threshold", 0.5)
+
+    # Print results
+    print(f"\n{'=' * 60}")
+    print(f"RESULTS - {dataset_name}")
+    print(f"{'=' * 60}")
+    print(f"Total files processed: {len(results)}")
+    print(f"Threshold used: {threshold_used:.4f}")
+    print(f"Accuracy: {accuracy:.4f}")
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall: {recall:.4f}")
+    print(f"F1-Score: {f1:.4f}")
+    print(f"AUC: {auc:.4f}")
+    print(f"Class distribution: {dict(class_distribution)}")
+    print(f"Confusion Matrix:")
+    print(np.array(cm))
+
+def get_model_paths(model_input: str) -> Dict[str, str]:
+    """
+    Parses a model input path. Can be a single file or a directory containing multiple models.
+    If a directory, it looks for subdirectories (each containing a model) or model files directly.
+    """
+    models = {}
+    if os.path.isfile(model_input):
+        # Handle case where a single model file is provided
+        model_name = Path(model_input).stem
+        models[model_name] = model_input
+        return models
+    elif os.path.isdir(model_input):
+        # Handle case where a directory of models is provided
+        for item in os.listdir(model_input):
+            item_path = os.path.join(model_input, item)
+            if os.path.isdir(item_path):
+                # Use the subdirectory name as the model name (e.g., "run-1")
+                models[item] = item_path
+            elif item.endswith(('.pth', '.bin', '.safetensors')):
+                # Use the file stem as the model name
+                model_name = Path(item).stem
+                models[model_name] = item_path
+        if not models:
+            raise ValueError(f"No models or model subdirectories found in: {model_input}")
+        return models
+    else:
+        raise FileNotFoundError(f"Model path does not exist: {model_input}")
+
 
 def main():
-    """Main evaluation function with argparse support."""
-    parser = argparse.ArgumentParser(description="Evaluate CNN-LSTM audio classification model")
+    """Main evaluation function with argparse and multi-model support."""
+    parser = argparse.ArgumentParser(description="Evaluate one or more CNN-LSTM audio classification models.")
     parser.add_argument("--model_path", type=str, required=True,
-                      help="Path to trained model directory or .pth file")
+                      help="Path to a trained model file, or a directory containing multiple model folders (e.g., run-1, run-5).")
     parser.add_argument("--dataset", type=str, default=None,
                       choices=list(DATASETS.keys()),
-                      help="Dataset name to evaluate (if not provided, evaluates all datasets)")
+                      help="Specific dataset to evaluate (if not provided, evaluates all datasets).")
     parser.add_argument("--output_dir", type=str, default=None,
-                      help="Output directory for results (defaults to timestamped folder on desktop)")
+                      help="Base output directory for the evaluation series (defaults to a folder on the desktop).")
     parser.add_argument("--batch_size", type=int, default=8,
-                      help="Batch size for chunk processing")
+                      help="Batch size for chunk processing.")
     parser.add_argument("--hop_duration", type=float, default=1.5,
-                      help="Overlap duration between large chunks in seconds (outer 180s)")
-    # Optional: sliding window parameters
+                      help="Overlap duration between large chunks in seconds (outer 180s).")
     parser.add_argument("--window_duration", type=float, default=1.0,
-                      help="Sliding window duration in seconds (default 1.0)")
+                      help="Sliding window duration in seconds (default 1.0).")
     parser.add_argument("--window_hop", type=float, default=1.0,
-                      help="Sliding window hop in seconds (default 1.0; set <duration for overlap)")
-    parser.add_argument("--calibrate", action="store_true",
-                      help="Calibrate threshold on this dataset")
-    parser.add_argument("--threshold", type=float, default=None,
-                      help="Manual threshold override")
-
+                      help="Sliding window hop in seconds (default 1.0).")
+    parser.add_argument("--threshold_strategy", type=str, default="f1",
+                        choices=["f1", "youden", "balanced_acc"],
+                        help="Strategy for threshold optimization.")
     args = parser.parse_args()
 
-    # Create timestamped output directory on desktop if not specified
-    if args.output_dir is None:
-        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        if args.dataset:
-            args.output_dir = os.path.join(desktop_path, f"cnn_lstm_evaluation_{args.dataset}_{timestamp}")
-        else:
-            args.output_dir = os.path.join(desktop_path, f"cnn_lstm_evaluation_all_datasets_{timestamp}")
-
-    # Determine which datasets to evaluate
-    if args.dataset:
-        datasets_to_evaluate = [args.dataset]
-        print(f"Evaluating single dataset: {args.dataset}")
+    # --- 1. Set up Base Output Directory ---
+    if args.output_dir:
+        base_output_dir = Path(args.output_dir)
     else:
-        datasets_to_evaluate = list(DATASETS.keys())
-        print(f"Evaluating all {len(datasets_to_evaluate)} datasets")
+        desktop_path = Path.home() / "Desktop"
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        base_output_dir = desktop_path / f"cnn_lstm_evaluation_series_{timestamp}"
+    base_output_dir.mkdir(parents=True, exist_ok=True)
+    print(f"Base output directory for all models: {base_output_dir}")
 
-    # Create main output directory
-    os.makedirs(args.output_dir, exist_ok=True)
-    print(f"Results will be saved to: {args.output_dir}")
+    # --- 2. Find Models and Datasets ---
+    try:
+        model_paths = get_model_paths(args.model_path)
+        print(f"Found {len(model_paths)} model(s) to evaluate: {list(model_paths.keys())}")
+    except (FileNotFoundError, ValueError) as e:
+        print(f"Error: {e}")
+        exit(1)
 
-    # Track overall results
-    all_dataset_results = {}
+    datasets_to_evaluate = [args.dataset] if args.dataset else list(DATASETS.keys())
+    print(f"Will evaluate against {len(datasets_to_evaluate)} dataset(s): {datasets_to_evaluate}")
 
-    # Iterate through datasets to evaluate
-    for dataset_name in datasets_to_evaluate:
-        dataset_config = DATASETS[dataset_name]
+    # --- 3. Main Loop for Each Model ---
+    all_models_results = {}
+    for model_name, model_path in model_paths.items():
+        print(f"\n{'='*100}")
+        print(f"EVALUATING MODEL: {model_name} ({list(model_paths.keys()).index(model_name) + 1}/{len(model_paths)})")
+        print(f"Path: {model_path}")
+        print(f"{'='*100}")
 
-        # Check if dataset path exists
-        if not os.path.exists(dataset_config["path"]):
-            print(f" Skipping {dataset_name}: Dataset path does not exist: {dataset_config['path']}")
-            continue
+        model_output_dir = base_output_dir / model_name
+        model_output_dir.mkdir(exist_ok=True)
 
-        print(f"\n{'='*80}")
-        print(f"EVALUATING DATASET: {dataset_name} ({datasets_to_evaluate.index(dataset_name) + 1}/{len(datasets_to_evaluate)})")
-        print(f"{'='*80}")
-        print(f"Description: {dataset_config['description']}")
-
-        # Determine threshold for this dataset
-        threshold = args.threshold
-        if threshold is None:
-            # Try to load saved calibrated threshold
-            threshold_file = os.path.join(args.model_path, "calibrated_threshold.json")
-            if os.path.exists(threshold_file):
-                try:
-                    with open(threshold_file, 'r') as f:
-                        threshold_data = json.load(f)
-                    threshold = threshold_data["threshold"]
-                    print(f"✓ Using saved calibrated threshold: {threshold:.6f}")
-                except:
-                    threshold = 0.5
-                    print("Warning: Could not load saved threshold, using 0.5")
-            else:
-                threshold = 0.5
-                print("No calibrated threshold found, using default 0.5")
-
-        # Create configuration for this dataset
-        config = EvaluationConfig(
-            model_path=args.model_path,
-            data_dir=dataset_config["path"],
-            output_dir=args.output_dir,
-            batch_size=args.batch_size,
-            overlap_seconds=args.hop_duration,
-            threshold=threshold,
-            model_chunk_duration=args.window_duration,
-            model_hop_seconds=args.window_hop,
-        )
-
-        print(f"Max file length: {config.max_file_length}s")
-        print(f"Chunk duration: {config.chunk_duration}s")
-        print(f"Overlap: {config.overlap_seconds}s")
-        print(f"Batch size: {config.batch_size}")
-        print(f"Window: {config.model_chunk_duration}s, Hop: {config.model_hop_seconds}s")
-        print(f"Threshold: {config.threshold:.6f}")
-
+        # --- Create and Calibrate a Single Evaluator Per Model ---
         try:
-            # Initialize evaluator and load model
-            evaluator = CNNLSTMEvaluator(config)
+            # Create a single evaluator instance for this model
+            eval_config = EvaluationConfig(
+                model_path=model_path,
+                data_dir="",  # Will be updated per dataset
+                output_dir=str(model_output_dir),
+                batch_size=args.batch_size,
+                model_hop_seconds=args.window_hop,
+                model_chunk_duration=args.window_duration,
+                overlap_seconds=args.hop_duration
+            )
+            evaluator = CNNLSTMEvaluator(eval_config)
             evaluator.load_model()
 
-            # Calibrate threshold if requested (only for first dataset or single dataset)
-            if args.calibrate and (args.dataset or dataset_name == datasets_to_evaluate[0]):
-                calibrated_threshold = calibrate_threshold(evaluator.model, config)
-                config.threshold = calibrated_threshold
-                evaluator.config.threshold = calibrated_threshold
+            if isinstance(CALIBRATION_SET, dict):
+                calibration_path = CALIBRATION_SET['path']
+            elif isinstance(CALIBRATION_SET, str):
+                calibration_path = CALIBRATION_SET
+            else:
+                raise ValueError(f"CALIBRATION_SET must be dict or str, got {type(CALIBRATION_SET)}")
 
-            # Evaluate dataset
-            results = evaluator.evaluate_dataset(dataset_name, dataset_config["path"])
-            all_dataset_results[dataset_name] = results
+            calibrated_threshold, calibrated_evaluator = calibrate_threshold(
+                evaluator.model,
+                eval_config,
+                calibration_path,
+                args.threshold_strategy,
+                force_drone_index=0
+            )
 
-            # Print results for this dataset
-            if results:
-                whole_files = sum([1 for r in results if r["split"] == "whole_file"])
-                split_files = len(results) - whole_files
-                accuracy = np.mean([r["true_label"] == r["predicted_label"] for r in results])
+            evaluator.config.threshold = calibrated_threshold
+            evaluator.drone_class_index = calibrated_evaluator.drone_class_index
 
-                print(f"\n{'='*60}")
-                print(f"RESULTS - {dataset_name}")
-                print(f"{'='*60}")
-                print(f"Total files processed: {len(results)}")
-                print(f"Whole files: {whole_files}")
-                print(f"Split files: {split_files}")
-                print(f"Threshold used: {config.threshold:.6f}")
-                print(f"Accuracy: {accuracy:.4f}")
-                if split_files > 0:
-                    avg_chunks = np.mean([r["num_chunks"] for r in results if r["num_chunks"] > 1])
-                    print(f"Avg chunks per split file: {avg_chunks:.1f}")
+            if evaluator.drone_class_index == 0:
+                # Model uses 0 for drones, 1 for unknown - update global mapping
+                global LABEL2ID, ID2LABEL
+                LABEL2ID = {"yes_drone": 0, "unknown": 1}
+                ID2LABEL = {0: "yes_drone", 1: "unknown"}
+                print("Updated label mapping to match model convention: drone=0, unknown=1")
+            print(f"\nUsing calibrated threshold: {evaluator.config.threshold:.4f} and drone_class_index: {evaluator.drone_class_index} for all subsequent datasets.")
 
         except Exception as e:
-            print(f"Evaluation failed for {dataset_name}: {e}")
-            import traceback
+            print(f"FATAL: Could not load or calibrate model '{model_name}'. Skipping. Error: {e}")
             traceback.print_exc()
-            continue
+            continue  # Skip to the next model
 
-    # Save all results
-    if all_dataset_results:
-        # Create a temporary evaluator just for saving results
-        temp_config = EvaluationConfig(
-            model_path=args.model_path,
-            data_dir="",
-            output_dir=args.output_dir,
-            threshold=threshold
-        )
-        temp_evaluator = CNNLSTMEvaluator(temp_config)
-        output_dir = temp_evaluator.save_results(all_dataset_results)
+        # --- Inner Loop for Datasets (using the single, calibrated evaluator) ---
+        model_dataset_results = {}
+        for dataset_name in datasets_to_evaluate:
+            dataset_config = DATASETS.get(dataset_name, {})
+            dataset_path = dataset_config.get("path")
 
-        # Create summary report if multiple datasets were evaluated
-        if len(all_dataset_results) > 1:
-            print(f"\n{'='*80}")
-            print(f"SUMMARY ACROSS ALL DATASETS")
-            print(f"{'='*80}")
+            if not dataset_path or not os.path.exists(dataset_path):
+                print(f"\nSkipping dataset '{dataset_name}': Path not found or not configured.")
+                continue
 
-            for dataset_name, results in all_dataset_results.items():
+            # The evaluator instance now correctly holds the calibrated threshold and index
+            dataset_results = evaluator.evaluate_dataset(dataset_name, dataset_path)
+            print_dataset_results(dataset_name, dataset_results)
+            model_dataset_results[dataset_name] = dataset_results
+
+        # --- Save all results for the current model ---
+        if model_dataset_results:
+            evaluator.save_results(model_dataset_results)
+            all_models_results[model_name] = model_dataset_results
+        else:
+            print(f"No datasets were successfully evaluated for model '{model_name}'.")
+
+    print("\nAll model evaluations complete.")
+
+    # --- 4. Final Summary Across All Models ---
+    if len(all_models_results) > 1:
+        print(f"\n{'='*100}")
+        print("CROSS-MODEL SUMMARY")
+        print(f"{'='*100}")
+        for model_name, datasets in all_models_results.items():
+            print(f"\nModel: {model_name}")
+            for dataset_name, results in datasets.items():
                 if results:
-                    whole_files = sum([1 for r in results if r["split"] == "whole_file"])
-                    split_files = len(results) - whole_files
                     accuracy = np.mean([r["true_label"] == r["predicted_label"] for r in results])
-                    print(f"{dataset_name}:")
-                    print(f"  Total files: {len(results)}")
-                    print(f"  Accuracy: {accuracy:.4f}")
-                    print(f"  Whole files: {whole_files}, Split files: {split_files}")
+                    print(f"  - {dataset_name}: {len(results)} files, Accuracy: {accuracy:.4f}")
+            if not datasets:
+                print("  - No results recorded.")
 
-        print(f"\n✓ Evaluation completed successfully!")
-        print(f" All results saved to: {output_dir}")
-    else:
-        print("No datasets were successfully evaluated!")
+    print("\nEvaluation series finished.")
+
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(f"FATAL ERROR: {e}")
+        traceback.print_exc()
+        exit(1)

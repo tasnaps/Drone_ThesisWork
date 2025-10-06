@@ -15,7 +15,6 @@ from transformers import TrainingArguments, SchedulerType
 from common import TRAIN_SET
 
 warnings.filterwarnings("ignore")
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def main():
@@ -28,14 +27,13 @@ def main():
         torch.cuda.manual_seed_all(seed)
         torch.cuda.empty_cache()
 
-    raw_ds = load_and_split(TRAIN_SET, val_size=0.1, test_size=0.1, seed=seed)
+    raw_ds = load_and_split(TRAIN_SET, val_size=0.2, seed=seed)
     class_weights = compute_class_weights(raw_ds["train"])
 
     # Preprocess splits
     ds = {
         "train": preprocess_split(raw_ds["train"], augment=True),
         "validation": preprocess_split(raw_ds["validation"], augment=False),
-        "test": preprocess_split(raw_ds["test"], augment=False)
     }
     del raw_ds
     gc.collect()
@@ -55,7 +53,7 @@ def main():
         per_device_train_batch_size=16,
         per_device_eval_batch_size=16,
         gradient_accumulation_steps=2,
-        num_train_epochs=1,
+        num_train_epochs=100,
         fp16=cuda_status,
         eval_strategy="epoch",
         logging_strategy="epoch",
@@ -82,6 +80,10 @@ def main():
     )
     final_trainer.train()
     final_trainer.save_model(str(model_dir))
+
+    final_validation_metrics = final_trainer.evaluate()
+    print("Al-Emadi Eval metrics: ", final_validation_metrics)
+
     #Could also save the toroch model for others to eval. But we still have the safetensor file along with model details so it is ok.
 
     # Save training arguments as readable JSON
@@ -100,7 +102,6 @@ def main():
         "dataset_splits": {
             "train_size": len(ds["train"]),
             "validation_size": len(ds["validation"]),
-            "test_size": len(ds["test"])
         },
         "class_weights": class_weights.cpu().tolist(),
         "training_config": training_args_dict

@@ -22,45 +22,45 @@ HOP_LENGTH: int = 256
 
 #Datasets for eval and training Swap these for your paths
 
-TRAIN_SET = "C:/Gradu Juttui/Datasets/DroneAudioDataset_Saraalemadi/Binary_Drone_Audio"
-
+TRAIN_SET = "C:/Users/tapio/Desktop/Aineistot/TrainingDataset/Al-Emadi/Binary_Drone_Audio"
+CALIBRATION_SET = "C:/Users/tapio/Desktop/Aineistot/eval_threshold"
 DATASETS = {
     "H-2": {
-        "path": "C:/Gradu Juttui/Datasets/H-2/converted/",
-        "description": "Mixed dataset with folder structure"
+        "path": "C:/Users/tapio/Desktop/Aineistot/H-2/converted",
+        "description": "All drone samples"
     },
     "Fusion": {
-        "path": "C:/Gradu Juttui/Datasets/FusionDataset/",
+        "path": "C:/Users/tapio/Desktop/Aineistot/FusionDataset",
         "description": "Mixed dataset with folder structure"
     },
     "DronePrint": {
-        "path": "C:/Gradu Juttui/Datasets/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected",
+        "path": "C:/Users/tapio/Desktop/Aineistot/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected",
         "description": "All drone samples"
     },
     "Tapio": {
-        "path": "C:/Gradu Juttui/Datasets/TapioCollection",
+        "path": "C:/Users/tapio/Desktop/Aineistot/TapioCollection",
         "description": "Mixed dataset with folder structure"
     },
     "S&E": {
-        "path": "C:/Gradu Juttui/Datasets/Svanström & Englund/Drone-detection-dataset/Data/Audio",
+        "path": "C:/Users/tapio/Desktop/Aineistot/Svanström & Englund/Drone-detection-dataset/Data/Audio",
         "description": "Mixed dataset with folder structure"
     },
     "Emo": {
-        "path": "C:/Gradu Juttui/Datasets/Emo-Soundscapes/Emo-Soundscapes-Audio/Parsed",
+        "path": "C:/Users/tapio/Desktop/Aineistot/EmoSoundscapes/Parsed",
         "description": "All environmental sounds"
     },
     "ESC-50": {
-        "path": "C:/Gradu Juttui/Datasets/ESC-50-master/audio",
+        "path": "C:/Users/tapio/Desktop/Aineistot/ESC-50-master/audio",
         "description": "All environmental sounds"
     },
     "UrbanSound": {
-        "path": "C:/Gradu Juttui/Datasets/UrbanSound8K/mergedFolder",
+        "path": "C:/Users/tapio/Desktop/Aineistot/UrbanSound8K/mergedFolder",
         "description": "All urban sounds"
     },
-    "DroneAudio": {
-        "path": "C:/Gradu Juttui/Datasets/DroneAudioDataset_Saraalemadi/Binary_Drone_Audio",
-        "description": "Training dataset used to train the model"
-    }
+    "WonjunYi": {
+        "path": "C:/Users/tapio/Desktop/Aineistot/Wonjun",
+        "description": "All drone samples"
+    },
 }
 
 ## Decimal notation for the .csv outputs for the evaluation script

@@ -153,7 +153,7 @@ def load_and_prepare_data(config):
     print(f"Loading data from: {config.data_dir}")
     ds = load_and_split(config.data_dir)
     raw_train = ds["train"]
-    print(f"Dataset sizes - Train: {len(ds['train'])}, Val: {len(ds['validation'])}, Test: {len(ds['test'])}")
+    print(f"Dataset sizes - Train: {len(ds['train'])}, Val: {len(ds['validation'])}")
     # Detect label column
     from datasets import ClassLabel as _CL
     try:
@@ -166,7 +166,6 @@ def load_and_prepare_data(config):
     print("Fast preprocessing - processing all audio files upfront...")
     ds["train"] = prepare_dataset_fast(ds["train"], augment=config.augment_data, shorten_for_training=False)
     ds["validation"] = prepare_dataset_fast(ds["validation"], augment=False, shorten_for_training=False)
-    ds["test"] = prepare_dataset_fast(ds["test"], augment=False, shorten_for_training=False)
     print("All audio preprocessing complete - data is now cached and ready for fast training!")
     return ds, raw_train, num_labels
 
@@ -231,16 +230,12 @@ def build_trainer(args, config, ds, raw_train, num_labels):
 
 def evaluate_and_report(trainer, ds):
     val_results = trainer.evaluate(ds["validation"])
-    test_results = trainer.evaluate(ds["test"])
     print("\n=== Validation Results ===")
     for key, value in val_results.items():
         print(f"{key}: {value:.4f}")
-    print("\n=== Test Results ===")
-    for key, value in test_results.items():
-        print(f"{key}: {value:.4f}")
-    detailed_report, cm = generate_detailed_report(trainer, ds["test"])
+    detailed_report, cm = generate_detailed_report(trainer, ds["validation"])
     plot_training_history(trainer)
-    return val_results, test_results, detailed_report
+    return val_results, detailed_report
 
 def save_model_and_feature_extractor(trainer, training_args):
     print(f"Saving final model to: {training_args.output_dir}")
@@ -248,10 +243,9 @@ def save_model_and_feature_extractor(trainer, training_args):
     from data.data_transformers import feature_extractor as _fe
     _fe.save_pretrained(training_args.output_dir)
 
-def finalize_and_save_results(training_args, val_results, test_results, detailed_report):
+def finalize_and_save_results(training_args, val_results, detailed_report):
     all_results = {
         "validation": val_results,
-        "test": test_results,
         "detailed_report": detailed_report,
     }
     with open("./reports/final_results.json", 'w') as f:
@@ -316,7 +310,7 @@ def main():
     trainer = None
     training_args = None
     val_results = None
-    test_results = None
+    detailed_report = None
 
     try:
         ds, raw_train, num_labels = load_and_prepare_data(config)
@@ -325,9 +319,9 @@ def main():
         print("Starting single training run...")
         trainer.train()
         print("Training finished.")
-        val_results, test_results, detailed_report = evaluate_and_report(trainer, ds)
+        val_results, detailed_report = evaluate_and_report(trainer, ds)
         save_model_and_feature_extractor(trainer, training_args)
-        finalize_and_save_results(training_args, val_results, test_results, detailed_report)
+        finalize_and_save_results(training_args, val_results, detailed_report)
 
     except Exception as e:
         print(f"Error during training: {e}")
@@ -339,7 +333,6 @@ def main():
                 trainer.save_model(training_args.output_dir)
                 partial_results = {
                     "validation": val_results,
-                    "test": test_results,
                 }
                 with open("./reports/partial_results.json", 'w') as f:
                     json.dump(partial_results, f, indent=2)
