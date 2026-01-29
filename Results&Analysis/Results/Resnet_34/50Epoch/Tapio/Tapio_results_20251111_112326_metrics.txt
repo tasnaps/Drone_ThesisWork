@@ -1,0 +1,12 @@
+Dataset: Tapio
+Total files: 27
+Threshold used: 0.00004523
+Accuracy: 0.77777778
+Precision: 0.90909091
+Recall: 0.83333333
+F1-Score: 0.86956522
+AUC: 0.73611111
+Class distribution: {0: 3, 1: 24}
+Confusion Matrix:
+[[ 1  2]
+ [ 4 20]]

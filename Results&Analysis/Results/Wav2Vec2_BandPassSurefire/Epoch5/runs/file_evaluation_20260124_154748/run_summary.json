@@ -1,0 +1,41 @@
+{
+  "evaluation_type": "file_based",
+  "datasets_processed": 9,
+  "total_records": 94108,
+  "individual_results": {
+    "H-2": 3061,
+    "DronePrint": 12,
+    "MerilainenCompiledSounds": 27,
+    "S&E": 56,
+    "Emo": 370,
+    "ESC-50": 1674,
+    "UrbanSound": 8324,
+    "Wonjun_Yi": 78966,
+    "CalibrationDataset": 1618
+  },
+  "threshold_used": 0.3325451910495758,
+  "aggregation_info": {
+    "method": "whole_file",
+    "threshold": 0.3325451910495758
+  },
+  "output_structure": {
+    "run_directory": "C:\\Users\\tapio\\Desktop\\Results23_01_2026\\BandPassSurefire\\Model_checkpoint-2615\\runs\\file_evaluation_20260124_154748",
+    "csv_files": [
+      "H-2",
+      "DronePrint",
+      "MerilainenCompiledSounds",
+      "S&E",
+      "Emo",
+      "ESC-50",
+      "UrbanSound",
+      "Wonjun_Yi",
+      "CalibrationDataset",
+      "file_level_results.csv",
+      "dataset_summary_file_results.csv"
+    ],
+    "organized_structure": true
+  },
+  "timestamp": "20260124_154748",
+  "run_name": "file_evaluation_20260124_154748",
+  "generated_by": "Evaluation Pipeline"
+}

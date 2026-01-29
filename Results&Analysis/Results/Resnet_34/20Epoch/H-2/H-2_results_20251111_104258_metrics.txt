@@ -1,0 +1,12 @@
+Dataset: H-2
+Total files: 3061
+Threshold used: 0.00015938
+Accuracy: 0.23554394
+Precision: 1.00000000
+Recall: 0.23554394
+F1-Score: 0.38127975
+AUC: nan
+Class distribution: {1: 3061}
+Confusion Matrix:
+[[   0    0]
+ [2340  721]]

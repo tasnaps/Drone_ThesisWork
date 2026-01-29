@@ -1,0 +1,12 @@
+Dataset: Emo
+Total files: 370
+Threshold used: 0.49950000
+Accuracy: 0.00000000
+Precision: 0.00000000
+Recall: 0.00000000
+F1-Score: 0.00000000
+AUC: nan
+Class distribution: {0: 370}
+Confusion Matrix:
+[[  0 370]
+ [  0   0]]

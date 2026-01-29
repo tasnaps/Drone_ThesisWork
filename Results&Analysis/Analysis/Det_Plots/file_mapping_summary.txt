@@ -1,0 +1,725 @@
+File Organization Summary
+==================================================
+
+Source Directory: .
+Output Directory: .\organized_graphs
+Total Files Processed: 179
+
+File Mapping:
+------------------------------
+Original: CNN_LSTM\100Epoch\Fusion_detailed_files_det.png
+New Name: CNN_LSTM__100Epoch__Fusion_detailed_files_det.png
+Path Parts: CNN_LSTM -> 100Epoch
+
+Original: CNN_LSTM\100Epoch\CalibrationDataset\CalibrationDataset_detailed_files_det.png
+New Name: CNN_LSTM__100Epoch__CalibrationDataset__CalibrationDataset_detailed_files_det.png
+Path Parts: CNN_LSTM -> 100Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\100Epoch\S&E\S&E_detailed_files_det.png
+New Name: CNN_LSTM__100Epoch__S&E__S&E_detailed_files_det.png
+Path Parts: CNN_LSTM -> 100Epoch -> S&E
+
+Original: CNN_LSTM\100Epoch\Tapio\Tapio_detailed_files_det.png
+New Name: CNN_LSTM__100Epoch__Tapio__Tapio_detailed_files_det.png
+Path Parts: CNN_LSTM -> 100Epoch -> Tapio
+
+Original: CNN_LSTM\10Epoch\Fusion_detailed_files_det.png
+New Name: CNN_LSTM__10Epoch__Fusion_detailed_files_det.png
+Path Parts: CNN_LSTM -> 10Epoch
+
+Original: CNN_LSTM\10Epoch\CalibrationDataset\CalibrationDataset_detailed_files_det.png
+New Name: CNN_LSTM__10Epoch__CalibrationDataset__CalibrationDataset_detailed_files_det.png
+Path Parts: CNN_LSTM -> 10Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\10Epoch\Fusion\Fusion_detailed_files_det.png
+New Name: CNN_LSTM__10Epoch__Fusion__Fusion_detailed_files_det.png
+Path Parts: CNN_LSTM -> 10Epoch -> Fusion
+
+Original: CNN_LSTM\10Epoch\S&E\S&E_detailed_files_det.png
+New Name: CNN_LSTM__10Epoch__S&E__S&E_detailed_files_det.png
+Path Parts: CNN_LSTM -> 10Epoch -> S&E
+
+Original: CNN_LSTM\10Epoch\Tapio\Tapio_detailed_files_det.png
+New Name: CNN_LSTM__10Epoch__Tapio__Tapio_detailed_files_det.png
+Path Parts: CNN_LSTM -> 10Epoch -> Tapio
+
+Original: CNN_LSTM\1Epoch\Fusion_detailed_files_det.png
+New Name: CNN_LSTM__1Epoch__Fusion_detailed_files_det.png
+Path Parts: CNN_LSTM -> 1Epoch
+
+Original: CNN_LSTM\1Epoch\CalibrationDataset\CalibrationDataset_detailed_files_det.png
+New Name: CNN_LSTM__1Epoch__CalibrationDataset__CalibrationDataset_detailed_files_det.png
+Path Parts: CNN_LSTM -> 1Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\1Epoch\Fusion\Fusion_detailed_files_det.png
+New Name: CNN_LSTM__1Epoch__Fusion__Fusion_detailed_files_det.png
+Path Parts: CNN_LSTM -> 1Epoch -> Fusion
+
+Original: CNN_LSTM\1Epoch\S&E\S&E_detailed_files_det.png
+New Name: CNN_LSTM__1Epoch__S&E__S&E_detailed_files_det.png
+Path Parts: CNN_LSTM -> 1Epoch -> S&E
+
+Original: CNN_LSTM\1Epoch\Tapio\Tapio_detailed_files_det.png
+New Name: CNN_LSTM__1Epoch__Tapio__Tapio_detailed_files_det.png
+Path Parts: CNN_LSTM -> 1Epoch -> Tapio
+
+Original: CNN_LSTM\20Epoch\Fusion_detailed_files_det.png
+New Name: CNN_LSTM__20Epoch__Fusion_detailed_files_det.png
+Path Parts: CNN_LSTM -> 20Epoch
+
+Original: CNN_LSTM\20Epoch\CalibrationDataset\CalibrationDataset_detailed_files_det.png
+New Name: CNN_LSTM__20Epoch__CalibrationDataset__CalibrationDataset_detailed_files_det.png
+Path Parts: CNN_LSTM -> 20Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\20Epoch\Fusion\Fusion_detailed_files_det.png
+New Name: CNN_LSTM__20Epoch__Fusion__Fusion_detailed_files_det.png
+Path Parts: CNN_LSTM -> 20Epoch -> Fusion
+
+Original: CNN_LSTM\20Epoch\S&E\S&E_detailed_files_det.png
+New Name: CNN_LSTM__20Epoch__S&E__S&E_detailed_files_det.png
+Path Parts: CNN_LSTM -> 20Epoch -> S&E
+
+Original: CNN_LSTM\20Epoch\Tapio\Tapio_detailed_files_det.png
+New Name: CNN_LSTM__20Epoch__Tapio__Tapio_detailed_files_det.png
+Path Parts: CNN_LSTM -> 20Epoch -> Tapio
+
+Original: CNN_LSTM\50Epoch\Fusion_detailed_files_det.png
+New Name: CNN_LSTM__50Epoch__Fusion_detailed_files_det.png
+Path Parts: CNN_LSTM -> 50Epoch
+
+Original: CNN_LSTM\50Epoch\CalibrationDataset\CalibrationDataset_detailed_files_det.png
+New Name: CNN_LSTM__50Epoch__CalibrationDataset__CalibrationDataset_detailed_files_det.png
+Path Parts: CNN_LSTM -> 50Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\50Epoch\Fusion\Fusion_detailed_files_det.png
+New Name: CNN_LSTM__50Epoch__Fusion__Fusion_detailed_files_det.png
+Path Parts: CNN_LSTM -> 50Epoch -> Fusion
+
+Original: CNN_LSTM\50Epoch\S&E\S&E_detailed_files_det.png
+New Name: CNN_LSTM__50Epoch__S&E__S&E_detailed_files_det.png
+Path Parts: CNN_LSTM -> 50Epoch -> S&E
+
+Original: CNN_LSTM\50Epoch\Tapio\Tapio_detailed_files_det.png
+New Name: CNN_LSTM__50Epoch__Tapio__Tapio_detailed_files_det.png
+Path Parts: CNN_LSTM -> 50Epoch -> Tapio
+
+Original: CNN_LSTM\5Epoch\Fusion_detailed_files_det.png
+New Name: CNN_LSTM__5Epoch__Fusion_detailed_files_det.png
+Path Parts: CNN_LSTM -> 5Epoch
+
+Original: CNN_LSTM\5Epoch\CalibrationDataset\CalibrationDataset_detailed_files_det.png
+New Name: CNN_LSTM__5Epoch__CalibrationDataset__CalibrationDataset_detailed_files_det.png
+Path Parts: CNN_LSTM -> 5Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\5Epoch\Fusion\Fusion_detailed_files_det.png
+New Name: CNN_LSTM__5Epoch__Fusion__Fusion_detailed_files_det.png
+Path Parts: CNN_LSTM -> 5Epoch -> Fusion
+
+Original: CNN_LSTM\5Epoch\S&E\S&E_detailed_files_det.png
+New Name: CNN_LSTM__5Epoch__S&E__S&E_detailed_files_det.png
+Path Parts: CNN_LSTM -> 5Epoch -> S&E
+
+Original: CNN_LSTM\5Epoch\Tapio\Tapio_detailed_files_det.png
+New Name: CNN_LSTM__5Epoch__Tapio__Tapio_detailed_files_det.png
+Path Parts: CNN_LSTM -> 5Epoch -> Tapio
+
+Original: Resnet_34\100Epoch\Fusion_detailed_files_det.png
+New Name: Resnet_34__100Epoch__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 100Epoch
+
+Original: Resnet_34\100Epoch\CalibrationDataset\CalibrationDataset_results_20251111_104036_det.png
+New Name: Resnet_34__100Epoch__CalibrationDataset__CalibrationDataset_results_20251111_104036_det.png
+Path Parts: Resnet_34 -> 100Epoch -> CalibrationDataset
+
+Original: Resnet_34\100Epoch\Fusion\Fusion_detailed_files_det.png
+New Name: Resnet_34__100Epoch__Fusion__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 100Epoch -> Fusion
+
+Original: Resnet_34\100Epoch\S&E\S&E_results_20251111_103556_det.png
+New Name: Resnet_34__100Epoch__S&E__S&E_results_20251111_103556_det.png
+Path Parts: Resnet_34 -> 100Epoch -> S&E
+
+Original: Resnet_34\100Epoch\Tapio\Tapio_results_20251111_103554_det.png
+New Name: Resnet_34__100Epoch__Tapio__Tapio_results_20251111_103554_det.png
+Path Parts: Resnet_34 -> 100Epoch -> Tapio
+
+Original: Resnet_34\10Epoch\Fusion_detailed_files_det.png
+New Name: Resnet_34__10Epoch__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 10Epoch
+
+Original: Resnet_34\10Epoch\CalibrationDataset\CalibrationDataset_results_20251111_102556_det.png
+New Name: Resnet_34__10Epoch__CalibrationDataset__CalibrationDataset_results_20251111_102556_det.png
+Path Parts: Resnet_34 -> 10Epoch -> CalibrationDataset
+
+Original: Resnet_34\10Epoch\Fusion\Fusion_detailed_files_det.png
+New Name: Resnet_34__10Epoch__Fusion__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 10Epoch -> Fusion
+
+Original: Resnet_34\10Epoch\S&E\S&E_results_20251111_102116_det.png
+New Name: Resnet_34__10Epoch__S&E__S&E_results_20251111_102116_det.png
+Path Parts: Resnet_34 -> 10Epoch -> S&E
+
+Original: Resnet_34\10Epoch\Tapio\Tapio_results_20251111_102113_det.png
+New Name: Resnet_34__10Epoch__Tapio__Tapio_results_20251111_102113_det.png
+Path Parts: Resnet_34 -> 10Epoch -> Tapio
+
+Original: Resnet_34\1Epoch\Fusion_detailed_files_det.png
+New Name: Resnet_34__1Epoch__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 1Epoch
+
+Original: Resnet_34\1Epoch\CalibrationDataset\CalibrationDataset_results_20251111_101115_det.png
+New Name: Resnet_34__1Epoch__CalibrationDataset__CalibrationDataset_results_20251111_101115_det.png
+Path Parts: Resnet_34 -> 1Epoch -> CalibrationDataset
+
+Original: Resnet_34\1Epoch\Fusion\Fusion_detailed_files_det.png
+New Name: Resnet_34__1Epoch__Fusion__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 1Epoch -> Fusion
+
+Original: Resnet_34\1Epoch\S&E\S&E_results_20251111_100629_det.png
+New Name: Resnet_34__1Epoch__S&E__S&E_results_20251111_100629_det.png
+Path Parts: Resnet_34 -> 1Epoch -> S&E
+
+Original: Resnet_34\1Epoch\Tapio\Tapio_results_20251111_100627_det.png
+New Name: Resnet_34__1Epoch__Tapio__Tapio_results_20251111_100627_det.png
+Path Parts: Resnet_34 -> 1Epoch -> Tapio
+
+Original: Resnet_34\20Epoch\Fusion_detailed_files_det.png
+New Name: Resnet_34__20Epoch__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 20Epoch
+
+Original: Resnet_34\20Epoch\CalibrationDataset\CalibrationDataset_results_20251111_105517_det.png
+New Name: Resnet_34__20Epoch__CalibrationDataset__CalibrationDataset_results_20251111_105517_det.png
+Path Parts: Resnet_34 -> 20Epoch -> CalibrationDataset
+
+Original: Resnet_34\20Epoch\Fusion\Fusion_detailed_files_det.png
+New Name: Resnet_34__20Epoch__Fusion__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 20Epoch -> Fusion
+
+Original: Resnet_34\20Epoch\S&E\S&E_results_20251111_105038_det.png
+New Name: Resnet_34__20Epoch__S&E__S&E_results_20251111_105038_det.png
+Path Parts: Resnet_34 -> 20Epoch -> S&E
+
+Original: Resnet_34\20Epoch\Tapio\Tapio_results_20251111_105035_det.png
+New Name: Resnet_34__20Epoch__Tapio__Tapio_results_20251111_105035_det.png
+Path Parts: Resnet_34 -> 20Epoch -> Tapio
+
+Original: Resnet_34\50Epoch\Fusion_detailed_files_det.png
+New Name: Resnet_34__50Epoch__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 50Epoch
+
+Original: Resnet_34\50Epoch\CalibrationDataset\CalibrationDataset_results_20251111_112905_det.png
+New Name: Resnet_34__50Epoch__CalibrationDataset__CalibrationDataset_results_20251111_112905_det.png
+Path Parts: Resnet_34 -> 50Epoch -> CalibrationDataset
+
+Original: Resnet_34\50Epoch\Fusion\Fusion_detailed_files_det.png
+New Name: Resnet_34__50Epoch__Fusion__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 50Epoch -> Fusion
+
+Original: Resnet_34\50Epoch\S&E\S&E_results_20251111_112330_det.png
+New Name: Resnet_34__50Epoch__S&E__S&E_results_20251111_112330_det.png
+Path Parts: Resnet_34 -> 50Epoch -> S&E
+
+Original: Resnet_34\50Epoch\Tapio\Tapio_results_20251111_112326_det.png
+New Name: Resnet_34__50Epoch__Tapio__Tapio_results_20251111_112326_det.png
+Path Parts: Resnet_34 -> 50Epoch -> Tapio
+
+Original: Resnet_34\5Epoch\Fusion_detailed_files_det.png
+New Name: Resnet_34__5Epoch__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 5Epoch
+
+Original: Resnet_34\5Epoch\CalibrationDataset\CalibrationDataset_results_20251111_111100_det.png
+New Name: Resnet_34__5Epoch__CalibrationDataset__CalibrationDataset_results_20251111_111100_det.png
+Path Parts: Resnet_34 -> 5Epoch -> CalibrationDataset
+
+Original: Resnet_34\5Epoch\Fusion\Fusion_detailed_files_det.png
+New Name: Resnet_34__5Epoch__Fusion__Fusion_detailed_files_det.png
+Path Parts: Resnet_34 -> 5Epoch -> Fusion
+
+Original: Resnet_34\5Epoch\S&E\S&E_results_20251111_110552_det.png
+New Name: Resnet_34__5Epoch__S&E__S&E_results_20251111_110552_det.png
+Path Parts: Resnet_34 -> 5Epoch -> S&E
+
+Original: Resnet_34\5Epoch\Tapio\Tapio_results_20251111_110549_det.png
+New Name: Resnet_34__5Epoch__Tapio__Tapio_results_20251111_110549_det.png
+Path Parts: Resnet_34 -> 5Epoch -> Tapio
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\Wav2Vec2_Vanilla_Epoch_1_Fusion_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__Wav2Vec2_Vanilla_Epoch_1_Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\CalibrationDataset_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__CalibrationDataset_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\Fusion_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__Fusion_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\S&E_detailed_files_det.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__S&E_detailed_files_det.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+

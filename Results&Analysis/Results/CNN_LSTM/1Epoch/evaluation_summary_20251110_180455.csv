@@ -1,0 +1,11 @@
+Dataset,Total_Files,Whole_Files,Split_Files,Avg_Chunks_Per_File,Accuracy,Precision,Recall,F1_Score,Mean_Drone_Prob,Std_Drone_Prob,Threshold,Description
+H-2,3061,3061,0,1.00,1.0000,1.0000,1.0000,1.0000,0.100217,0.033993,0.985999,All drone samples
+Fusion,94108,94103,5,1.00,0.0395,0.2284,0.0391,0.0668,0.860998,0.312149,0.985999,Mixed dataset with folder structure
+DronePrint,12,12,0,1.00,1.0000,1.0000,1.0000,1.0000,0.084202,0.027110,0.985999,All drone samples
+Tapio,27,24,3,1.41,0.8889,0.8889,1.0000,0.9412,0.099459,0.087372,0.985999,Mixed dataset with folder structure
+S&E,56,56,0,1.00,0.3393,0.3393,1.0000,0.5067,0.141455,0.075136,0.985999,Mixed dataset with folder structure
+Emo,370,370,0,1.00,0.0000,0.0000,0.0000,0.0000,0.189045,0.073175,0.985999,All environmental sounds
+ESC-50,1674,1674,0,1.00,0.0358,0.0000,0.0000,0.0000,0.331878,0.327694,0.985999,All environmental sounds
+UrbanSound,8324,8324,0,1.00,0.0496,0.0000,0.0000,0.0000,0.168464,0.291072,0.985999,All urban sounds
+WonjunYi,78966,78966,0,1.00,0.0000,0.0000,0.0000,0.0000,0.987372,0.000176,0.985999,All drone samples
+CalibrationDataset,1618,1616,2,1.01,0.0797,0.1066,0.1909,0.1368,0.439880,0.415217,0.985999,Mixed dataset with folder structure

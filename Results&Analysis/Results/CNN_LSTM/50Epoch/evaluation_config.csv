@@ -1,0 +1,2 @@
+model_path,max_file_length,overlap_seconds,chunk_duration,threshold,batch_size,timestamp,evaluation_type,model_chunk_duration,model_hop_seconds
+C:\Users\tapio\Desktop\Experiment\Models\CNN_LSTM_RENEWED\50Epoch,180.0,1.5,180.0,0.807499,8,20251110_183811,CNN-LSTM,1.0,1.0
