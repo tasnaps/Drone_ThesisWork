@@ -6,8 +6,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchaudio.transforms as T
 from collections import Counter
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # silence TF INFO/WARNING
 from transformers.modeling_outputs import SequenceClassifierOutput
-from datasets import load_dataset, Audio, DatasetDict
+from datasets import load_dataset, Audio, DatasetDict, Dataset
 from sklearn.metrics import (
     accuracy_score,
     precision_recall_fscore_support,
@@ -16,9 +17,15 @@ from sklearn.metrics import (
     classification_report
 )
 from config import RUNS, TRAIN_SET
-from transformers import TrainingArguments, Trainer
+from transformers import TrainingArguments, Trainer, TrainerCallback
 from torchvision import models
 
+class EvalPrinterCallback(TrainerCallback):
+    def on_evaluate(self, args, state, control, metrics, **kwargs):
+        # Print only numeric metrics to keep it clean
+        clean = {k: float(v) for k, v in metrics.items() if isinstance(v, (int, float))}
+        print("\nEval metrics:", clean)
+        return control
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -165,12 +172,12 @@ def collate_fn(features):
     labels = torch.tensor([f["labels"] for f in features], dtype=torch.long)
     return {"pixel_values": pixel_vals, "labels": labels}
 
-def compute_class_weights(dataset) -> torch.Tensor:
-    counts = Counter(dataset["label"])
-    total = sum(counts.values())
-    num_classes = len(counts)
-    weights = [total / (num_classes * counts[i]) for i in range(num_classes)]
-    return torch.tensor(weights, dtype=torch.float32)
+#def compute_class_weights(dataset) -> torch.Tensor:
+#    counts = Counter(dataset["label"])
+#    total = sum(counts.values())
+#    num_classes = len(counts)
+#    weights = [total / (num_classes * counts[i]) for i in range(num_classes)]
+#    return torch.tensor(weights, dtype=torch.float32)
 
 def weighted_loss_fn(logits, labels, weights):
     w = weights.to(logits.device).to(logits.dtype)
@@ -201,19 +208,22 @@ def compute_metrics(eval_pred):
     )
     return {"accuracy": acc, "precision": precision, "recall": recall, "f1": f1}
 
-def main_loop(epoch: int):
-    seed = 42
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(seed)
-        torch.cuda.empty_cache()
+def compute_class_weights(ds: Dataset) -> torch.Tensor:
+    """
+    Computes class weights from a HF Dataset. Works with either raw ('label') or
+    preprocessed ('labels') datasets. Normalized to sum to num_classes.
+    """
+    col = "labels" if "labels" in ds.column_names else "label"
+    labels = ds[col]  # list of ints
+    num_classes = len(label2id)
+    counts = torch.bincount(torch.tensor(labels, dtype=torch.long), minlength=num_classes)
+    weights = 1.0 / (counts.float() + 1e-8)
+    weights = weights / weights.sum() * num_classes
+    print(f"Class counts: {counts.tolist()}")
+    print(f"Class weights: {weights.tolist()}")
+    return weights.to(device)
 
-    # Set output directory to desktop
-    desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-    output_dir = os.path.join(desktop_path, "resnet34-audio-model", f"run-{epoch}")
-
+def og_data_splitting(per_device_bs=16, num_epochs=20):
     data_dir = TRAIN_SET
     ds = load_and_split(data_dir, val_size=0.2)
 
@@ -232,14 +242,88 @@ def main_loop(epoch: int):
             num_proc=os.cpu_count(),
             desc=f"Prep {split}"
         )
+    total_steps = (len(ds["train"]) // per_device_bs) * num_epochs
+    total_steps = int(0.1 * total_steps)
+
+    return ds, class_weights, total_steps
+
+def prepare_batch_batched(batch):
+    """
+    Batched preprocessor for Hugging Face Datasets with Audio feature.
+    Handles both list-of-dicts and dict-of-lists forms produced by batched mapping.
+    """
+    aud = batch["audio"]
+
+    # Get list of raw waveforms
+    if isinstance(aud, dict) and "array" in aud:
+        arrays = aud["array"]  # dict of lists: {"array": [...], "sampling_rate": [...]}
+    else:
+        arrays = [a["array"] for a in aud]  # list of dicts: [{"array": ..., "sampling_rate": ...}, ...]
+
+    pixel_values = [preprocess_audio_to_resnet_input(arr).numpy() for arr in arrays]
+    out = {"pixel_values": pixel_values}
+
+    if "label" in batch:
+        # HF Datasets will keep this as a list aligned with the batch
+        out["labels"] = batch["label"]
+
+    return out
+
+def preprocess_split(
+    ds: Dataset,
+    augment: bool = False
+) -> Dataset:
+    """
+    Apply feature extraction and optional augmentation to an entire dataset in batched mode.
+    """
+    ds = ds.cast_column("audio", Audio(sampling_rate=16000))
+    remove_cols = ["audio"]
+    if "label" in ds.column_names:
+        remove_cols.append("label")
+
+    return ds.map(
+        prepare_batch_batched,           # <- use the batched preprocessor
+        remove_columns=remove_cols,
+        batched=True,
+        batch_size=128,                  # keep memory reasonable
+        num_proc=min(os.cpu_count() or 1, 6),
+        desc="Preprocessing (batched)"
+    )
+
+def alt_data_split_for_custom_validation():
+    dataset = load_dataset("audiofolder", data_dir="C:/Users/tapio/Desktop/Aineistot/TrainingDatasets")
+    train_data = dataset["train"]
+    validation_data = dataset["validation"]
+    ds = {
+        "train": preprocess_split(train_data, augment=False),
+        "validation": preprocess_split(validation_data, augment=False),
+    }
+    return ds
+
+def main_loop(epoch: int):
+    seed = 42
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+        torch.cuda.empty_cache()
+
+    # Set output directory to desktop
+    desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+    output_dir = os.path.join(desktop_path, "resnet34-audio-model-calibrationsetEVAL", f"run-{epoch}")
+
+
+
 
     model = ResNetForAudioClassification(num_labels=len(label2id), freeze_blocks=False)
     model.to(device)
-
-    # calculate total training steps for warmup
+    ds = alt_data_split_for_custom_validation()
     per_device_bs = 16
     num_epochs = epoch
     total_steps = (len(ds["train"]) // per_device_bs) * num_epochs
+    total_steps = int(0.1 * total_steps)
+    class_weights = compute_class_weights(ds["train"])
 
     training_args = TrainingArguments(
         output_dir=output_dir,
@@ -251,11 +335,15 @@ def main_loop(epoch: int):
         load_best_model_at_end=True,
         metric_for_best_model="f1",
         fp16=True,
+        logging_strategy="epoch",
+        disable_tqdm=True,
         learning_rate=3e-4,
-        warmup_steps=int(0.1 * total_steps),
+        warmup_steps=total_steps,
         logging_steps=100,
         save_total_limit=2,
         save_strategy="epoch",
+        report_to="none",
+        log_level="info",
         dataloader_num_workers=min(os.cpu_count() - 1, 4),
         dataloader_pin_memory=True,
     )
@@ -269,7 +357,7 @@ def main_loop(epoch: int):
         train_dataset=ds["train"],
         eval_dataset=ds["validation"],
     )
-
+    trainer.add_callback(EvalPrinterCallback())
     trainer.train()
 
     # Validation metrics:
@@ -280,7 +368,7 @@ def main_loop(epoch: int):
     print(f"Model saved to: {output_dir}")
 
 def main():
-    for run in RUNS:
+    for run in [1000]:
         print(f"\n\n=== RUN {run} ===")
         main_loop(run)
 

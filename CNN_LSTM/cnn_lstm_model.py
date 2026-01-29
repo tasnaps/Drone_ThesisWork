@@ -10,7 +10,7 @@ from transformers import Trainer
 from sklearn.metrics import (
     accuracy_score,
     precision_recall_fscore_support,
-    average_precision_score
+    average_precision_score, precision_score, recall_score, f1_score
 )
 # Import shared label mappings
 from common import get_label_mappings
@@ -61,15 +61,8 @@ class CNNLSTMModel(nn.Module):
         loss = F.cross_entropy(logits, labels) if labels is not None else None
         return SequenceClassifierOutput(loss=loss, logits=logits)
 
-def compute_class_weights(dataset) -> torch.Tensor:
-    counts = Counter(dataset["label"])
-    total = sum(counts.values())
-    num_classes = len(counts)
-    weights = [total / (num_classes * counts[i]) for i in range(num_classes)]
-    return torch.tensor(weights, device=device)
-
 class WeightedTrainer(Trainer):
-    def __init__(self, class_weights, *args, **kwargs):
+    def __init__(self, *args, class_weights=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.class_weights = class_weights
 
@@ -77,31 +70,38 @@ class WeightedTrainer(Trainer):
         labels = inputs.pop("labels")
         outputs = model(**inputs)
         logits = outputs.logits
-        weight = self.class_weights.to(logits.device).to(logits.dtype)
-        loss = F.cross_entropy(logits, labels, weight=weight)
+
+        loss = F.cross_entropy(logits, labels, weight=self.class_weights, label_smoothing=0.2)
         return (loss, outputs) if return_outputs else loss
 
+
 def compute_metrics(eval_pred):
-    # unpack
-    logits, labels = eval_pred.predictions, eval_pred.label_ids
-    # handle HF tuple
-    if isinstance(logits, tuple):
-        logits = logits[0]
+    predictions, labels = eval_pred
+    predictions = np.argmax(predictions, axis=1)
 
-    preds = np.argmax(logits, axis=-1)
-    probs = torch.softmax(torch.tensor(logits), dim=-1).numpy()[:,1]
+    # Debug: Check class distribution
+    print(f"Label distribution: {np.bincount(labels)}")
+    print(f"Prediction distribution: {np.bincount(predictions)}")
+    print(f"Unique labels: {np.unique(labels)}")
+    print(f"Unique predictions: {np.unique(predictions)}")
 
-    acc = accuracy_score(labels, preds)
-    precision, recall, f1, _ = precision_recall_fscore_support(
-        labels, preds, average="binary", zero_division=0
-    )
-    # PR-AUC
-    ap = average_precision_score(labels, probs)
+    accuracy = accuracy_score(labels, predictions)
+    precision = precision_score(labels, predictions, average='weighted', zero_division=0)
+    recall = recall_score(labels, predictions, average='weighted', zero_division=0)
+    f1 = f1_score(labels, predictions, average='weighted', zero_division=0)
 
     return {
-        "accuracy":    acc,
-        "precision":   precision,
-        "recall":      recall,
-        "f1":          f1,
-        "avg_precision": ap
+        "accuracy": accuracy,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
     }
+def compute_class_weights(dataset):
+    """Computes class weights based on the inverse frequency of labels in the entire dataset."""
+    labels = [item['labels'] for item in dataset]
+    counts = torch.bincount(torch.tensor(labels, dtype=torch.long))
+    weights = 1.0 / (counts.float() + 1e-8) # Add epsilon to avoid division by zero
+    weights = weights / weights.sum() * len(weights) # Normalize
+    print(f"Full dataset class counts: {counts}")
+    print(f"Calculated class weights: {weights}")
+    return weights.to(device)

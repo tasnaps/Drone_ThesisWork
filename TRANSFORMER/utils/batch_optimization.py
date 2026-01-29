@@ -1,334 +1,574 @@
-#!/usr/bin/env python3
-"""
-Batch optimization utilities for efficient file processing.
-This module implements intelligent file grouping to minimize the number of batches
-and maximize GPU utilization efficiency.
-"""
+from __future__ import annotations
 
-import os
-from typing import List, Tuple, Dict, Any
-from dataclasses import dataclass
-from collections import defaultdict
+from typing import Iterable, List, Sequence, Tuple, Dict, Any, Optional, Callable
+import numpy as np
+import time
+import warnings
+from functools import lru_cache
+from collections import namedtuple
 
-
-@dataclass
-class FileInfo:
-    """Information about a file for batch optimization."""
-    file_idx: int
-    item: Any
-    original_length: int
-    duration_seconds: float
-    size_mb: float
-    file_path: str
-
-    @property
-    def size_category(self) -> str:
-        """Get the size category for this file."""
-        return categorize_file_size(self.duration_seconds, self.size_mb)
+try:
+    import torch
+    from torch.utils.data import Subset
+except Exception:
+    torch = None
+    Subset = None
 
 
-def categorize_file_size(duration_seconds: float, size_mb: float,
-                        large_file_threshold: float = 45.0,
-                        very_large_threshold: float = 180.0,
-                        max_file_size_mb: int = 100) -> str:
-    """Categorize a file by its size."""
-    if duration_seconds > very_large_threshold or size_mb > max_file_size_mb:
-        return "very_large"
-    elif duration_seconds > large_file_threshold:
-        return "large"
+# Named tuple for file information
+FileInfo = namedtuple('FileInfo', ['file_idx', 'item', 'original_length', 'duration_sec', 'size_mb'])
+
+
+# LRU cache for dataset length extraction
+@lru_cache(maxsize=8)
+def _get_dataset_fingerprint(ds) -> str:
+    """Generate a fingerprint for dataset caching"""
+    try:
+        if hasattr(ds, "_fingerprint"):
+            return str(ds._fingerprint)
+        return f"{id(ds)}_{len(ds)}"
+    except:
+        return f"{id(ds)}_unknown"
+
+
+def _extract_lengths(ds, sample_rate: int = 16000) -> List[int]:
+    """
+    Robustly extract per-item lengths (in samples).
+    Tries multiple strategies with fallbacks for different dataset formats.
+    """
+    # Cache key for this dataset
+    cache_key = _get_dataset_fingerprint(ds)
+
+    # Check if we have a cached result in module memory
+    if hasattr(_extract_lengths, "_cache"):
+        if cache_key in _extract_lengths._cache:
+            return _extract_lengths._cache[cache_key]
     else:
-        return "regular"
+        _extract_lengths._cache = {}
+
+    # Try vectorized access methods in order of efficiency
+    methods = [
+        lambda: ds["original_length"],
+        lambda: [len(x[0]) if isinstance(x, (list, np.ndarray)) and len(x) > 0
+                 else len(x) for x in ds["input_values"]],
+        lambda: ds["length"],
+        lambda: ds["duration"] * sample_rate
+    ]
+
+    for method in methods:
+        try:
+            lengths = method()
+            if isinstance(lengths, (list, np.ndarray)) and len(lengths) == len(ds):
+                result = [int(x) for x in lengths]
+                _extract_lengths._cache[cache_key] = result
+                return result
+        except Exception:
+            continue
+
+    # Fallback: item-by-item iteration with progress tracking for large datasets
+    start_time = time.time()
+    show_progress = len(ds) > 1000
+    out = []
+
+    for i in range(len(ds)):
+        if show_progress and i % 1000 == 0:
+            elapsed = time.time() - start_time
+            print(f"Extracting lengths: {i}/{len(ds)} items processed ({elapsed:.1f}s elapsed)")
+
+        try:
+            item = ds[i]
+            if "original_length" in item:
+                out.append(int(item["original_length"]))
+            elif "input_values" in item and isinstance(item["input_values"], (list, np.ndarray)):
+                # Handle multi-channel audio (take longest channel)
+                x = item["input_values"]
+                if hasattr(x, "shape") and len(x.shape) > 1:
+                    out.append(int(x.shape[-1]))  # Assume last dim is time
+                elif hasattr(x, "__len__"):
+                    if len(x) > 0 and hasattr(x[0], "__len__"):
+                        # Get max length across channels
+                        out.append(int(max(len(ch) for ch in x if hasattr(ch, "__len__"))))
+                    else:
+                        out.append(int(len(x)))
+                else:
+                    out.append(int(sample_rate))  # 1s fallback
+            elif "length" in item:
+                out.append(int(item["length"]))
+            elif "duration" in item:
+                out.append(int(float(item["duration"]) * sample_rate))
+            else:
+                out.append(int(sample_rate))  # 1s fallback
+        except Exception:
+            out.append(int(sample_rate))  # 1s fallback on any error
+
+    _extract_lengths._cache[cache_key] = out
+    return out
 
 
-class BatchOptimizer:
-    """Optimizes file batching for efficient processing."""
+def _compute_budget_seconds(lengths: Sequence[int], batch_size: int,
+                            large_sec: float | None = None,
+                            very_large_sec: float | None = None,
+                            sample_rate: int = 16000,
+                            memory_safety_factor: float = 0.85) -> float:
+    """
+    Compute adaptive per-batch time budget (in seconds) based on data distribution.
 
-    def __init__(self, target_batch_size: int = 6, max_files_per_split: int = 1000):
-        self.target_batch_size = target_batch_size
-        self.max_files_per_split = max_files_per_split
+    Args:
+        lengths: Sequence of audio lengths in samples
+        batch_size: Target batch size
+        large_sec: Threshold for large files (seconds)
+        very_large_sec: Threshold for very large files (seconds)
+        sample_rate: Audio sample rate
+        memory_safety_factor: Safety factor for memory usage (0.0-1.0)
 
-    def optimize_file_grouping(self, files: List[Tuple[int, Any, int]],
-                             large_file_threshold: float,
-                             very_large_threshold: float,
-                             max_file_size_mb: int,
-                             get_file_size_mb_func) -> Dict[str, List[FileInfo]]:
-        """
-        Group files intelligently for optimal batch processing.
+    Returns:
+        Budget in seconds for each batch
+    """
+    if not lengths:
+        return max(1.0, float(batch_size))  # safe fallback
 
-        Args:
-            files: List of (file_idx, item, original_length) tuples
-            large_file_threshold: Threshold for large files
-            very_large_threshold: Threshold for very large files
-            max_file_size_mb: Maximum file size in MB
-            get_file_size_mb_func: Function to get file size
+    # Use p80 and p95 for more robust estimation
+    p80 = float(np.percentile(lengths, 80)) / sample_rate
+    p95 = float(np.percentile(lengths, 95)) / sample_rate
+    ref = p80 if p80 > 0 else 1.0
 
-        Returns:
-            Dict with categorized and optimized file groups
-        """
-        print("🔍 Analyzing files for optimal batching...")
+    # Check for severe outliers that might cause OOM
+    outlier_factor = p95 / max(0.1, p80)
+    if outlier_factor > 3.0:
+        warnings.warn(f"Dataset has severe outliers (p95/p80={outlier_factor:.1f}). "
+                      f"Consider separate handling for files > {p95:.1f}s.")
 
-        # Convert to FileInfo objects with metadata
-        file_infos = []
-        for file_idx, item, original_length in files:
-            duration_seconds = original_length / 16000  # SAMPLE_RATE
-            size_mb = get_file_size_mb_func(item["audio"]["path"])
-            file_path = item["audio"]["path"]
+    if very_large_sec:
+        ref = min(ref, float(very_large_sec))
 
+    # Calculate baseline budget
+    budget = ref * max(1, int(batch_size)) * 1.2
+
+    # Adjust based on distribution properties
+    mean_len = float(np.mean(lengths)) / sample_rate
+    if mean_len < ref * 0.3:  # Highly skewed distribution
+        # Allow packing more small files
+        budget = max(budget, mean_len * batch_size * 2.5)
+
+    # Apply constraint from large_sec if provided
+    if large_sec:
+        budget = min(budget, float(large_sec) * max(1, int(batch_size)) * 2.0)
+
+    # Apply memory safety factor
+    budget *= memory_safety_factor
+
+    # At least 2 seconds per batch
+    return max(budget, 2.0)
+
+
+def plan_length_packed_batches(
+        lengths: Sequence[int],
+        max_seconds_per_batch: float,
+        sample_rate: int = 16000,
+        max_items_per_batch: int | None = None,
+        algorithm: str = "ffd",  # "ffd", "bfd", or "balanced"
+        balance_factor: float = 0.0  # 0.0-1.0: higher = more balanced batches
+) -> List[List[int]]:
+    """
+    Pack items by length into batches constrained by total seconds.
+
+    Args:
+        lengths: Sequence of audio lengths in samples
+        max_seconds_per_batch: Maximum seconds of audio per batch
+        sample_rate: Audio sample rate
+        max_items_per_batch: Maximum items per batch
+        algorithm: Packing algorithm (ffd=First-Fit-Decreasing, bfd=Best-Fit-Decreasing, balanced=balanced distribution)
+        balance_factor: How much to prioritize balanced batches vs. minimum number of batches
+
+    Returns:
+        List of batches (each batch is a list of indices)
+    """
+    if not lengths:
+        return []
+
+    max_samples = int(max_seconds_per_batch * sample_rate)
+
+    # Indices sorted by descending length
+    order = sorted(range(len(lengths)), key=lambda i: lengths[i], reverse=True)
+
+    batches: List[List[int]] = []
+    used = [False] * len(lengths)
+
+    # Separate very large items that exceed budget
+    solo_items = []
+    for idx in order:
+        if lengths[idx] >= max_samples:
+            solo_items.append(idx)
+            used[idx] = True
+            batches.append([idx])
+
+    # Filter remaining items
+    remaining = [i for i in order if not used[i]]
+
+    if algorithm == "balanced" and balance_factor > 0 and remaining:
+        # Balanced distribution algorithm
+        target_batches = max(1, len(remaining) // max_items_per_batch) if max_items_per_batch else max(1, int(len(remaining) ** 0.5))
+
+        # Sort remaining by length for better distribution
+        remaining.sort(key=lambda i: lengths[i], reverse=True)
+
+        # Create empty batches
+        new_batches = [[] for _ in range(target_batches)]
+        batch_sizes = [0] * target_batches
+
+        # Distribute items using a greedy approach
+        for idx in remaining:
+            # Find batch with minimum current size
+            min_batch = min(range(target_batches), key=lambda i: batch_sizes[i])
+            new_batches[min_batch].append(idx)
+            batch_sizes[min_batch] += lengths[idx]
+            used[idx] = True
+
+        # Only add non-empty batches
+        batches.extend([b for b in new_batches if b])
+
+    elif algorithm == "bfd" and remaining:
+        # Best-Fit-Decreasing
+        bfd_batches = []  # New batches for BFD
+        batch_sizes = []  # Track current size of each batch
+
+        for idx in remaining:
+            item_size = lengths[idx]
+
+            # Find the best batch (with smallest remaining space after adding item)
+            best_batch = -1
+            min_remaining_space = float('inf')
+
+            for i, size in enumerate(batch_sizes):
+                if size + item_size <= max_samples:
+                    remaining_space = max_samples - (size + item_size)
+                    if remaining_space < min_remaining_space:
+                        min_remaining_space = remaining_space
+                        best_batch = i
+
+            if best_batch >= 0:
+                # Add to existing batch
+                bfd_batches[best_batch].append(idx)
+                batch_sizes[best_batch] += item_size
+            else:
+                # Create new batch
+                bfd_batches.append([idx])
+                batch_sizes.append(item_size)
+
+            used[idx] = True
+
+        batches.extend(bfd_batches)
+
+    elif remaining:
+        # First-Fit-Decreasing (default)
+        for idx in remaining:
+            if used[idx]:
+                continue
+            used[idx] = True
+
+            # Start new batch with this item
+            current = [idx]
+            current_sum = lengths[idx]
+
+            # Try to pack additional items (smallest first after FFD seed)
+            for j in sorted((i for i in remaining if not used[i]), key=lambda i: lengths[i]):
+                # Max items constraint
+                if max_items_per_batch is not None and len(current) >= max_items_per_batch:
+                    break
+
+                cand_sum = current_sum + lengths[j]
+                if cand_sum <= max_samples:
+                    current.append(j)
+                    current_sum = cand_sum
+                    used[j] = True
+
+            batches.append(current)
+
+    # Calculate diagnostic statistics
+    if batches:
+        batch_lens = [sum(lengths[i] for i in b) / sample_rate for b in batches]
+        # Keep minimal logging for important information only
+
+    return batches
+
+
+def subset_dataset(ds, indices: Sequence[int]):
+    """
+    Create a dataset view with the given indices, optimized for different dataset types.
+    """
+    if not indices:
+        raise ValueError("Empty indices list for subset_dataset")
+
+    # Fast path for HuggingFace Datasets
+    if hasattr(ds, "select"):
+        return ds.select(list(indices))
+
+    # PyTorch Dataset with GPU-aware caching
+    if Subset is not None and hasattr(ds, "__getitem__") and hasattr(ds, "__len__"):
+        class CachedSubset(Subset):
+            """Memory-efficient subset with lazy loading and caching"""
+
+            def __init__(self, dataset, indices, cache_size=4):
+                super().__init__(dataset, indices)
+                self._cache = {}
+                self._max_cache = cache_size
+
+            def __getitem__(self, idx):
+                if idx in self._cache:
+                    return self._cache[idx]
+
+                item = super().__getitem__(idx)
+
+                # Cache management
+                if len(self._cache) >= self._max_cache:
+                    # Simple LRU: remove random item
+                    self._cache.pop(next(iter(self._cache)))
+
+                self._cache[idx] = item
+                return item
+
+            # Pass through column access
+            def __getattr__(self, name):
+                # Try to delegate to the dataset
+                try:
+                    attr = getattr(self.dataset, name)
+                    if callable(attr):
+                        return attr
+                    # If attribute is a sequence, subset it
+                    if hasattr(attr, "__getitem__") and len(attr) == len(self.dataset):
+                        return [attr[i] for i in self.indices]
+                except AttributeError:
+                    pass
+
+                # Default
+                return super().__getattr__(name)
+
+        return CachedSubset(ds, list(indices))
+
+    # Plain Python sequence with additional functionality
+    class EnhancedSeqWrapper:
+        def __init__(self, base, idxs):
+            self._base = base
+            self._idxs = list(idxs)
+            self._cache = {}
+
+        def __len__(self):
+            return len(self._idxs)
+
+        def __getitem__(self, i):
+            if i not in self._cache:
+                self._cache[i] = self._base[self._idxs[i]]
+            return self._cache[i]
+
+        # Column access with dynamic projection
+        def __getattr__(self, name):
+            # Try base attribute
+            try:
+                attr = getattr(self._base, name)
+                if callable(attr):
+                    return attr
+                # If attribute is a sequence, subset it
+                if hasattr(attr, "__getitem__") and len(attr) == len(self._base):
+                    return [attr[i] for i in self._idxs]
+            except AttributeError:
+                pass
+
+            # Implement common column access patterns
+            if hasattr(self._base, "__getitem__"):
+                # Try to extract a column from dictionaries
+                try:
+                    return [self._base[idx].get(name) for idx in self._idxs]
+                except (TypeError, AttributeError):
+                    pass
+
+            raise AttributeError(f"{type(self._base).__name__} has no attribute {name}")
+
+    return EnhancedSeqWrapper(ds, indices)
+
+
+def plan_batches_for_dataset(
+        ds,
+        batch_size: int,
+        sample_rate: int = 16000,
+        large_file_threshold: float | None = None,
+        very_large_threshold: float | None = None,
+        max_items_per_batch: int | None = None,
+        algorithm: str = "ffd",
+        memory_safety_factor: float = 0.85,
+        diagnostics: bool = True
+) -> Tuple[List[List[int]], List[int], Dict[str, Any]]:
+    """
+    Plan optimized length-aware batches for a dataset with enhanced diagnostics.
+
+    Returns:
+        Tuple of (batches, lengths, diagnostics) where:
+          - batches is a list of index lists
+          - lengths is the list of per-item lengths
+          - diagnostics is a dict with planning statistics
+    """
+    start_time = time.time()
+
+    # Extract lengths with enhanced error handling
+    try:
+        lengths = _extract_lengths(ds, sample_rate=sample_rate)
+    except Exception as e:
+        print(f"Warning: Failed to extract lengths ({e}). Using default 1s length.")
+        lengths = [sample_rate] * len(ds)
+
+    # Compute budget with safety factor
+    budget_sec = _compute_budget_seconds(
+        lengths,
+        batch_size=batch_size,
+        large_sec=large_file_threshold,
+        very_large_sec=very_large_threshold,
+        sample_rate=sample_rate,
+        memory_safety_factor=memory_safety_factor
+    )
+
+    # Allow packing more tiny files than nominal batch size
+    max_items = max_items_per_batch if max_items_per_batch is not None else max(batch_size * 4, batch_size + 16)
+
+    # Plan batches with selected algorithm
+    batches = plan_length_packed_batches(
+        lengths,
+        max_seconds_per_batch=budget_sec,
+        sample_rate=sample_rate,
+        max_items_per_batch=max_items,
+        algorithm=algorithm
+    )
+
+    # Collect diagnostics
+    diagnostic_info = {
+        "dataset_size": len(ds),
+        "num_batches": len(batches),
+        "budget_seconds": budget_sec,
+        "planning_time": time.time() - start_time,
+        "total_audio_seconds": sum(lengths) / sample_rate,
+        "mean_batch_size": np.mean([len(b) for b in batches]) if batches else 0,
+        "algorithm": algorithm,
+    }
+
+    if diagnostics:
+        print(f"  Dataset: {len(ds)} items, ~{sum(lengths) / sample_rate:.1f}s audio")
+        print(f"  Created {len(batches)} batches (avg {diagnostic_info['mean_batch_size']:.1f} items/batch)")
+
+    return batches, lengths, diagnostic_info
+
+
+def create_optimized_file_groups(
+        raw_dataset,
+        large_file_threshold: float,
+        very_large_threshold: float,
+        max_file_length: float,
+        max_file_size_mb: float,
+        get_file_size_mb_func,
+        target_batch_size: int = 6,
+        sample_rate: int = 16000
+) -> Dict[str, List[List]]:
+    """
+    Create optimized file groups categorized by size and duration.
+
+    Args:
+        raw_dataset: Raw audio dataset
+        large_file_threshold: Threshold in seconds for large files
+        very_large_threshold: Threshold in seconds for very large files
+        max_file_length: Maximum file length in seconds before splitting
+        max_file_size_mb: Maximum file size in MB
+        get_file_size_mb_func: Function to get file size in MB
+        target_batch_size: Target number of files per batch for regular files
+        sample_rate: Audio sample rate
+
+    Returns:
+        Dictionary with keys 'regular', 'large', 'very_large', each containing lists of file batches
+    """
+    # Categorize files
+    regular_files = []
+    large_files = []
+    very_large_files = []
+
+    for file_idx in range(len(raw_dataset)):
+        try:
+            item = raw_dataset[file_idx]
+            audio_array = item["audio"]["array"]
+            audio_path = item["audio"]["path"]
+
+            original_length = len(audio_array)
+            duration_sec = original_length / sample_rate
+
+            # Get file size
+            try:
+                file_size_mb = get_file_size_mb_func(audio_path)
+            except Exception:
+                file_size_mb = 0.0
+
+            # Create file info
             file_info = FileInfo(
                 file_idx=file_idx,
                 item=item,
                 original_length=original_length,
-                duration_seconds=duration_seconds,
-                size_mb=size_mb,
-                file_path=file_path
+                duration_sec=duration_sec,
+                size_mb=file_size_mb
             )
-            file_infos.append(file_info)
 
-        # Group by category
-        categorized_files = defaultdict(list)
-        for file_info in file_infos:
-            category = categorize_file_size(
-                file_info.duration_seconds,
-                file_info.size_mb,
-                large_file_threshold,
-                very_large_threshold,
-                max_file_size_mb
-            )
-            categorized_files[category].append(file_info)
-
-        # Optimize each category
-        optimized_groups = {}
-
-        # Regular files - optimize for similar durations
-        if categorized_files["regular"]:
-            optimized_groups["regular"] = self._optimize_regular_files(categorized_files["regular"])
-
-        # Large files - keep individual but sort by size
-        if categorized_files["large"]:
-            optimized_groups["large"] = self._optimize_large_files(categorized_files["large"])
-
-        # Very large files - sort by complexity
-        if categorized_files["very_large"]:
-            optimized_groups["very_large"] = self._optimize_very_large_files(categorized_files["very_large"])
-
-        self._print_optimization_summary(categorized_files, optimized_groups)
-
-        return optimized_groups
-
-    def _optimize_regular_files(self, regular_files: List[FileInfo]) -> List[List[FileInfo]]:
-        """
-        Optimize regular files for batching using Best-Fit Decreasing algorithm.
-        This algorithm sorts files by duration (descending) and places each file
-        into the batch with the least leftover space after placement.
-        """
-        print(f"    🎯 Applying Best-Fit Decreasing algorithm to {len(regular_files)} regular files...")
-
-        # Sort files in descending order of duration (Best-Fit Decreasing)
-        regular_files.sort(key=lambda f: f.duration_seconds, reverse=True)
-
-        # Initialize batches with capacity tracking
-        batches = []
-        batch_capacities = []  # Track remaining capacity for each batch
-
-        # Calculate target capacity based on longest files that should fit together
-        # For regular files (≤45s), we want to be able to fit multiple files efficiently
-        max_regular_duration = max(f.duration_seconds for f in regular_files) if regular_files else 45.0
-        avg_duration = sum(f.duration_seconds for f in regular_files) / len(regular_files)
-
-        # Target capacity should allow for efficient packing of longer files
-        # Use the larger of: (max_duration + buffer) or (avg_duration * batch_size)
-        capacity_option_1 = max_regular_duration * 2.5  # Allow for 2-3 longer files
-        capacity_option_2 = avg_duration * self.target_batch_size * 1.5  # Traditional approach with buffer
-        target_batch_capacity = max(capacity_option_1, capacity_option_2, 45.0)  # Ensure minimum 45s
-
-        print(f"    📊 Target batch capacity: {target_batch_capacity:.1f}s (max file: {max_regular_duration:.1f}s, avg: {avg_duration:.1f}s)")
-
-        # Process each file using Best-Fit Decreasing
-        for file_info in regular_files:
-            file_duration = file_info.duration_seconds
-            best_batch_idx = -1
-            best_remaining_space = float('inf')
-
-            # Find the batch with the least remaining space that can still fit this file
-            for batch_idx, remaining_capacity in enumerate(batch_capacities):
-                if remaining_capacity >= file_duration:
-                    remaining_space_after = remaining_capacity - file_duration
-                    if remaining_space_after < best_remaining_space:
-                        best_remaining_space = remaining_space_after
-                        best_batch_idx = batch_idx
-
-            # If we found a suitable batch, add the file there
-            if best_batch_idx != -1:
-                batches[best_batch_idx].append(file_info)
-                batch_capacities[best_batch_idx] -= file_duration
-                print(f"      📦 File {file_info.file_path.split('/')[-1]} ({file_duration:.1f}s) → Batch {best_batch_idx + 1} (remaining: {batch_capacities[best_batch_idx]:.1f}s)")
+            # Categorize based on thresholds
+            if duration_sec >= very_large_threshold or file_size_mb >= max_file_size_mb:
+                very_large_files.append(file_info)
+            elif duration_sec >= large_file_threshold:
+                large_files.append(file_info)
             else:
-                # Create a new batch for this file
-                batches.append([file_info])
-                batch_capacities.append(target_batch_capacity - file_duration)
-                print(f"      📦 File {file_info.file_path.split('/')[-1]} ({file_duration:.1f}s) → New Batch {len(batches)} (remaining: {batch_capacities[-1]:.1f}s)")
+                regular_files.append(file_info)
 
-        # Final optimization: merge small batches if beneficial
-        optimized_batches = self._merge_small_batches(batches, target_batch_capacity)
+        except Exception as e:
+            print(f"Warning: Error processing file {file_idx}: {e}")
+            continue
 
-        # Print final statistics
-        batch_sizes = [len(batch) for batch in optimized_batches]
-        batch_durations = [sum(f.duration_seconds for f in batch) for batch in optimized_batches]
+    # Create optimized batches for each category
+    result = {}
 
-        print(f"    ✅ Best-Fit Decreasing result: {len(optimized_batches)} batches")
-        print(f"    📈 Batch sizes: min={min(batch_sizes)}, max={max(batch_sizes)}, avg={sum(batch_sizes)/len(batch_sizes):.1f}")
-        print(f"    ⏱️ Batch durations: min={min(batch_durations):.1f}s, max={max(batch_durations):.1f}s, avg={sum(batch_durations)/len(batch_durations):.1f}s")
+    # Regular files: pack into batches using intelligent grouping
+    if regular_files:
+        # Sort by duration for better batching
+        regular_files.sort(key=lambda f: f.duration_sec)
 
-        return optimized_batches
+        # Extract durations for batch planning
+        durations = [f.duration_sec for f in regular_files]
 
-    def _merge_small_batches(self, batches: List[List[FileInfo]], target_capacity: float) -> List[List[FileInfo]]:
-        """
-        Merge small batches together to improve efficiency.
-        This is a post-processing step after Best-Fit Decreasing.
-        """
-        if len(batches) <= 1:
-            return batches
+        # Compute optimal batch budget (target total duration per batch)
+        if durations:
+            median_duration = np.median(durations)
+            batch_budget_sec = median_duration * target_batch_size * 1.2
+        else:
+            batch_budget_sec = 60.0  # 60 second default
 
-        print(f"    🔗 Merging small batches (target capacity: {target_capacity:.1f}s)...")
+        # Use FFD packing to create batches
+        regular_batches = []
+        current_batch = []
+        current_duration = 0.0
 
-        optimized_batches = []
-        i = 0
+        for f_info in regular_files:
+            # Check if adding this file would exceed budget or max batch size
+            if (current_duration + f_info.duration_sec > batch_budget_sec and current_batch) or \
+               len(current_batch) >= target_batch_size * 2:
+                # Flush current batch
+                regular_batches.append(current_batch)
+                current_batch = []
+                current_duration = 0.0
 
-        while i < len(batches):
-            current_batch = batches[i].copy()
-            current_duration = sum(f.duration_seconds for f in current_batch)
-            current_size = len(current_batch)
+            current_batch.append(f_info)
+            current_duration += f_info.duration_sec
 
-            # Try to merge with subsequent small batches
-            j = i + 1
-            while j < len(batches) and current_size < self.target_batch_size:
-                next_batch = batches[j]
-                next_duration = sum(f.duration_seconds for f in next_batch)
-                next_size = len(next_batch)
+        # Add remaining batch
+        if current_batch:
+            regular_batches.append(current_batch)
 
-                # Check if merging is beneficial
-                if (current_size + next_size <= self.target_batch_size and
-                    current_duration + next_duration <= target_capacity * 1.5):
+        result["regular"] = regular_batches
 
-                    print(f"      🔗 Merging batch {i+1} ({current_size} files, {current_duration:.1f}s) with batch {j+1} ({next_size} files, {next_duration:.1f}s)")
-                    current_batch.extend(next_batch)
-                    current_duration += next_duration
-                    current_size += next_size
-                    j += 1
-                else:
-                    break
+    # Large files: one file per batch
+    if large_files:
+        result["large"] = [[f_info] for f_info in large_files]
 
-            optimized_batches.append(current_batch)
-            i = j if j > i + 1 else i + 1
-
-        return optimized_batches
-
-    def _optimize_large_files(self, large_files: List[FileInfo]) -> List[List[FileInfo]]:
-        """
-        Optimize large files - process individually but in optimal order.
-        Sort by duration (shortest first) for faster initial processing.
-        """
-        # Sort by duration (process shorter files first for quicker feedback)
-        large_files.sort(key=lambda f: f.duration_seconds)
-
-        # Each large file gets its own batch
-        return [[file_info] for file_info in large_files]
-
-    def _optimize_very_large_files(self, very_large_files: List[FileInfo]) -> List[List[FileInfo]]:
-        """
-        Optimize very large files - sort by complexity (size + duration).
-        Process smaller/simpler files first.
-        IMPORTANT: Each very large file gets its own processing unit to ensure
-        all chunks from the same file are processed together.
-        """
-        # Sort by complexity score (combination of duration and file size)
-        very_large_files.sort(key=lambda f: f.duration_seconds * (1 + f.size_mb / 100))
-
-        # Each very large file gets its own processing unit
-        # This ensures all chunks from the same file stay together
-        return [[file_info] for file_info in very_large_files]
-
-    def _print_optimization_summary(self, original_categorized: Dict, optimized_groups: Dict):
-        """Print summary of the optimization results."""
-        print("📊 Batch Optimization Summary:")
-
-        for category in ["regular", "large", "very_large"]:
-            if category in original_categorized:
-                original_count = len(original_categorized[category])
-                if category in optimized_groups:
-                    batch_count = len(optimized_groups[category])
-                    if category == "regular":
-                        avg_batch_size = sum(len(batch) for batch in optimized_groups[category]) / batch_count
-                        print(f"  📁 {category.title()} files: {original_count} files → {batch_count} batches (avg {avg_batch_size:.1f} files/batch)")
-                    else:
-                        print(f"  📁 {category.title()} files: {original_count} files → {batch_count} individual processes")
-
-        # Calculate efficiency improvement
-        total_files = sum(len(files) for files in original_categorized.values())
-        regular_batches = len(optimized_groups.get("regular", []))
-        large_batches = len(optimized_groups.get("large", []))
-        very_large_batches = len(optimized_groups.get("very_large", []))
-        total_processing_units = regular_batches + large_batches + very_large_batches
-
-        if total_processing_units > 0:
-            efficiency_ratio = total_files / total_processing_units
-            print(f"  ⚡ Overall efficiency: {efficiency_ratio:.1f} files per processing unit")
-
-
-def create_optimized_file_groups(raw_dataset, large_file_threshold: float,
-                                very_large_threshold: float, max_file_length: float,
-                                max_file_size_mb: int, get_file_size_mb_func,
-                                target_batch_size: int = 6) -> Dict[str, List[Any]]:
-    """
-    Create optimized file groups for efficient batch processing.
-    This is the main entry point for the optimization system.
-    """
-    # Create file tuples in the expected format
-    all_files = []
-    for file_idx in range(len(raw_dataset)):
-        item = raw_dataset[file_idx]
-        original_length = len(item["audio"]["array"])
-        all_files.append((file_idx, item, original_length))
-
-    # Initialize optimizer
-    optimizer = BatchOptimizer(target_batch_size=target_batch_size)
-
-    # Get optimized groups
-    optimized_groups = optimizer.optimize_file_grouping(
-        all_files, large_file_threshold, very_large_threshold,
-        max_file_size_mb, get_file_size_mb_func
-    )
-
-    # Convert back to the expected format for existing processing functions
-    result = {
-        "regular": [],
-        "large": [],
-        "very_large": []
-    }
-
-    for category, batches in optimized_groups.items():
-        for batch in batches:
-            # Convert FileInfo objects back to tuples
-            file_tuples = [(f.file_idx, f.item, f.original_length) for f in batch]
-            result[category].append(file_tuples)
+    # Very large files: one file per batch (will be split during processing)
+    if very_large_files:
+        result["very_large"] = [[f_info] for f_info in very_large_files]
 
     return result
-
-
-# Utility functions for integration with existing code
-def get_batch_stats(optimized_groups: Dict[str, List[Any]]) -> Dict[str, Any]:
-    """Get statistics about the optimized batches."""
-    stats = {}
-
-    for category, batches in optimized_groups.items():
-        if batches:
-            batch_sizes = [len(batch) for batch in batches]
-            stats[category] = {
-                "num_batches": len(batches),
-                "total_files": sum(batch_sizes),
-                "avg_batch_size": sum(batch_sizes) / len(batches),
-                "min_batch_size": min(batch_sizes),
-                "max_batch_size": max(batch_sizes)
-            }
-
-    return stats

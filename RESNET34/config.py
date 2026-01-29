@@ -1,54 +1,50 @@
 DATASETS = {
     "H-2": {
-        "path": "C:/Gradu Juttui/Datasets/H-2/converted/",
-        "label_override": None,
-        "description": "Mixed dataset with folder structure"
+        "path": "C:/Users/tapio/Desktop/Aineistot/H-2/converted",
+        "description": "All drone samples",
+        "label_override": "yes_drone"
     },
     "Fusion": {
-        "path": "C:/Gradu Juttui/Datasets/FusionDataset/",
-        "label_override": None,
+        "path": "C:/Users/tapio/Desktop/Aineistot/FusionDataset",
         "description": "Mixed dataset with folder structure"
     },
     "DronePrint": {
-        "path": "C:/Gradu Juttui/Datasets/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected",
-        "label_override": "yes_drone",
-        "description": "All drone samples"
+        "path": "C:/Users/tapio/Desktop/Aineistot/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected",
+        "description": "All drone samples",
+        "label_override": "yes_drone"
     },
     "Tapio": {
-        "path": "C:/Gradu Juttui/Datasets/TapioCollection",
-        "label_override": None,
+        "path": "C:/Users/tapio/Desktop/Aineistot/MerilainenCompiledSounds",
         "description": "Mixed dataset with folder structure"
     },
     "S&E": {
-        "path": "C:/Gradu Juttui/Datasets/Svanström & Englund/Drone-detection-dataset/Data/Audio",
-        "label_override": None,
+        "path": "C:/Users/tapio/Desktop/Aineistot/Svanström & Englund/Drone-detection-dataset/Data/Audio",
         "description": "Mixed dataset with folder structure"
     },
     "Emo": {
-        "path": "C:/Gradu Juttui/Datasets/Emo-Soundscapes/Emo-Soundscapes-Audio/Parsed",
-        "label_override": "unknown",
-        "description": "All environmental sounds"
+        "path": "C:/Users/tapio/Desktop/Aineistot/EmoSoundscapes/Parsed",
+        "description": "All environmental sounds",
+        "label_override": "unknown"
     },
     "ESC-50": {
-        "path": "C:/Gradu Juttui/Datasets/ESC-50-master/audio",
-        "label_override": "unknown",
-        "description": "All environmental sounds"
+        "path": "C:/Users/tapio/Desktop/Aineistot/ESC-50-master/audio",
+        "description": "All environmental sounds",
+        "label_override": "unknown"
     },
     "UrbanSound": {
-        "path": "C:/Gradu Juttui/Datasets/UrbanSound8K/mergedFolder",
-        "label_override": "unknown",
-        "description": "All urban sounds"
+        "path": "C:/Users/tapio/Desktop/Aineistot/UrbanSound8K/mergedFolder",
+        "description": "All urban sounds",
+        "label_override": "unknown"
     },
-    "DroneAudio": {
-        "path": "./DroneAudioDataset",
-        "label_override": None,
-        "description": "Local drone dataset with folder structure"
+    "WonjunYi": {
+        "path": "C:/Users/tapio/Desktop/Aineistot/Wonjun",
+        "description": "All drone samples",
+        "label_override": "yes_drone"
     },
-    "TrainingDataset": {
-        "path": "C:/Gradu Juttui/Datasets/DroneAudioDataset_Saraalemadi/Binary_Drone_Audio",
-        "label_override": None,
-        "description": "The actual training dataset used to train the model"
-    }
+    "CalibrationDataset": {
+        "path": "C:/Users/tapio/Desktop/Aineistot/eval_threshold",
+        "description": "Mixed dataset with folder structure"
+    },
 }
 TRAIN_SET = "C:/Users/tapio/Desktop/Aineistot/TrainingDataset/Al-Emadi/Binary_Drone_Audio"
 CALIBRATION_SET = "C:/Users/tapio/Desktop/Aineistot/eval_threshold"

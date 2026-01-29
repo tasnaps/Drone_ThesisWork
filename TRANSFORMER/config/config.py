@@ -14,7 +14,7 @@ from pathlib import Path
 @dataclass
 class ModelConfigForEval:
     """Configuration for model paths and basic settings. This is for eval only"""
-
+    #Default path, can be overriden with arguments
     model_path: str = "C:/Users/tapio/PycharmProjects/gradu/TransformerModel/transformer_final/checkpoint-2930"
     sample_rate: int = 16000
 
@@ -122,7 +122,7 @@ class ClipEvaluationConfig:
 @dataclass
 class FileEvaluationConfig:
     """Settings for the whole file evaluation."""
-    batch_size: int = 6
+    batch_size: int = 24
     threshold: float = 0.006
     large_file_threshold: float = 45.0  # processed alone
     very_large_threshold: float = 180.0  # Files longer than this are processed in chunks

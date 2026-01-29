@@ -8,7 +8,7 @@ class ModelConfig:
     MODEL_NAME = "ALM/wav2vec2-large-audioset"
 
     # Output directories
-    OUTPUT_DIR = "./wav2vec2-drone-Wonjun-0.7Epoch-NoAug"
+    OUTPUT_DIR = "./wav2vec2-Final-20Epoch-Binary_Drone_Audio_Vanilla"
     LR_FINDER_OUTPUT_DIR = "./lr_finder_results-ALM-EarlyStopping"
 
     # Training settings that might be shared
@@ -21,4 +21,13 @@ def model_init(num_labels: int):
         num_labels=num_labels,
         ignore_mismatched_sizes=ModelConfig.IGNORE_MISMATCHED_SIZES,
     )
+    # Memory savers
+    if hasattr(model, "gradient_checkpointing_enable"):
+        model.gradient_checkpointing_enable()
+    # Some transformer models require use_cache=False when checkpointing
+    if hasattr(model, "config"):
+        try:
+            model.config.use_cache = False
+        except Exception:
+            pass
     return model

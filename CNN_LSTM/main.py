@@ -10,16 +10,20 @@ import json
 from datasets import load_dataset
 from pathlib import Path
 from data import load_and_split, preprocess_split, collate_fn
-from cnn_lstm_model import WeightedTrainer, compute_metrics, compute_class_weights, CNNLSTMModel
-from transformers import TrainingArguments, SchedulerType
-from common import TRAIN_SET
-
+from cnn_lstm_model import WeightedTrainer, compute_metrics, CNNLSTMModel, compute_class_weights
+from transformers import TrainingArguments, SchedulerType, EarlyStoppingCallback
+from common import TRAIN_SET, CALIBRATION_SET
 warnings.filterwarnings("ignore")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-def main():
+def mainLoop(epoch: int):
+    use_calibration_on_eval = True
+    textFlag= ""
+    if use_calibration_on_eval:
+        textFlag = "TrainEvalOnCalibrationSet"
+
     # 1) Set seed
-    seed=42
+    seed = 42
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -27,24 +31,30 @@ def main():
         torch.cuda.manual_seed_all(seed)
         torch.cuda.empty_cache()
 
-    raw_ds = load_and_split(TRAIN_SET, val_size=0.2, seed=seed)
-    class_weights = compute_class_weights(raw_ds["train"])
+    dataset = load_dataset("audiofolder", data_dir="C:/Users/tapio/Desktop/Aineistot/TrainingDatasets")
+    train_data = dataset["train"]
+    validation_data = dataset["validation"]
 
-    # Preprocess splits
+    print(f"Loaded {len(train_data)} training examples")
+    print(f"Loaded {len(validation_data)} validation examples")
+
     ds = {
-        "train": preprocess_split(raw_ds["train"], augment=True),
-        "validation": preprocess_split(raw_ds["validation"], augment=False),
+        "train": preprocess_split(train_data, augment=True),
+        "validation": preprocess_split(validation_data, augment=False),
     }
-    del raw_ds
+    del dataset, train_data, validation_data
     gc.collect()
-    prepared_train = ds["train"]
-
     cuda_status = torch.cuda.is_available()
 
+    prepared_train = ds["train"]
     desktop_path = Path.home() / "Desktop"
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    model_dir = desktop_path / f"cnn_lstm_model_{timestamp}"
+    model_dir = desktop_path / f"cnn_lstm_model_{timestamp} + {epoch}epochs + {textFlag}"
     model_dir.mkdir(exist_ok=True)
+
+    #class_weights = compute_class_weights(ds["train"])
+    class_weights = torch.tensor([0.4, 3.3], device=device)
+    print(f"Using manually adjusted class weights: {class_weights.tolist()}")
 
     final_training_args = TrainingArguments(
         output_dir=str(model_dir),
@@ -53,7 +63,7 @@ def main():
         per_device_train_batch_size=16,
         per_device_eval_batch_size=16,
         gradient_accumulation_steps=2,
-        num_train_epochs=100,
+        num_train_epochs=epoch,
         fp16=cuda_status,
         eval_strategy="epoch",
         logging_strategy="epoch",
@@ -65,18 +75,18 @@ def main():
         load_best_model_at_end=True,
         metric_for_best_model="eval_f1",
         greater_is_better=True,
-    )
 
+    )
     # paste this to callbacks if you want early stopping[EarlyStoppingCallback(early_stopping_patience=3)]
     final_trainer = WeightedTrainer(
-        class_weights=class_weights,
         model=CNNLSTMModel(num_labels=2).to(device),
         args=final_training_args,
         train_dataset=prepared_train,
         data_collator=collate_fn,
         eval_dataset=ds["validation"],
         compute_metrics=compute_metrics,
-        callbacks=None
+        class_weights = class_weights,
+        #callbacks=[EarlyStoppingCallback(early_stopping_patience=40)]
     )
     final_trainer.train()
     final_trainer.save_model(str(model_dir))
@@ -84,7 +94,7 @@ def main():
     final_validation_metrics = final_trainer.evaluate()
     print("Al-Emadi Eval metrics: ", final_validation_metrics)
 
-    #Could also save the toroch model for others to eval. But we still have the safetensor file along with model details so it is ok.
+    # Could also save the toroch model for others to eval. But we still have the safetensor file along with model details so it is ok.
 
     # Save training arguments as readable JSON
     training_args_dict = final_training_args.to_dict()
@@ -110,17 +120,11 @@ def main():
     with open(model_dir / "training_summary.json", "w") as f:
         json.dump(training_summary, f, indent=2, default=str)
 
-def load_audiofolder(path):
-    """
-    Load an audiofolder dataset and ensure a 'label' column exists.
-    If none is found, assign label=1 (drone) to every example.
-    """
-    ds = load_dataset("audiofolder", data_dir=path)["train"]
-    # if this folder has only one class, HF will omit 'label'
-    if "label" not in ds.column_names:
-        # add a column of ones (all positive examples)
-        ds = ds.add_column("label", [1] * ds.num_rows)
-    return ds
+def main():
+    EpochList = [1000]
+    for epoch in EpochList:
+        print(f"\n\n=== RUN with {epoch} epochs ===")
+        mainLoop(epoch)
 
 if __name__ == "__main__":
     main()

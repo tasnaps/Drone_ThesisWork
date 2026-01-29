@@ -66,6 +66,7 @@ def get_file_size_mb(file_path):
     except:
         return 0
 
+
 def process_predictions(predictions, threshold=None):
     """Process raw model predictions into probabilities and classifications"""
     # Get threshold from config if not provided
@@ -78,8 +79,14 @@ def process_predictions(predictions, threshold=None):
     probabilities = softmax(predictions, axis=1)
     drone_probabilities = probabilities[:, 1]  # P(yes_drone)
 
-    # Apply threshold for classification
-    predicted_classes = (drone_probabilities > threshold).astype(int)
+    # Handle negative thresholds (inverted logic for poor-performing models)
+    if threshold < 0:
+        # Negative threshold means use inverted logic: predict drone when prob < |threshold|
+        abs_threshold = abs(threshold)
+        predicted_classes = (drone_probabilities < abs_threshold).astype(int)
+    else:
+        # Normal logic: predict drone when prob > threshold
+        predicted_classes = (drone_probabilities > threshold).astype(int)
 
     return predicted_classes, drone_probabilities
 

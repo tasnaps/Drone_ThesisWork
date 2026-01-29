@@ -15,53 +15,65 @@ CHUNK_SIZE = int(os.getenv('CHUNK_SIZE', '100'))  # Allow env override
 # Enhanced dataset configuration with metadata
 ENHANCED_DATASETS = {
     "H-2": {
-        "path": "C:/Gradu Juttui/Datasets/H-2/converted/",
+        "path": "C:/Users/tapio/Desktop/Aineistot/H-2/converted",
         "label_override": None,
         "expected_structure": "folder_based",  # unknown/yes_drone folders
         "description": "Mixed dataset with folder structure"
     },
-    "Fusion": {
-        "path": "C:/Gradu Juttui/Datasets/FusionDataset/",
-        "label_override": None,  # Fixed: Has both yes_drone and unknown folders
-        "expected_structure": "folder_based",
-        "description": "Mixed dataset with folder structure"
-    },
+    #"Fusion": {
+    #    "path": "C:/Users/tapio/Desktop/Aineistot/FusionDataset",
+    #    "label_override": None,  # Fixed: Has both yes_drone and unknown folders
+    #    "expected_structure": "folder_based",
+    #    "description": "Mixed dataset with folder structure"
+    #},
     "DronePrint": {
-        "path": "C:/Gradu Juttui/Datasets/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected",
+        "path": "C:/Users/tapio/Desktop/Aineistot/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected",
         "label_override": "yes_drone",
         "expected_structure": "all_same",
         "description": "All drone samples"
     },
-    "Tapio": {
-        "path": "C:/Gradu Juttui/Datasets/TapioCollection",
+    "MerilainenCompiledSounds": {
+        "path": "C:/Users/tapio/Desktop/Aineistot/MerilainenCompiledSounds",
         "label_override": None,
         "expected_structure": "folder_based",
         "description": "Mixed dataset with folder structure"
     },
     "S&E": {
-        "path": "C:/Gradu Juttui/Datasets/Svanström & Englund/Drone-detection-dataset/Data/Audio",
+        "path": "C:/Users/tapio/Desktop/Aineistot/Svanström & Englund/Drone-detection-dataset/Data/Audio",
         "label_override": None,
         "expected_structure": "folder_based",
         "description": "Mixed dataset with folder structure"
     },
     "Emo": {
-        "path": "C:/Gradu Juttui/Datasets/Emo-Soundscapes/Emo-Soundscapes-Audio/Parsed",
+        "path": "C:/Users/tapio/Desktop/Aineistot/EmoSoundscapes/Parsed",
         "label_override": "unknown",
         "expected_structure": "all_same",
         "description": "All environmental sounds"
     },
     "ESC-50": {
-        "path": "C:/Gradu Juttui/Datasets/ESC-50-master/audio",
+        "path": "C:/Users/tapio/Desktop/Aineistot/ESC-50-master/audio",
         "label_override": "unknown",
         "expected_structure": "all_same",
         "description": "All environmental sounds"
     },
     "UrbanSound": {
-        "path": "C:/Gradu Juttui/Datasets/UrbanSound8K/mergedFolder",
+        "path": "C:/Users/tapio/Desktop/Aineistot/UrbanSound8K/mergedFolder",
         "label_override": "unknown",
         "expected_structure": "all_same",
         "description": "All urban sounds"
-    }
+    },
+    "Wonjun_Yi": {
+        "path": "C:/Users/tapio/Desktop/Aineistot/Wonjun",
+        "label_override": "yes_drone",
+        "expected_structure": "all_same",
+        "description": "All drone samples"
+    },
+    "CalibrationDataset": {
+        "path": "C:/Users/tapio/Desktop/Aineistot/eval_threshold",
+        "label_override": None,
+        "expected_structure": "folder_based",
+        "description": "Mixed dataset with folder structure"
+    },
 }
 
 def smart_label_detection(dataset_path, dataset_name, label_override=None):
@@ -103,7 +115,8 @@ def smart_label_detection(dataset_path, dataset_name, label_override=None):
             'h-2': None,               # Has folder structure
             'fusion': None,            # Has folder structure (corrected)
             'droneprint': 'yes_drone', # All samples are drones
-            'tapio': None,             # Has folder structure
+            'tapio': None,
+            # Has folder structure
             's&e': None,               # Has folder structure
             'emo': 'unknown',          # All environmental sounds
             'esc-50': 'unknown',       # All environmental sounds

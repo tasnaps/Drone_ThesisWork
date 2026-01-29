@@ -34,14 +34,14 @@ class AugmentationConfig:
     }
 
     # Augmentation modes
-    AUGMENTATION_MODE = "all"  # Options: "none", "gaussian_only", "bandpass_only", "all"
+    AUGMENTATION_MODE = "none"  # Options: "none", "gaussian_only", "bandpass_only", "all"
 
 # Audio Length Configuration
 class AudioLengthConfig:
     """Configuration class for audio length modification during training"""
 
     # Audio shortening settings
-    SHORTEN_AUDIO = False  # Enable/disable audio shortening
+    SHORTEN_AUDIO = True  # Enable/disable audio shortening
     MIN_LENGTH_RATIO = 0.5  # Minimum length as fraction of original (50%)
     MAX_LENGTH_RATIO = 0.75  # Maximum length as fraction of original (75%)
     RANDOM_CROP = True  # If True, randomly crop from audio. If False, take from beginning
@@ -166,50 +166,39 @@ def load_and_split(
 def preprocess_single_example(example, augment=False, shorten_for_training=False):
     """
     Process a single audio example into input_values.
-    This mimics the fast model.py approach with optional audio shortening.
 
     Args:
         example: Dataset example with audio and label
         augment: Whether to apply audio augmentation
-        shorten_for_training: Whether to apply audio shortening (typically only for training)
+        shorten_for_training: Whether to apply audio shortening
     """
     audio = example["audio"]
     array = audio["array"]
     sr = audio["sampling_rate"]
 
-    # Check for empty audio
     if array is None or len(array) == 0:
         raise ValueError("Empty audio detected in example")
 
-    # Apply audio length modification if enabled and requested
-    length_metadata = None
+    # Apply audio shortening if requested
     if shorten_for_training and AudioLengthConfig.SHORTEN_AUDIO:
-        array, length_metadata = shorten_audio_array(array, sr)
+        array, _ = shorten_audio_array(array, sr)
 
-    # Apply audio augmentation if enabled (only for training data)
+    # Apply augmentation if requested
     if augment and augment_transform is not None:
         array = augment_transform(samples=array, sample_rate=sr)
 
-    # Extract features using pretrained extractor (same as model.py)
+    # Extract features
     inputs = feature_extractor(
         array,
         sampling_rate=sr,
         return_tensors="np"
     )
 
-    # Prepare output
-    output = {
-        "input_values": inputs.input_values[0],  # Extract numpy array
+    # Return only essential data - no metadata
+    return {
+        "input_values": inputs.input_values[0],
         "labels": example["label"]
     }
-
-    # Add length metadata if available and preserve_original_length_info is enabled
-    if length_metadata and AudioLengthConfig.PRESERVE_ORIGINAL_LENGTH_INFO:
-        output.update({
-            f"length_{key}": value for key, value in length_metadata.items()
-        })
-
-    return output
 
 # 4) Fast preprocessing function that processes all data upfront
 def prepare_dataset_fast(ds, augment=False, shorten_for_training=False):
@@ -256,11 +245,11 @@ def prepare_dataset_fast(ds, augment=False, shorten_for_training=False):
     torch_columns = ["input_values", "labels"]
 
     # Add length metadata columns if they exist (only if preserve_original_length_info is enabled)
-    if AudioLengthConfig.PRESERVE_ORIGINAL_LENGTH_INFO and len(ds) > 0:
-        # Check if length metadata columns exist in the first example
-        first_example = ds[0]
-        length_cols = [col for col in first_example.keys() if col.startswith("length_")]
-        torch_columns.extend(length_cols)
+    #if AudioLengthConfig.PRESERVE_ORIGINAL_LENGTH_INFO and len(ds) > 0:
+    #    # Check if length metadata columns exist in the first example
+    #    first_example = ds[0]
+    #    length_cols = [col for col in first_example.keys() if col.startswith("length_")]
+    #    torch_columns.extend(length_cols)
 
     # Convert to torch tensors for fast training
     ds.set_format(type="torch", columns=torch_columns)
@@ -305,68 +294,66 @@ def print_audio_length_info():
         print("Audio length modification disabled - using full audio files")
     print("="*40)
 
+
 def shorten_audio_array(audio_array, sample_rate=16000):
     """
-    Shorten audio array based on current configuration
+    Shorten audio array based on current configuration.
+    Always returns consistent metadata structure.
 
     Args:
         audio_array: numpy array of audio samples
         sample_rate: sampling rate (default 16kHz)
 
     Returns:
-        tuple: (shortened_array, metadata_dict)
+        tuple: (audio_array, metadata_dict)
     """
-    if not AudioLengthConfig.SHORTEN_AUDIO:
-        # Return original array if shortening is disabled
-        metadata = {
-            'original_length': len(audio_array),
-            'final_length': len(audio_array),
-            'length_ratio': 1.0,
-            'crop_start': 0,
-            'crop_end': len(audio_array),
-            'shortened': False
-        }
-        return audio_array, metadata
-
     original_length = len(audio_array)
 
-    # Calculate target length based on random ratio within configured range
+    # Initialize consistent metadata structure
+    metadata = {
+        'original_length': original_length,
+        'original_duration_s': original_length / sample_rate,
+        'shortened': False,
+        'target_ratio': 1.0,
+        'length_ratio': 1.0,
+        'crop_start': 0,
+        'crop_end': original_length
+    }
+
+    # Return early if shortening is disabled
+    if not AudioLengthConfig.SHORTEN_AUDIO:
+        metadata['final_length'] = original_length
+        metadata['final_duration_s'] = original_length / sample_rate
+        return audio_array, metadata
+
+    # Calculate target length
     length_ratio = np.random.uniform(
         AudioLengthConfig.MIN_LENGTH_RATIO,
         AudioLengthConfig.MAX_LENGTH_RATIO
     )
     target_length = int(original_length * length_ratio)
 
-    # Ensure minimum length (at least 1 second at 16kHz)
-    min_samples = sample_rate  # 1 second
+    # Ensure minimum length (1 second)
+    min_samples = sample_rate
     target_length = max(target_length, min_samples)
 
-    # If target length is greater than or equal to original, return original
+    # If target >= original, return original
     if target_length >= original_length:
-        metadata = {
-            'original_length': original_length,
-            'final_length': original_length,
-            'length_ratio': 1.0,
-            'crop_start': 0,
-            'crop_end': original_length,
-            'shortened': False
-        }
+        metadata['final_length'] = original_length
+        metadata['final_duration_s'] = original_length / sample_rate
         return audio_array, metadata
 
     # Determine crop position
     if AudioLengthConfig.RANDOM_CROP:
-        # Random crop from somewhere in the audio
         max_start = original_length - target_length
         crop_start = np.random.randint(0, max_start + 1)
     else:
-        # Crop from the beginning
         crop_start = 0
 
     crop_end = crop_start + target_length
-
-    # Perform the crop
     shortened_array = audio_array[crop_start:crop_end]
 
+    # Update metadata with actual values
     # Create metadata
     metadata = {
         'original_length': original_length,

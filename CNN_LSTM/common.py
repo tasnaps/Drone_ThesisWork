@@ -27,7 +27,8 @@ CALIBRATION_SET = "C:/Users/tapio/Desktop/Aineistot/eval_threshold"
 DATASETS = {
     "H-2": {
         "path": "C:/Users/tapio/Desktop/Aineistot/H-2/converted",
-        "description": "All drone samples"
+        "description": "All drone samples",
+        "label_override": "yes_drone"
     },
     "Fusion": {
         "path": "C:/Users/tapio/Desktop/Aineistot/FusionDataset",
@@ -35,10 +36,11 @@ DATASETS = {
     },
     "DronePrint": {
         "path": "C:/Users/tapio/Desktop/Aineistot/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected",
-        "description": "All drone samples"
+        "description": "All drone samples",
+        "label_override": "yes_drone"
     },
     "Tapio": {
-        "path": "C:/Users/tapio/Desktop/Aineistot/TapioCollection",
+        "path": "C:/Users/tapio/Desktop/Aineistot/MerilainenCompiledSounds",
         "description": "Mixed dataset with folder structure"
     },
     "S&E": {
@@ -47,19 +49,27 @@ DATASETS = {
     },
     "Emo": {
         "path": "C:/Users/tapio/Desktop/Aineistot/EmoSoundscapes/Parsed",
-        "description": "All environmental sounds"
+        "description": "All environmental sounds",
+        "label_override": "unknown"
     },
     "ESC-50": {
         "path": "C:/Users/tapio/Desktop/Aineistot/ESC-50-master/audio",
-        "description": "All environmental sounds"
+        "description": "All environmental sounds",
+        "label_override": "unknown"
     },
     "UrbanSound": {
         "path": "C:/Users/tapio/Desktop/Aineistot/UrbanSound8K/mergedFolder",
-        "description": "All urban sounds"
+        "description": "All urban sounds",
+        "label_override": "unknown"
     },
     "WonjunYi": {
         "path": "C:/Users/tapio/Desktop/Aineistot/Wonjun",
-        "description": "All drone samples"
+        "description": "All drone samples",
+        "label_override": "yes_drone"
+    },
+    "CalibrationDataset": {
+        "path": "C:/Users/tapio/Desktop/Aineistot/eval_threshold",
+        "description": "Mixed dataset with folder structure"
     },
 }
 

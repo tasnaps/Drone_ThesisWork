@@ -141,18 +141,79 @@ def split_large_audio_file_with_aggregation(audio_array, sample_rate, max_length
 
 def load_audio_dataset(path: str, label_override: str = None):
     """
-    Load audio dataset with proper configuration.
+    Load audio dataset with proper configuration, selecting an appropriate split automatically.
+
+    Prefers 'train' split; if not available, tries 'validation'/'val', then 'test',
+    finally falls back to the first available split.
+
+    If the resolved split has no data, falls back to scanning the filesystem
+    (folder-based loader) to build a dataset from audio files under the path.
 
     Args:
         path: Directory path containing audio files
-        label_override: Override label for all files (if provided)
+        label_override: Override label for all files (if provided)  # kept for signature compatibility
 
     Returns:
-        Loaded HuggingFace dataset with audio column properly configured
+        A HuggingFace Dataset with audio column properly configured
     """
-    raw = load_dataset("audiofolder", data_dir=path, split="train")
-    raw = raw.cast_column("audio", Audio(sampling_rate=SAMPLE_RATE))
-    return raw
+    from pathlib import Path
+
+    try:
+        ds_or_dict = load_dataset("audiofolder", data_dir=path)
+
+        # If already a Dataset (no splits), just cast and return
+        if isinstance(ds_or_dict, Dataset):
+            ds = ds_or_dict.cast_column("audio", Audio(sampling_rate=SAMPLE_RATE))
+            if len(ds) > 0:
+                return ds
+            else:
+                print(f"HF audiofolder returned empty dataset for path: {path} — falling back to folder scan")
+        else:
+            # Otherwise, it's a DatasetDict: choose a split
+            available = list(ds_or_dict.keys())
+            preferred = ["train", "validation", "val", "test"]
+            chosen = next((s for s in preferred if s in available), None)
+            if chosen is None:
+                chosen = available[0]
+            print(f"Using split '{chosen}' from available {available} for dataset at: {path}")
+            ds = ds_or_dict[chosen].cast_column("audio", Audio(sampling_rate=SAMPLE_RATE))
+            if len(ds) > 0:
+                return ds
+            else:
+                print(f"HF audiofolder split '{chosen}' has 0 items — falling back to folder scan")
+    except Exception as e:
+        print(f"Warning: HF audiofolder load failed for {path} ({e}); falling back to folder scan")
+
+    # Fallback: manual folder scan (supports unknown/yes_drone structure or overrides)
+    root = Path(path)
+    if not root.exists():
+        raise FileNotFoundError(f"Dataset path does not exist: {path}")
+
+    # Collect audio files recursively
+    exts = {".wav", ".mp3", ".flac", ".m4a", ".ogg", ".wma", ".aac"}
+    file_paths = []
+    labels = []
+
+    for fp in root.rglob("*"):
+        if fp.is_file() and fp.suffix.lower() in exts:
+            file_paths.append(str(fp))
+            if label_override:
+                lbl = label_override
+            else:
+                # Use folder name to infer label
+                lbl = extract_label_from_path(str(fp))
+            labels.append(LABEL2ID.get(lbl, LABEL2ID.get("unknown", 0)))
+
+    if not file_paths:
+        raise RuntimeError(f"No audio files found under: {path}")
+
+    print(f"Folder scan: collected {len(file_paths)} files from {path}")
+
+    # Build dataset with paths and cast audio column (deferred decoding)
+    data = {"audio": file_paths, "labels": labels}
+    ds = Dataset.from_dict(data)
+    ds = ds.cast_column("audio", Audio(sampling_rate=SAMPLE_RATE))
+    return ds
 
 
 def create_chunked_dataset(input_arrays, labels, file_ids, lengths, max_clips_per_split):
@@ -277,10 +338,5 @@ def process_audio_chunk(files_chunk, label_override, audio_processor_func, clip_
             chunk_lengths.append(len(processed_audio))
             chunk_labels.append(LABEL2ID[original_label])
             chunk_file_ids.append(file_idx)
-
-            # Print processing info for very short files
-            duration_seconds = original_length / SAMPLE_RATE
-            if duration_seconds < 0.5:
-                print(f"    Short file: {audio['path']} ({duration_seconds:.2f}s) - padded")
 
     return chunk_input_arrays, chunk_labels, chunk_file_ids, chunk_lengths

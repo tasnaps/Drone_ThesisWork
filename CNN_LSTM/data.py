@@ -6,7 +6,10 @@ from datasets import load_dataset, Audio, DatasetDict, Dataset
 import torchaudio.transforms as T
 import librosa
 from common import SAMPLE_RATE, N_MELS, N_FFT, HOP_LENGTH, LABEL2ID, ID2LABEL
-
+from pathlib import Path
+import shutil
+import tempfile
+import hashlib
 # Spectrogram + augmentation transforms
 spec_extractor = T.MelSpectrogram(
     sample_rate=SAMPLE_RATE,
@@ -22,9 +25,11 @@ time_augment = T.TimeMasking(time_mask_param=35)
 id2label = ID2LABEL
 label2id = LABEL2ID
 
+
 def load_and_split(
     data_dir: str,
     val_size: float = 0.2,
+    test_size: float = 0.0,
     seed: int = 42
 ) -> DatasetDict:
     """
@@ -32,38 +37,70 @@ def load_and_split(
 
     Args:
         data_dir: Path to root directory containing class subfolders of audio files.
-        val_size: Fraction of data to reserve for validation.
+        val_size: Fraction of data to reserve for validation (0.0 = no validation split).
+        test_size: Fraction of data to reserve for test (0.0 = no test split).
         seed: Random seed for reproducibility.
 
     Returns:
-        A DatasetDict with keys 'train', 'validation', and 'test'.
+        A DatasetDict with keys 'train' and optionally 'validation' and/or 'test'.
     """
-    raw = load_dataset("audiofolder", data_dir=data_dir)
-    if "label" in raw["train"].column_names:
-        # Try stratified split first
-        try:
-            tmp = raw["train"].train_test_split(
-                test_size=val_size,
-                seed=seed,
-                stratify_by_column="label"
-            )
-        except (ValueError, TypeError):
-            # Fall back to regular split if stratification fails
-            tmp = raw["train"].train_test_split(
-                test_size=val_size,
-                seed=seed
-            )
-    else:
-        # No label column, use regular split
-        tmp = raw["train"].train_test_split(
-            test_size=val_size,
-            seed=seed
-        )
+    root = Path(data_dir).resolve()
 
-    return DatasetDict({
-        "train": tmp["train"],
-        "validation": tmp["test"],
-    })
+    # Load with drop_labels=False to prevent automatic split detection
+    raw = load_dataset(
+        "audiofolder",
+        data_dir=str(root),
+        drop_labels=False
+    )
+
+    # Get all data from whatever split was created
+    split_name = next(iter(raw.keys()))
+    all_data = raw[split_name]
+    print(f"Loaded {len(all_data)} examples from {data_dir} (split: {split_name})")
+
+    # No splitting needed
+    if val_size == 0 and test_size == 0:
+        return DatasetDict({"train": all_data})
+
+    # Helper function for stratified split
+    def do_split(data, size, seed_val):
+        if "label" in data.column_names:
+            try:
+                return data.train_test_split(
+                    test_size=size,
+                    seed=seed_val,
+                    stratify_by_column="label"
+                )
+            except (ValueError, TypeError):
+                return data.train_test_split(test_size=size, seed=seed_val)
+        return data.train_test_split(test_size=size, seed=seed_val)
+
+    # Split into train and (validation + test)
+    if val_size > 0 and test_size > 0:
+        # First split: train vs (val+test)
+        tmp1 = do_split(all_data, val_size + test_size, seed)
+        # Second split: validation vs test
+        test_ratio = test_size / (val_size + test_size)
+        tmp2 = do_split(tmp1["test"], test_ratio, seed)
+        return DatasetDict({
+            "train": tmp1["train"],
+            "validation": tmp2["train"],
+            "test": tmp2["test"],
+        })
+    elif val_size > 0:
+        # Only validation split
+        tmp = do_split(all_data, val_size, seed)
+        return DatasetDict({
+            "train": tmp["train"],
+            "validation": tmp["test"],
+        })
+    else:
+        # Only test split
+        tmp = do_split(all_data, test_size, seed)
+        return DatasetDict({
+            "train": tmp["train"],
+            "test": tmp["test"],
+        })
 
 def prepare_batch(
     batch: dict,

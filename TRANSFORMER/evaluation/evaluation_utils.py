@@ -34,7 +34,7 @@ except ImportError:
 
 
 def save_detailed_csv_results(results, output_dir="eval_results_organized", file_suffix="detailed_results",
-                              data_type="file", aggregation_info=None, config=None):
+                              data_type="file", aggregation_info=None, config=None, threshold=None):
     """
     Save detailed results to CSV files for comprehensive analysis.
     Now uses organized output structure with the EvaluationOutputManager.
@@ -46,6 +46,7 @@ def save_detailed_csv_results(results, output_dir="eval_results_organized", file
         data_type: Type of data ("file" or "clip")
         aggregation_info: Dict with aggregation method details (for file-level)
         config: EvaluationConfig object with threshold settings
+        threshold: Calibrated threshold to use (overrides config if provided)
     """
     print(f"\n=== Saving Detailed {data_type.title()}-Level Results to Organized CSV Structure ===")
 
@@ -58,12 +59,17 @@ def save_detailed_csv_results(results, output_dir="eval_results_organized", file
 
     print(f"📁 Using organized output directory: {run_dir}")
 
-    # Get thresholds from config or use defaults
-    if config:
+    # Get threshold: prioritize passed threshold, then config, then defaults
+    if threshold is not None:
+        final_threshold = threshold
+        if final_threshold < 0:
+            print(f"  -> INVERTED threshold detected (using < logic)")
+    elif config:
         if data_type == "file":
             threshold = config.file.threshold
         else:  # clip
             threshold = config.clip.threshold
+        print(f"Using config threshold: {threshold:.6f}")
     else:
         # Fallback to config defaults if no config passed
         from TRANSFORMER.config.config import EvaluationConfig
@@ -72,6 +78,7 @@ def save_detailed_csv_results(results, output_dir="eval_results_organized", file
             threshold = default_config.file.threshold
         else:  # clip
             threshold = default_config.clip.threshold
+        print(f"Using default threshold: {threshold:.6f}")
 
     # Default aggregation info for file-level data
     if data_type == "file" and aggregation_info is None:

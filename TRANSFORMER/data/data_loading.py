@@ -7,7 +7,7 @@ from TRANSFORMER.utils.audio_processing import (
     create_chunked_dataset, split_audio_to_clips, prepare_audio_for_model
 )
 from TRANSFORMER.evaluation.evaluation_common import get_file_size_mb
-from TRANSFORMER.utils.batch_optimization import create_optimized_file_groups, get_batch_stats
+from TRANSFORMER.utils.batch_optimization import create_optimized_file_groups
 from TRANSFORMER.config.dataset_config import SAMPLE_RATE, LABEL2ID, CHUNK_SIZE
 
 def _cleanup_memory():
@@ -100,7 +100,7 @@ def load_and_prepare_whole_file_optimized(path: str, label_override: str = None,
     )
 
     # Print optimization statistics
-    stats = get_batch_stats(optimized_groups)
+    stats = _compute_batch_stats(optimized_groups)
     print("Optimization Results:")
     for category, stat in stats.items():
         print(f"  {category.title()}: {stat['num_batches']} batches, {stat['total_files']} files (avg {stat['avg_batch_size']:.1f}/batch)")
@@ -147,12 +147,40 @@ def load_and_prepare_whole_file_optimized(path: str, label_override: str = None,
 
     return all_splits, len(raw)
 
+def _compute_batch_stats(optimized_groups):
+    """Compute simple statistics for optimized_groups (fallback to avoid importing helper).
+    Returns a dict with category -> {num_batches, total_files, avg_batch_size}.
+    """
+    stats = {}
+    for category, batches in optimized_groups.items():
+        if not batches:
+            continue
+        batch_sizes = [len(b) for b in batches]
+        stats[category] = {
+            'num_batches': len(batches),
+            'total_files': sum(batch_sizes),
+            'avg_batch_size': sum(batch_sizes) / len(batch_sizes) if batch_sizes else 0
+        }
+    return stats
+
+def _as_tuples(file_batch):
+    """Convert a batch that may contain FileInfo objects into (file_idx, item, original_length) tuples."""
+    if not file_batch:
+        return []
+    first = file_batch[0]
+    # Detect FileInfo by attribute presence
+    if hasattr(first, 'file_idx') and hasattr(first, 'item') and hasattr(first, 'original_length'):
+        return [(fi.file_idx, fi.item, fi.original_length) for fi in file_batch]
+    # Already tuples
+    return list(file_batch)
+
 def _process_large_files(large_files, label_override):
     """Process large files individually with better memory management."""
     print("Processing large files individually...")
     splits = []
+    large_files_tuples = _as_tuples(large_files)
 
-    for file_idx, item, original_length in large_files:
+    for file_idx, item, original_length in large_files_tuples:
         audio = item["audio"]
         arr = audio["array"]
         duration_seconds = original_length / SAMPLE_RATE
@@ -197,7 +225,8 @@ def _process_very_large_files(very_large_files, label_override, trainer=None):
     splits = []
 
     # Process each very large file individually to keep its chunks together
-    for file_idx, item, original_length in very_large_files:
+    very_large_files_tuples = _as_tuples(very_large_files)
+    for file_idx, item, original_length in very_large_files_tuples:
         audio = item["audio"]
         arr = audio["array"]
         duration_seconds = original_length / SAMPLE_RATE
@@ -256,13 +285,16 @@ def _process_very_large_files(very_large_files, label_override, trainer=None):
 
 def _process_optimized_regular_batch(file_batch, label_override, max_files_per_split):
     """Process an optimized batch of regular files."""
+    # Normalize to expected tuples
+    file_batch_tuples = _as_tuples(file_batch)
+
     # Process this optimized batch of regular files
     chunk_input_arrays, chunk_labels, chunk_file_ids, chunk_lengths = process_audio_chunk(
-        file_batch, label_override, prepare_audio_for_model
+        file_batch_tuples, label_override, prepare_audio_for_model
     )
 
     # Add original lengths for whole-file processing
-    chunk_original_lengths = [original_length for _, _, original_length in file_batch]
+    chunk_original_lengths = [original_length for _, _, original_length in file_batch_tuples]
 
     splits = []
     if chunk_input_arrays:
@@ -301,3 +333,121 @@ def _sort_optimized_splits(all_splits, optimized_groups):
     for i in range(min(regular_count, len(all_splits))):
         if i < len(all_splits) and "original_length" in all_splits[i].column_names:
             all_splits[i] = all_splits[i].sort("original_length")
+
+def load_dataset_fraction(path: str, label_override: str = None, test_fraction: float = 0.10,
+                          seed: int = 42, max_files_per_split: int = 1000,
+                          large_file_threshold=45.0, very_large_threshold=180.0,
+                          max_file_length=180.0, max_file_size_mb=100, trainer=None,
+                          target_batch_size: int = 6):
+    """
+    Build a small calibration dataset by sampling a fraction of files from the folder-backed
+    audio dataset and preparing them with the same processing utilities used by the whole-file
+    pipeline. The function attempts stratified sampling by label when label information is
+    available; otherwise it samples uniformly.
+
+    Returns:
+        (dataset_splits, num_files_subset)
+    """
+    import numpy as np
+    from math import ceil
+
+    raw = load_audio_dataset(path, label_override)
+    n = len(raw)
+    if n == 0:
+        return [], 0
+
+    # Determine number to sample
+    frac = float(test_fraction)
+    if frac <= 0 or frac >= 1.0:
+        # full dataset - fall back to optimized loader caller's behavior
+        # Caller should use load_and_prepare_whole_file_optimized in that case
+        return [], 0
+
+    k = max(1, int(round(n * frac)))
+
+    # Try to detect label field in raw items
+    labels_present = False
+    label_vals = []
+    for item in raw:
+        if 'label' in item:
+            labels_present = True
+            label_vals.append(item.get('label'))
+        elif 'labels' in item:
+            labels_present = True
+            label_vals.append(item.get('labels'))
+        else:
+            label_vals.append(None)
+
+    rng = np.random.default_rng(seed)
+
+    if labels_present and any(l is not None for l in label_vals):
+        # Stratified sampling by label
+        indices_by_label = {}
+        for idx, lab in enumerate(label_vals):
+            key = str(lab) if lab is not None else "__none__"
+            indices_by_label.setdefault(key, []).append(idx)
+
+        selected_idx = []
+        # Compute per-class picks proportionally (at least one per present class)
+        for key, idxs in indices_by_label.items():
+            if len(idxs) == 0:
+                continue
+            picks = max(1, int(round(len(idxs) * frac)))
+            picks = min(picks, len(idxs))
+            chosen = list(rng.choice(idxs, size=picks, replace=False))
+            selected_idx.extend(chosen)
+
+        # If we undershot due to rounding, fill randomly from remaining
+        selected_idx = sorted(set(selected_idx))
+        if len(selected_idx) < k:
+            remaining = sorted(set(range(n)) - set(selected_idx))
+            if remaining:
+                extra = list(rng.choice(remaining, size=min(len(remaining), k - len(selected_idx)), replace=False))
+                selected_idx.extend(extra)
+
+        selected_idx = sorted(selected_idx)[:k]
+    else:
+        # Uniform random sample
+        selected_idx = sorted(list(rng.choice(n, size=k, replace=False)))
+
+    print(f"Calibration sampler: selected {len(selected_idx)}/{n} files (fraction={frac:.3f}) from {path}")
+
+    # Build files_chunk as expected by process_audio_chunk
+    files_chunk = []
+    for local_idx, global_idx in enumerate(selected_idx):
+        item = raw[global_idx]
+        audio = item.get('audio') or {}
+        arr = audio.get('array')
+        orig_len = int(len(arr)) if hasattr(arr, '__len__') and arr is not None else 0
+        files_chunk.append((global_idx, item, orig_len))
+
+    # Prepare the selected subset using the same processing function
+    chunk_input_arrays, chunk_labels, chunk_file_ids, chunk_lengths = process_audio_chunk(
+        files_chunk, label_override, prepare_audio_for_model
+    )
+
+    if not chunk_input_arrays:
+        return [], 0
+
+    # Prepare dataset dictionary following the whole-file pipeline expectations
+    chunk_original_lengths = list(chunk_lengths)
+    data = {
+        "input_arrays": chunk_input_arrays,
+        "labels": chunk_labels,
+        "input_length": chunk_lengths,
+        "original_length": chunk_original_lengths,
+        "file_ids": chunk_file_ids
+    }
+
+    ds = Dataset.from_dict(data)
+
+    # Split if necessary to respect max_files_per_split
+    splits = []
+    if len(ds) <= max_files_per_split:
+        splits.append(ds)
+    else:
+        for i in range(0, len(ds), max_files_per_split):
+            j = min(i + max_files_per_split, len(ds))
+            splits.append(ds.select(range(i, j)))
+
+    return splits, len(ds)

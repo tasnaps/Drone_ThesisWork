@@ -7,6 +7,7 @@ from sklearn.metrics import (
     precision_recall_fscore_support,
     average_precision_score,
     roc_auc_score,
+    fbeta_score,
 )
 from collections import Counter
 
@@ -48,4 +49,6 @@ def compute_metrics(eval_pred):
     roc_auc = roc_auc_score(labels, probs)
     p, r, f, _ = precision_recall_fscore_support(labels, preds, average="binary")
     ap = average_precision_score(labels, probs)
-    return {"accuracy":acc, "precision":p, "recall":r, "f1":f, "avg_precision":ap, "roc_auc":roc_auc}
+    # Add F2 score so it is available as eval_f2 for best model selection
+    f2 = fbeta_score(labels, preds, beta=2.0, average="binary")
+    return {"accuracy":acc, "precision":p, "recall":r, "f1":f, "f2": f2, "avg_precision":ap, "roc_auc":roc_auc}

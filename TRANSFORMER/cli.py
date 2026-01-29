@@ -9,8 +9,9 @@ import warnings
 import os
 import winsound
 from pathlib import Path
-
+import time
 # Add the current src directory to the Python path
+
 sys.path.append(os.path.dirname(__file__))
 
 from evaluation.evaluation_strategy_factory import run_evaluation, EvaluationStrategyFactory
@@ -251,7 +252,35 @@ Examples:
         action='store_true',
         help='Enable verbose output'
     )
-
+    #Calibration options
+    calibration_group = parser.add_argument_group('Calibration Options')
+    calibration_group.add_argument(
+        '--calibrate',
+        action='store_true',
+        help='Run calibration on the calibration set first to find the optimal threshold'
+    )
+    calibration_group.add_argument(
+        '--calibration-key',
+        type=str,
+        default='Calibration',
+        help='Dataset key in ENHANCED_DATASETS used for calibration (default: Calibration)'
+    )
+    calibration_group.add_argument(
+        '--threshold-file',
+        type=str,
+        help='Path to threshold JSON file for load/save (default: <model_path>/threshold.json)'
+    )
+    calibration_group.add_argument(
+        '--force-recalibrate',
+        action='store_true',
+        help='Recompute threshold even if a saved threshold file exists'
+    )
+    calibration_group.add_argument(
+        '--calibration-fraction',
+        type=float,
+        default=1.0,
+        help='Fraction of the calibration dataset to use for calibration (0.0-1.0). Use <1.0 to sample a small subset.'
+    )
     # Multi-model evaluation options
     if MULTI_MODEL_AVAILABLE:
         multi_group = parser.add_argument_group('Multi-Model Evaluation Options')
@@ -265,6 +294,13 @@ Examples:
             type=str,
             nargs='+',
             help='Paths to individual model configurations (name:path:weight format)'
+        )
+        multi_group.add_argument(
+            '--base-strategy',
+            type=str,
+            choices=['file', 'clip'],
+            default='file',
+            help='Base evaluation strategy for each model in multi-model mode (default: file)'
         )
         multi_group.add_argument(
             '--parallel-models',
@@ -352,6 +388,10 @@ def run_multi_model_evaluation(args, config):
 
     print("🚀 Starting Multi-Model Evaluation...")
 
+    # Get base strategy type (file or clip)
+    base_strategy = getattr(args, 'base_strategy', 'file')
+    print(f"📋 Using base strategy: {base_strategy}")
+
     # Create model configurations
     models = []
 
@@ -359,7 +399,7 @@ def run_multi_model_evaluation(args, config):
         # Auto-discover from checkpoint directory
         models = create_multi_model_config_from_checkpoints(
             args.checkpoint_dir,
-            strategy_type=getattr(args, 'strategy', 'file')
+            strategy_type=base_strategy
         )
         print(f"📁 Found {len(models)} models in checkpoint directory")
 
@@ -376,7 +416,7 @@ def run_multi_model_evaluation(args, config):
                     name=name,
                     model_path=path,
                     weight=weight,
-                    strategy_type=getattr(args, 'strategy', 'file')
+                    strategy_type=base_strategy
                 ))
 
     if not models:
@@ -384,8 +424,40 @@ def run_multi_model_evaluation(args, config):
         print("Use --checkpoint-dir or --model-configs to specify models")
         return False
 
+    # Prepare calibration options
+    calibration_options = {
+        'calibrate': getattr(args, 'calibrate', False),
+        'calibration_key': getattr(args, 'calibration_key', 'Calibration'),
+        'force_recalibrate': getattr(args, 'force_recalibrate', False),
+        'calibration_fraction': getattr(args, 'calibration_fraction', 1.0),
+    }
+
+    if calibration_options['calibrate']:
+        print(f"🎯 Calibration enabled (key: {calibration_options['calibration_key']})")
+
+    # Prepare strategy parameters based on base strategy
+    if base_strategy == "clip":
+        strategy_params = {
+            'clip_duration': config.clip.clip_duration,
+            'batch_size': config.clip.batch_size,
+            'max_clips_per_dataset': config.clip.max_clips_per_dataset,
+        }
+    else:  # file
+        strategy_params = {
+            'batch_size': config.file.batch_size,
+            'large_file_threshold': config.file.large_file_threshold,
+            'very_large_threshold': config.file.very_large_threshold,
+            'max_file_length': config.file.max_file_length,
+            'max_file_size_mb': config.file.max_file_size_mb,
+        }
+
     # Create and run multi-model evaluator
-    evaluator = MultiModelEvaluator(models)
+    evaluator = MultiModelEvaluator(
+        models,
+        output_base_dir=config.output.base_output_dir,
+        strategy_params=strategy_params,
+        calibration_options=calibration_options
+    )
 
     # Run individual model evaluations
     individual_results = evaluator.evaluate_individual_models(
@@ -439,6 +511,7 @@ def create_resilient_strategy(args, config, strategy_type):
 
 def main():
     """Main CLI entry point."""
+    start = time.process_time()
     parser = create_parser()
     args = parser.parse_args()
 
@@ -579,6 +652,9 @@ def main():
                 results = run_standard_evaluation(args, config, strategy_type)
                 success = results is not None
         winsound.MessageBeep()
+        end = time.process_time()
+
+        print("Time in hours: ", (end - start)/3600)
         if success:
             print(f"\n{args.strategy.title()} evaluation completed successfully!")
         else:
@@ -614,13 +690,53 @@ def run_standard_evaluation(args, config, strategy_type):
             'max_file_size_mb': config.file.max_file_size_mb,
         }
 
-    # Run evaluation
-    results = run_evaluation(
-        strategy_type=strategy_type,
-        model_path=config.model.model_path,
+    # Create and set up strategy explicitly so we can calibrate before evaluation
+    strategy = EvaluationStrategyFactory.create_strategy(
+        strategy_type,
+        config.model.model_path,
         output_dir=config.output.base_output_dir,
         **strategy_params
     )
+    strategy.setup()
+    # Derive threshold file path
+    default_threshold_path = os.path.join(config.model.model_path, 'threshold.json')
+    threshold_file = args.threshold_file if args.threshold_file else default_threshold_path
+
+    # Calibration flow
+    if getattr(args, 'calibrate', False):
+        # If not forcing recalibration, try loading an existing threshold
+        if not getattr(args, 'force_recalibrate', False):
+            loaded = strategy.load_saved_threshold(threshold_file)
+            if loaded:
+                print(f"✓ Using saved calibrated threshold: {strategy.threshold:.6f}")
+            else:
+                # No saved threshold; perform calibration
+                strategy.calibrate_threshold(
+                    calibration_key=getattr(args, 'calibration_key', 'Calibration'),
+                    threshold_file=threshold_file,
+                    calibration_fraction=getattr(args, 'calibration_fraction', 1.0)
+                )
+        else:
+            # Force recalibration
+            strategy.calibrate_threshold(
+                calibration_key=getattr(args, 'calibration_key', 'Calibration'),
+                threshold_file=threshold_file,
+                calibration_fraction=getattr(args, 'calibration_fraction', 1.0)
+            )
+    else:
+        # Not calibrating explicitly; try to load a saved threshold if present
+        _ = strategy.load_saved_threshold(threshold_file)
+
+    results = strategy.evaluate_all_datasets()
+    strategy.generate_outputs(results)
+
+    ## Run evaluation
+    #results = run_evaluation(
+    #    strategy_type=strategy_type,
+    #    model_path=config.model.model_path,
+    #    output_dir=config.output.base_output_dir,
+    #    **strategy_params
+    #)
 
     # Enhanced analysis options
     if results:

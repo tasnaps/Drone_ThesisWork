@@ -7,3 +7,9 @@
 
 
 ### Python version: 3.11 is supported.
+
+
+### IMPORTANT: For incompatibility issues with ffmpeg (bit if you get it working use newer versions) we use older numpy and datasets versions. THis works if you edit: \datasets\formatting\formatting.py so that return arrays in lines: 196-197 have arguments like this:
+
+return np.array(array, dtype=object)
+        return np.array(array)

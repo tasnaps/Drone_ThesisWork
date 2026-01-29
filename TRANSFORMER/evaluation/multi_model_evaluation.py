@@ -6,12 +6,20 @@ This module enables simultaneous evaluation of multiple models and ensemble meth
 import numpy as np
 import time
 import json
+import os
+import sys
 from typing import List, Optional
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from evaluation_strategy_factory import run_evaluation
-from evaluation_common import calculate_performance_metrics
 from pathlib import Path
+
+# Fix imports to work when called as module
+try:
+    from .evaluation_strategy_factory import run_evaluation, EvaluationStrategyFactory
+    from .evaluation_common import calculate_performance_metrics
+except ImportError:
+    from evaluation_strategy_factory import run_evaluation, EvaluationStrategyFactory
+    from evaluation_common import calculate_performance_metrics
 
 
 @dataclass
@@ -295,7 +303,10 @@ class MetaLearnerEnsemble(EnsembleMethod):
 class MultiModelEvaluator:
     """Evaluates multiple models and their ensembles"""
 
-    def __init__(self, models: List[ModelConfig], ensemble_methods: Optional[List[EnsembleMethod]] = None):
+    def __init__(self, models: List[ModelConfig], ensemble_methods: Optional[List[EnsembleMethod]] = None,
+                 output_base_dir: str = "./multi_model_results",
+                 strategy_params: Optional[dict] = None,
+                 calibration_options: Optional[dict] = None):
         self.models = models
         self.ensemble_methods = ensemble_methods or [
             VotingEnsemble(),
@@ -303,6 +314,14 @@ class MultiModelEvaluator:
         ]
         self.individual_results = {}
         self.ensemble_results = {}
+        self.output_base_dir = output_base_dir
+        self.strategy_params = strategy_params or {}
+        self.calibration_options = calibration_options or {
+            'calibrate': False,
+            'calibration_key': 'Calibration',
+            'force_recalibrate': False,
+            'calibration_fraction': 1.0
+        }
 
     def evaluate_individual_models(self, parallel=True, max_workers=2):
         """Evaluate each model individually"""
@@ -317,29 +336,84 @@ class MultiModelEvaluator:
 
     def _evaluate_sequential(self):
         """Sequential evaluation of models"""
+
         for i, model_config in enumerate(self.models):
             print(f"\n[{i+1}/{len(self.models)}] Evaluating {model_config.name}...")
 
             try:
                 start_time = time.time()
 
-                results = run_evaluation(
-                    strategy_type=model_config.strategy_type,
-                    model_path=model_config.model_path,
-                    output_dir=f"./multi_model_results/{model_config.name}"
+                model_output_dir = f"{self.output_base_dir}/{model_config.name}"
+
+                # Ensure output directory exists
+                os.makedirs(model_output_dir, exist_ok=True)
+                print(f"  📁 Output directory: {model_output_dir}")
+
+                # Create strategy with calibration support
+                strategy = EvaluationStrategyFactory.create_strategy(
+                    model_config.strategy_type,
+                    model_config.model_path,
+                    output_dir=model_output_dir,
+                    **self.strategy_params
                 )
+                strategy.setup()
+
+                # Verify output_dir is set on strategy
+                if hasattr(strategy, 'output_dir'):
+                    print(f"  📁 Strategy output_dir: {strategy.output_dir}")
+                else:
+                    print(f"  ⚠️ Strategy has no output_dir attribute, setting it manually")
+                    strategy.output_dir = model_output_dir
+
+                # Handle calibration
+                default_threshold_path = os.path.join(model_config.model_path, 'threshold.json')
+
+                if self.calibration_options.get('calibrate', False):
+                    if not self.calibration_options.get('force_recalibrate', False):
+                        loaded = strategy.load_saved_threshold(default_threshold_path)
+                        if loaded:
+                            print(f"  ✓ Using saved calibrated threshold: {strategy.threshold:.6f}")
+                        else:
+                            print(f"  🎯 Calibrating {model_config.name}...")
+                            strategy.calibrate_threshold(
+                                calibration_key=self.calibration_options.get('calibration_key', 'Calibration'),
+                                threshold_file=default_threshold_path,
+                                calibration_fraction=self.calibration_options.get('calibration_fraction', 1.0)
+                            )
+                    else:
+                        print(f"  🎯 Force recalibrating {model_config.name}...")
+                        strategy.calibrate_threshold(
+                            calibration_key=self.calibration_options.get('calibration_key', 'Calibration'),
+                            threshold_file=default_threshold_path,
+                            calibration_fraction=self.calibration_options.get('calibration_fraction', 1.0)
+                        )
+                else:
+                    # Try to load existing threshold
+                    _ = strategy.load_saved_threshold(default_threshold_path)
+
+                # Run evaluation
+                print(f"  📊 Running evaluation for {model_config.name}...")
+                results = strategy.evaluate_all_datasets()
+
+                print(f"  💾 Generating outputs to: {model_output_dir}")
+                print(f"  📁 Strategy output_dir is: {strategy.output_dir}")
+                strategy.generate_outputs(results)
+                print(f"  ✅ Outputs generated for {model_config.name}")
 
                 eval_time = time.time() - start_time
 
                 self.individual_results[model_config.name] = {
                     'results': results,
                     'evaluation_time': eval_time,
-                    'model_config': model_config
+                    'model_config': model_config,
+                    'threshold': getattr(strategy, 'threshold', 0.5)
                 }
 
-                print(f"✅ {model_config.name} completed in {eval_time:.1f}s")
+                print(f"✅ {model_config.name} completed in {eval_time:.1f}s (threshold: {strategy.threshold:.4f})")
 
             except Exception as e:
+                import traceback
+                traceback.print_exc()
                 print(f"❌ {model_config.name} failed: {e}")
                 self.individual_results[model_config.name] = {
                     'error': str(e),
@@ -350,24 +424,74 @@ class MultiModelEvaluator:
 
     def _evaluate_parallel(self, max_workers):
         """Parallel evaluation of models"""
+
         print(f"Running {len(self.models)} models in parallel (max {max_workers} workers)...")
 
         def evaluate_model(model_config):
             try:
                 start_time = time.time()
-                results = run_evaluation(
-                    strategy_type=model_config.strategy_type,
-                    model_path=model_config.model_path,
-                    output_dir=f"./multi_model_results/{model_config.name}"
+
+                model_output_dir = f"{self.output_base_dir}/{model_config.name}"
+
+                # Ensure output directory exists
+                os.makedirs(model_output_dir, exist_ok=True)
+
+                # Create strategy with calibration support
+                strategy = EvaluationStrategyFactory.create_strategy(
+                    model_config.strategy_type,
+                    model_config.model_path,
+                    output_dir=model_output_dir,
+                    **self.strategy_params
                 )
+                strategy.setup()
+
+                # Verify output_dir is set on strategy
+                if not hasattr(strategy, 'output_dir') or strategy.output_dir != model_output_dir:
+                    strategy.output_dir = model_output_dir
+
+                # Handle calibration
+                default_threshold_path = os.path.join(model_config.model_path, 'threshold.json')
+                threshold_used = 0.5
+
+                if self.calibration_options.get('calibrate', False):
+                    if not self.calibration_options.get('force_recalibrate', False):
+                        loaded = strategy.load_saved_threshold(default_threshold_path)
+                        if loaded:
+                            print(f"  ✓ [{model_config.name}] Using saved threshold: {strategy.threshold:.6f}")
+                        else:
+                            print(f"  🎯 [{model_config.name}] Calibrating...")
+                            strategy.calibrate_threshold(
+                                calibration_key=self.calibration_options.get('calibration_key', 'Calibration'),
+                                threshold_file=default_threshold_path,
+                                calibration_fraction=self.calibration_options.get('calibration_fraction', 1.0)
+                            )
+                    else:
+                        print(f"  🎯 [{model_config.name}] Force recalibrating...")
+                        strategy.calibrate_threshold(
+                            calibration_key=self.calibration_options.get('calibration_key', 'Calibration'),
+                            threshold_file=default_threshold_path,
+                            calibration_fraction=self.calibration_options.get('calibration_fraction', 1.0)
+                        )
+                else:
+                    _ = strategy.load_saved_threshold(default_threshold_path)
+
+                threshold_used = getattr(strategy, 'threshold', 0.5)
+
+                # Run evaluation
+                results = strategy.evaluate_all_datasets()
+                strategy.generate_outputs(results)
+
                 eval_time = time.time() - start_time
 
                 return model_config.name, {
                     'results': results,
                     'evaluation_time': eval_time,
-                    'model_config': model_config
+                    'model_config': model_config,
+                    'threshold': threshold_used
                 }
             except Exception as e:
+                import traceback
+                traceback.print_exc()
                 return model_config.name, {
                     'error': str(e),
                     'model_config': model_config
