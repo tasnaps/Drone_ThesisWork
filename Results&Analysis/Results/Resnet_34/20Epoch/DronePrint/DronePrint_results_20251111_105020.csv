@@ -1,0 +1,13 @@
+file_id,true_label,predicted_label,drone_probability,aggregation_method,aggregation_threshold,split
+0,1,1,0.44168393,noisy_or,0.000159,20_windows
+1,1,1,0.10242225,noisy_or,0.000159,20_windows
+2,1,0,0.00011604,noisy_or,0.000159,20_windows
+3,1,1,0.00087032,noisy_or,0.000159,59_windows
+4,1,0,0.00007018,noisy_or,0.000159,20_windows
+5,1,0,0.00013528,noisy_or,0.000159,20_windows
+6,1,1,0.01765709,noisy_or,0.000159,20_windows
+7,1,0,0.00009828,noisy_or,0.000159,20_windows
+8,1,1,0.00094429,noisy_or,0.000159,20_windows
+9,1,0,0.00008140,noisy_or,0.000159,20_windows
+10,1,1,0.00018557,noisy_or,0.000159,59_windows
+11,1,0,0.00002466,noisy_or,0.000159,20_windows

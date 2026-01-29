@@ -1,0 +1,12 @@
+Dataset: S&E
+Total files: 56
+Threshold used: 0.99720442
+Accuracy: 0.32142857
+Precision: 0.32727273
+Recall: 0.94736842
+F1-Score: 0.48648649
+AUC: 0.44736842
+Class distribution: {0: 37, 1: 19}
+Confusion Matrix:
+[[ 0 37]
+ [ 1 18]]

@@ -1,0 +1,12 @@
+Dataset: CalibrationDataset
+Total files: 1618
+Threshold used: 0.00004523
+Accuracy: 0.59270705
+Precision: 0.42545455
+Recall: 0.18932039
+F1-Score: 0.26203807
+AUC: 0.16450162
+Class distribution: {0: 1000, 1: 618}
+Confusion Matrix:
+[[842 158]
+ [501 117]]

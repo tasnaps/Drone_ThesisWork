@@ -1,0 +1,12 @@
+Dataset: ESC-50
+Total files: 1674
+Threshold used: 0.00015938
+Accuracy: 0.68399044
+Precision: 0.00000000
+Recall: 0.00000000
+F1-Score: 0.00000000
+AUC: nan
+Class distribution: {0: 1674}
+Confusion Matrix:
+[[1145  529]
+ [   0    0]]

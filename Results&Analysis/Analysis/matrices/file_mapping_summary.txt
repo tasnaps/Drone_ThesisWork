@@ -1,0 +1,1733 @@
+File Organization Summary
+==================================================
+
+Source Directory: .
+Output Directory: .\organized_graphs
+Total Files Processed: 431
+
+File Mapping:
+------------------------------
+Original: CNN_LSTM\100Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__100Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 100Epoch
+
+Original: CNN_LSTM\100Epoch\CalibrationDataset\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__100Epoch__CalibrationDataset__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 100Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\100Epoch\DronePrint\DronePrint_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__100Epoch__DronePrint__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 100Epoch -> DronePrint
+
+Original: CNN_LSTM\100Epoch\Emo\Emo_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__100Epoch__Emo__Emo_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 100Epoch -> Emo
+
+Original: CNN_LSTM\100Epoch\ESC-50\ESC-50_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__100Epoch__ESC-50__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 100Epoch -> ESC-50
+
+Original: CNN_LSTM\100Epoch\H-2\H-2_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__100Epoch__H-2__H-2_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 100Epoch -> H-2
+
+Original: CNN_LSTM\100Epoch\S&E\S&E_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__100Epoch__S&E__S&E_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 100Epoch -> S&E
+
+Original: CNN_LSTM\100Epoch\Tapio\Tapio_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__100Epoch__Tapio__Tapio_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 100Epoch -> Tapio
+
+Original: CNN_LSTM\100Epoch\UrbanSound\UrbanSound_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__100Epoch__UrbanSound__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 100Epoch -> UrbanSound
+
+Original: CNN_LSTM\100Epoch\WonjunYi\WonjunYi_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__100Epoch__WonjunYi__WonjunYi_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 100Epoch -> WonjunYi
+
+Original: CNN_LSTM\10Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__10Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 10Epoch
+
+Original: CNN_LSTM\10Epoch\CalibrationDataset\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__10Epoch__CalibrationDataset__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 10Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\10Epoch\DronePrint\DronePrint_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__10Epoch__DronePrint__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 10Epoch -> DronePrint
+
+Original: CNN_LSTM\10Epoch\Emo\Emo_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__10Epoch__Emo__Emo_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 10Epoch -> Emo
+
+Original: CNN_LSTM\10Epoch\ESC-50\ESC-50_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__10Epoch__ESC-50__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 10Epoch -> ESC-50
+
+Original: CNN_LSTM\10Epoch\Fusion\Fusion_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__10Epoch__Fusion__Fusion_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 10Epoch -> Fusion
+
+Original: CNN_LSTM\10Epoch\H-2\H-2_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__10Epoch__H-2__H-2_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 10Epoch -> H-2
+
+Original: CNN_LSTM\10Epoch\S&E\S&E_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__10Epoch__S&E__S&E_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 10Epoch -> S&E
+
+Original: CNN_LSTM\10Epoch\Tapio\Tapio_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__10Epoch__Tapio__Tapio_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 10Epoch -> Tapio
+
+Original: CNN_LSTM\10Epoch\UrbanSound\UrbanSound_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__10Epoch__UrbanSound__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 10Epoch -> UrbanSound
+
+Original: CNN_LSTM\10Epoch\WonjunYi\WonjunYi_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__10Epoch__WonjunYi__WonjunYi_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 10Epoch -> WonjunYi
+
+Original: CNN_LSTM\1Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__1Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 1Epoch
+
+Original: CNN_LSTM\1Epoch\CalibrationDataset\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__1Epoch__CalibrationDataset__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 1Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\1Epoch\DronePrint\DronePrint_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__1Epoch__DronePrint__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 1Epoch -> DronePrint
+
+Original: CNN_LSTM\1Epoch\Emo\Emo_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__1Epoch__Emo__Emo_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 1Epoch -> Emo
+
+Original: CNN_LSTM\1Epoch\ESC-50\ESC-50_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__1Epoch__ESC-50__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 1Epoch -> ESC-50
+
+Original: CNN_LSTM\1Epoch\Fusion\Fusion_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__1Epoch__Fusion__Fusion_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 1Epoch -> Fusion
+
+Original: CNN_LSTM\1Epoch\H-2\H-2_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__1Epoch__H-2__H-2_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 1Epoch -> H-2
+
+Original: CNN_LSTM\1Epoch\S&E\S&E_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__1Epoch__S&E__S&E_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 1Epoch -> S&E
+
+Original: CNN_LSTM\1Epoch\Tapio\Tapio_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__1Epoch__Tapio__Tapio_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 1Epoch -> Tapio
+
+Original: CNN_LSTM\1Epoch\UrbanSound\UrbanSound_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__1Epoch__UrbanSound__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 1Epoch -> UrbanSound
+
+Original: CNN_LSTM\1Epoch\WonjunYi\WonjunYi_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__1Epoch__WonjunYi__WonjunYi_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 1Epoch -> WonjunYi
+
+Original: CNN_LSTM\20Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__20Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 20Epoch
+
+Original: CNN_LSTM\20Epoch\CalibrationDataset\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__20Epoch__CalibrationDataset__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 20Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\20Epoch\DronePrint\DronePrint_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__20Epoch__DronePrint__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 20Epoch -> DronePrint
+
+Original: CNN_LSTM\20Epoch\Emo\Emo_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__20Epoch__Emo__Emo_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 20Epoch -> Emo
+
+Original: CNN_LSTM\20Epoch\ESC-50\ESC-50_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__20Epoch__ESC-50__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 20Epoch -> ESC-50
+
+Original: CNN_LSTM\20Epoch\Fusion\Fusion_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__20Epoch__Fusion__Fusion_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 20Epoch -> Fusion
+
+Original: CNN_LSTM\20Epoch\H-2\H-2_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__20Epoch__H-2__H-2_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 20Epoch -> H-2
+
+Original: CNN_LSTM\20Epoch\S&E\S&E_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__20Epoch__S&E__S&E_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 20Epoch -> S&E
+
+Original: CNN_LSTM\20Epoch\Tapio\Tapio_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__20Epoch__Tapio__Tapio_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 20Epoch -> Tapio
+
+Original: CNN_LSTM\20Epoch\UrbanSound\UrbanSound_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__20Epoch__UrbanSound__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 20Epoch -> UrbanSound
+
+Original: CNN_LSTM\20Epoch\WonjunYi\WonjunYi_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__20Epoch__WonjunYi__WonjunYi_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 20Epoch -> WonjunYi
+
+Original: CNN_LSTM\50Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__50Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 50Epoch
+
+Original: CNN_LSTM\50Epoch\CalibrationDataset\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__50Epoch__CalibrationDataset__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 50Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\50Epoch\DronePrint\DronePrint_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__50Epoch__DronePrint__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 50Epoch -> DronePrint
+
+Original: CNN_LSTM\50Epoch\Emo\Emo_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__50Epoch__Emo__Emo_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 50Epoch -> Emo
+
+Original: CNN_LSTM\50Epoch\ESC-50\ESC-50_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__50Epoch__ESC-50__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 50Epoch -> ESC-50
+
+Original: CNN_LSTM\50Epoch\Fusion\Fusion_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__50Epoch__Fusion__Fusion_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 50Epoch -> Fusion
+
+Original: CNN_LSTM\50Epoch\H-2\H-2_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__50Epoch__H-2__H-2_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 50Epoch -> H-2
+
+Original: CNN_LSTM\50Epoch\S&E\S&E_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__50Epoch__S&E__S&E_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 50Epoch -> S&E
+
+Original: CNN_LSTM\50Epoch\Tapio\Tapio_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__50Epoch__Tapio__Tapio_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 50Epoch -> Tapio
+
+Original: CNN_LSTM\50Epoch\UrbanSound\UrbanSound_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__50Epoch__UrbanSound__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 50Epoch -> UrbanSound
+
+Original: CNN_LSTM\50Epoch\WonjunYi\WonjunYi_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__50Epoch__WonjunYi__WonjunYi_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 50Epoch -> WonjunYi
+
+Original: CNN_LSTM\5Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__5Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 5Epoch
+
+Original: CNN_LSTM\5Epoch\CalibrationDataset\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__5Epoch__CalibrationDataset__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 5Epoch -> CalibrationDataset
+
+Original: CNN_LSTM\5Epoch\DronePrint\DronePrint_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__5Epoch__DronePrint__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 5Epoch -> DronePrint
+
+Original: CNN_LSTM\5Epoch\Emo\Emo_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__5Epoch__Emo__Emo_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 5Epoch -> Emo
+
+Original: CNN_LSTM\5Epoch\ESC-50\ESC-50_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__5Epoch__ESC-50__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 5Epoch -> ESC-50
+
+Original: CNN_LSTM\5Epoch\Fusion\Fusion_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__5Epoch__Fusion__Fusion_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 5Epoch -> Fusion
+
+Original: CNN_LSTM\5Epoch\H-2\H-2_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__5Epoch__H-2__H-2_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 5Epoch -> H-2
+
+Original: CNN_LSTM\5Epoch\S&E\S&E_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__5Epoch__S&E__S&E_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 5Epoch -> S&E
+
+Original: CNN_LSTM\5Epoch\Tapio\Tapio_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__5Epoch__Tapio__Tapio_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 5Epoch -> Tapio
+
+Original: CNN_LSTM\5Epoch\UrbanSound\UrbanSound_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__5Epoch__UrbanSound__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 5Epoch -> UrbanSound
+
+Original: CNN_LSTM\5Epoch\WonjunYi\WonjunYi_detailed_files_confusion_matrix.png
+New Name: CNN_LSTM__5Epoch__WonjunYi__WonjunYi_detailed_files_confusion_matrix.png
+Path Parts: CNN_LSTM -> 5Epoch -> WonjunYi
+
+Original: Resnet_34\100Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__100Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 100Epoch
+
+Original: Resnet_34\100Epoch\CalibrationDataset\CalibrationDataset_results_20251111_104036_confusion_matrix.png
+New Name: Resnet_34__100Epoch__CalibrationDataset__CalibrationDataset_results_20251111_104036_confusion_matrix.png
+Path Parts: Resnet_34 -> 100Epoch -> CalibrationDataset
+
+Original: Resnet_34\100Epoch\DronePrint\DronePrint_results_20251111_103538_confusion_matrix.png
+New Name: Resnet_34__100Epoch__DronePrint__DronePrint_results_20251111_103538_confusion_matrix.png
+Path Parts: Resnet_34 -> 100Epoch -> DronePrint
+
+Original: Resnet_34\100Epoch\Emo\Emo_results_20251111_103606_confusion_matrix.png
+New Name: Resnet_34__100Epoch__Emo__Emo_results_20251111_103606_confusion_matrix.png
+Path Parts: Resnet_34 -> 100Epoch -> Emo
+
+Original: Resnet_34\100Epoch\ESC-50\ESC-50_results_20251111_103640_confusion_matrix.png
+New Name: Resnet_34__100Epoch__ESC-50__ESC-50_results_20251111_103640_confusion_matrix.png
+Path Parts: Resnet_34 -> 100Epoch -> ESC-50
+
+Original: Resnet_34\100Epoch\Fusion\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__100Epoch__Fusion__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 100Epoch -> Fusion
+
+Original: Resnet_34\100Epoch\H-2\H-2_results_20251111_102817_confusion_matrix.png
+New Name: Resnet_34__100Epoch__H-2__H-2_results_20251111_102817_confusion_matrix.png
+Path Parts: Resnet_34 -> 100Epoch -> H-2
+
+Original: Resnet_34\100Epoch\S&E\S&E_results_20251111_103556_confusion_matrix.png
+New Name: Resnet_34__100Epoch__S&E__S&E_results_20251111_103556_confusion_matrix.png
+Path Parts: Resnet_34 -> 100Epoch -> S&E
+
+Original: Resnet_34\100Epoch\Tapio\Tapio_results_20251111_103554_confusion_matrix.png
+New Name: Resnet_34__100Epoch__Tapio__Tapio_results_20251111_103554_confusion_matrix.png
+Path Parts: Resnet_34 -> 100Epoch -> Tapio
+
+Original: Resnet_34\100Epoch\UrbanSound\UrbanSound_results_20251111_103906_confusion_matrix.png
+New Name: Resnet_34__100Epoch__UrbanSound__UrbanSound_results_20251111_103906_confusion_matrix.png
+Path Parts: Resnet_34 -> 100Epoch -> UrbanSound
+
+Original: Resnet_34\100Epoch\WonjunYi\WonjunYi_results_20251111_103952_confusion_matrix.png
+New Name: Resnet_34__100Epoch__WonjunYi__WonjunYi_results_20251111_103952_confusion_matrix.png
+Path Parts: Resnet_34 -> 100Epoch -> WonjunYi
+
+Original: Resnet_34\10Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__10Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 10Epoch
+
+Original: Resnet_34\10Epoch\CalibrationDataset\CalibrationDataset_results_20251111_102556_confusion_matrix.png
+New Name: Resnet_34__10Epoch__CalibrationDataset__CalibrationDataset_results_20251111_102556_confusion_matrix.png
+Path Parts: Resnet_34 -> 10Epoch -> CalibrationDataset
+
+Original: Resnet_34\10Epoch\DronePrint\DronePrint_results_20251111_102058_confusion_matrix.png
+New Name: Resnet_34__10Epoch__DronePrint__DronePrint_results_20251111_102058_confusion_matrix.png
+Path Parts: Resnet_34 -> 10Epoch -> DronePrint
+
+Original: Resnet_34\10Epoch\Emo\Emo_results_20251111_102126_confusion_matrix.png
+New Name: Resnet_34__10Epoch__Emo__Emo_results_20251111_102126_confusion_matrix.png
+Path Parts: Resnet_34 -> 10Epoch -> Emo
+
+Original: Resnet_34\10Epoch\ESC-50\ESC-50_results_20251111_102200_confusion_matrix.png
+New Name: Resnet_34__10Epoch__ESC-50__ESC-50_results_20251111_102200_confusion_matrix.png
+Path Parts: Resnet_34 -> 10Epoch -> ESC-50
+
+Original: Resnet_34\10Epoch\Fusion\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__10Epoch__Fusion__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 10Epoch -> Fusion
+
+Original: Resnet_34\10Epoch\H-2\H-2_results_20251111_101336_confusion_matrix.png
+New Name: Resnet_34__10Epoch__H-2__H-2_results_20251111_101336_confusion_matrix.png
+Path Parts: Resnet_34 -> 10Epoch -> H-2
+
+Original: Resnet_34\10Epoch\S&E\S&E_results_20251111_102116_confusion_matrix.png
+New Name: Resnet_34__10Epoch__S&E__S&E_results_20251111_102116_confusion_matrix.png
+Path Parts: Resnet_34 -> 10Epoch -> S&E
+
+Original: Resnet_34\10Epoch\Tapio\Tapio_results_20251111_102113_confusion_matrix.png
+New Name: Resnet_34__10Epoch__Tapio__Tapio_results_20251111_102113_confusion_matrix.png
+Path Parts: Resnet_34 -> 10Epoch -> Tapio
+
+Original: Resnet_34\10Epoch\UrbanSound\UrbanSound_results_20251111_102426_confusion_matrix.png
+New Name: Resnet_34__10Epoch__UrbanSound__UrbanSound_results_20251111_102426_confusion_matrix.png
+Path Parts: Resnet_34 -> 10Epoch -> UrbanSound
+
+Original: Resnet_34\10Epoch\WonjunYi\WonjunYi_results_20251111_102512_confusion_matrix.png
+New Name: Resnet_34__10Epoch__WonjunYi__WonjunYi_results_20251111_102512_confusion_matrix.png
+Path Parts: Resnet_34 -> 10Epoch -> WonjunYi
+
+Original: Resnet_34\1Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__1Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 1Epoch
+
+Original: Resnet_34\1Epoch\CalibrationDataset\CalibrationDataset_results_20251111_101115_confusion_matrix.png
+New Name: Resnet_34__1Epoch__CalibrationDataset__CalibrationDataset_results_20251111_101115_confusion_matrix.png
+Path Parts: Resnet_34 -> 1Epoch -> CalibrationDataset
+
+Original: Resnet_34\1Epoch\DronePrint\DronePrint_results_20251111_100611_confusion_matrix.png
+New Name: Resnet_34__1Epoch__DronePrint__DronePrint_results_20251111_100611_confusion_matrix.png
+Path Parts: Resnet_34 -> 1Epoch -> DronePrint
+
+Original: Resnet_34\1Epoch\Emo\Emo_results_20251111_100639_confusion_matrix.png
+New Name: Resnet_34__1Epoch__Emo__Emo_results_20251111_100639_confusion_matrix.png
+Path Parts: Resnet_34 -> 1Epoch -> Emo
+
+Original: Resnet_34\1Epoch\ESC-50\ESC-50_results_20251111_100713_confusion_matrix.png
+New Name: Resnet_34__1Epoch__ESC-50__ESC-50_results_20251111_100713_confusion_matrix.png
+Path Parts: Resnet_34 -> 1Epoch -> ESC-50
+
+Original: Resnet_34\1Epoch\Fusion\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__1Epoch__Fusion__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 1Epoch -> Fusion
+
+Original: Resnet_34\1Epoch\H-2\H-2_results_20251111_095844_confusion_matrix.png
+New Name: Resnet_34__1Epoch__H-2__H-2_results_20251111_095844_confusion_matrix.png
+Path Parts: Resnet_34 -> 1Epoch -> H-2
+
+Original: Resnet_34\1Epoch\S&E\S&E_results_20251111_100629_confusion_matrix.png
+New Name: Resnet_34__1Epoch__S&E__S&E_results_20251111_100629_confusion_matrix.png
+Path Parts: Resnet_34 -> 1Epoch -> S&E
+
+Original: Resnet_34\1Epoch\Tapio\Tapio_results_20251111_100627_confusion_matrix.png
+New Name: Resnet_34__1Epoch__Tapio__Tapio_results_20251111_100627_confusion_matrix.png
+Path Parts: Resnet_34 -> 1Epoch -> Tapio
+
+Original: Resnet_34\1Epoch\UrbanSound\UrbanSound_results_20251111_100939_confusion_matrix.png
+New Name: Resnet_34__1Epoch__UrbanSound__UrbanSound_results_20251111_100939_confusion_matrix.png
+Path Parts: Resnet_34 -> 1Epoch -> UrbanSound
+
+Original: Resnet_34\1Epoch\WonjunYi\WonjunYi_results_20251111_101027_confusion_matrix.png
+New Name: Resnet_34__1Epoch__WonjunYi__WonjunYi_results_20251111_101027_confusion_matrix.png
+Path Parts: Resnet_34 -> 1Epoch -> WonjunYi
+
+Original: Resnet_34\20Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__20Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 20Epoch
+
+Original: Resnet_34\20Epoch\CalibrationDataset\CalibrationDataset_results_20251111_105517_confusion_matrix.png
+New Name: Resnet_34__20Epoch__CalibrationDataset__CalibrationDataset_results_20251111_105517_confusion_matrix.png
+Path Parts: Resnet_34 -> 20Epoch -> CalibrationDataset
+
+Original: Resnet_34\20Epoch\DronePrint\DronePrint_results_20251111_105020_confusion_matrix.png
+New Name: Resnet_34__20Epoch__DronePrint__DronePrint_results_20251111_105020_confusion_matrix.png
+Path Parts: Resnet_34 -> 20Epoch -> DronePrint
+
+Original: Resnet_34\20Epoch\Emo\Emo_results_20251111_105048_confusion_matrix.png
+New Name: Resnet_34__20Epoch__Emo__Emo_results_20251111_105048_confusion_matrix.png
+Path Parts: Resnet_34 -> 20Epoch -> Emo
+
+Original: Resnet_34\20Epoch\ESC-50\ESC-50_results_20251111_105121_confusion_matrix.png
+New Name: Resnet_34__20Epoch__ESC-50__ESC-50_results_20251111_105121_confusion_matrix.png
+Path Parts: Resnet_34 -> 20Epoch -> ESC-50
+
+Original: Resnet_34\20Epoch\Fusion\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__20Epoch__Fusion__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 20Epoch -> Fusion
+
+Original: Resnet_34\20Epoch\H-2\H-2_results_20251111_104258_confusion_matrix.png
+New Name: Resnet_34__20Epoch__H-2__H-2_results_20251111_104258_confusion_matrix.png
+Path Parts: Resnet_34 -> 20Epoch -> H-2
+
+Original: Resnet_34\20Epoch\S&E\S&E_results_20251111_105038_confusion_matrix.png
+New Name: Resnet_34__20Epoch__S&E__S&E_results_20251111_105038_confusion_matrix.png
+Path Parts: Resnet_34 -> 20Epoch -> S&E
+
+Original: Resnet_34\20Epoch\Tapio\Tapio_results_20251111_105035_confusion_matrix.png
+New Name: Resnet_34__20Epoch__Tapio__Tapio_results_20251111_105035_confusion_matrix.png
+Path Parts: Resnet_34 -> 20Epoch -> Tapio
+
+Original: Resnet_34\20Epoch\UrbanSound\UrbanSound_results_20251111_105347_confusion_matrix.png
+New Name: Resnet_34__20Epoch__UrbanSound__UrbanSound_results_20251111_105347_confusion_matrix.png
+Path Parts: Resnet_34 -> 20Epoch -> UrbanSound
+
+Original: Resnet_34\20Epoch\WonjunYi\WonjunYi_results_20251111_105433_confusion_matrix.png
+New Name: Resnet_34__20Epoch__WonjunYi__WonjunYi_results_20251111_105433_confusion_matrix.png
+Path Parts: Resnet_34 -> 20Epoch -> WonjunYi
+
+Original: Resnet_34\50Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__50Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 50Epoch
+
+Original: Resnet_34\50Epoch\CalibrationDataset\CalibrationDataset_results_20251111_112905_confusion_matrix.png
+New Name: Resnet_34__50Epoch__CalibrationDataset__CalibrationDataset_results_20251111_112905_confusion_matrix.png
+Path Parts: Resnet_34 -> 50Epoch -> CalibrationDataset
+
+Original: Resnet_34\50Epoch\DronePrint\DronePrint_results_20251111_112306_confusion_matrix.png
+New Name: Resnet_34__50Epoch__DronePrint__DronePrint_results_20251111_112306_confusion_matrix.png
+Path Parts: Resnet_34 -> 50Epoch -> DronePrint
+
+Original: Resnet_34\50Epoch\Emo\Emo_results_20251111_112344_confusion_matrix.png
+New Name: Resnet_34__50Epoch__Emo__Emo_results_20251111_112344_confusion_matrix.png
+Path Parts: Resnet_34 -> 50Epoch -> Emo
+
+Original: Resnet_34\50Epoch\ESC-50\ESC-50_results_20251111_112433_confusion_matrix.png
+New Name: Resnet_34__50Epoch__ESC-50__ESC-50_results_20251111_112433_confusion_matrix.png
+Path Parts: Resnet_34 -> 50Epoch -> ESC-50
+
+Original: Resnet_34\50Epoch\Fusion\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__50Epoch__Fusion__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 50Epoch -> Fusion
+
+Original: Resnet_34\50Epoch\H-2\H-2_results_20251111_111337_confusion_matrix.png
+New Name: Resnet_34__50Epoch__H-2__H-2_results_20251111_111337_confusion_matrix.png
+Path Parts: Resnet_34 -> 50Epoch -> H-2
+
+Original: Resnet_34\50Epoch\S&E\S&E_results_20251111_112330_confusion_matrix.png
+New Name: Resnet_34__50Epoch__S&E__S&E_results_20251111_112330_confusion_matrix.png
+Path Parts: Resnet_34 -> 50Epoch -> S&E
+
+Original: Resnet_34\50Epoch\Tapio\Tapio_results_20251111_112326_confusion_matrix.png
+New Name: Resnet_34__50Epoch__Tapio__Tapio_results_20251111_112326_confusion_matrix.png
+Path Parts: Resnet_34 -> 50Epoch -> Tapio
+
+Original: Resnet_34\50Epoch\UrbanSound\UrbanSound_results_20251111_112727_confusion_matrix.png
+New Name: Resnet_34__50Epoch__UrbanSound__UrbanSound_results_20251111_112727_confusion_matrix.png
+Path Parts: Resnet_34 -> 50Epoch -> UrbanSound
+
+Original: Resnet_34\50Epoch\WonjunYi\WonjunYi_results_20251111_112817_confusion_matrix.png
+New Name: Resnet_34__50Epoch__WonjunYi__WonjunYi_results_20251111_112817_confusion_matrix.png
+Path Parts: Resnet_34 -> 50Epoch -> WonjunYi
+
+Original: Resnet_34\5Epoch\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__5Epoch__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 5Epoch
+
+Original: Resnet_34\5Epoch\CalibrationDataset\CalibrationDataset_results_20251111_111100_confusion_matrix.png
+New Name: Resnet_34__5Epoch__CalibrationDataset__CalibrationDataset_results_20251111_111100_confusion_matrix.png
+Path Parts: Resnet_34 -> 5Epoch -> CalibrationDataset
+
+Original: Resnet_34\5Epoch\DronePrint\DronePrint_results_20251111_110532_confusion_matrix.png
+New Name: Resnet_34__5Epoch__DronePrint__DronePrint_results_20251111_110532_confusion_matrix.png
+Path Parts: Resnet_34 -> 5Epoch -> DronePrint
+
+Original: Resnet_34\5Epoch\Emo\Emo_results_20251111_110602_confusion_matrix.png
+New Name: Resnet_34__5Epoch__Emo__Emo_results_20251111_110602_confusion_matrix.png
+Path Parts: Resnet_34 -> 5Epoch -> Emo
+
+Original: Resnet_34\5Epoch\ESC-50\ESC-50_results_20251111_110640_confusion_matrix.png
+New Name: Resnet_34__5Epoch__ESC-50__ESC-50_results_20251111_110640_confusion_matrix.png
+Path Parts: Resnet_34 -> 5Epoch -> ESC-50
+
+Original: Resnet_34\5Epoch\Fusion\Fusion_detailed_files_confusion_matrix.png
+New Name: Resnet_34__5Epoch__Fusion__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Resnet_34 -> 5Epoch -> Fusion
+
+Original: Resnet_34\5Epoch\H-2\H-2_results_20251111_105739_confusion_matrix.png
+New Name: Resnet_34__5Epoch__H-2__H-2_results_20251111_105739_confusion_matrix.png
+Path Parts: Resnet_34 -> 5Epoch -> H-2
+
+Original: Resnet_34\5Epoch\S&E\S&E_results_20251111_110552_confusion_matrix.png
+New Name: Resnet_34__5Epoch__S&E__S&E_results_20251111_110552_confusion_matrix.png
+Path Parts: Resnet_34 -> 5Epoch -> S&E
+
+Original: Resnet_34\5Epoch\Tapio\Tapio_results_20251111_110549_confusion_matrix.png
+New Name: Resnet_34__5Epoch__Tapio__Tapio_results_20251111_110549_confusion_matrix.png
+Path Parts: Resnet_34 -> 5Epoch -> Tapio
+
+Original: Resnet_34\5Epoch\UrbanSound\UrbanSound_results_20251111_110923_confusion_matrix.png
+New Name: Resnet_34__5Epoch__UrbanSound__UrbanSound_results_20251111_110923_confusion_matrix.png
+Path Parts: Resnet_34 -> 5Epoch -> UrbanSound
+
+Original: Resnet_34\5Epoch\WonjunYi\WonjunYi_results_20251111_111011_confusion_matrix.png
+New Name: Resnet_34__5Epoch__WonjunYi__WonjunYi_results_20251111_111011_confusion_matrix.png
+Path Parts: Resnet_34 -> 5Epoch -> WonjunYi
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch1\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch1__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch1 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch10\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch10__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch10 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch15\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch15__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch15 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch20\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch20__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch20 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_AllAugments\Epoch5\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_AllAugments__Epoch5__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_AllAugments -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch1\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch1__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch1 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch10\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch10__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch10 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch15\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch15__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch15 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch20\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch20__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch20 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_BandPassSurefire\Epoch5\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_BandPassSurefire__Epoch5__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_BandPassSurefire -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch1\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch1__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch10\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch10__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch15\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch15__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch20\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch20__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Clipped\Epoch5\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Clipped__Epoch5__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Clipped -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch1\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch1__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch10\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch10__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch15\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch15__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch20\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch20__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianAndBandPass\Epoch5\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianAndBandPass__Epoch5__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianAndBandPass -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch1\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch1__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch1 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch10\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch10__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch10 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch15\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch15__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch15 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch20\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch20__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch20 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_GaussianNoise\Epoch5\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_GaussianNoise__Epoch5__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_GaussianNoise -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\Wav2Vec2_Vanilla_Epoch_1_Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__Wav2Vec2_Vanilla_Epoch_1_Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch1\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch1__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch1 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch10\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch10__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch10 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch15\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch15__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch15 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch20\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch20__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch20 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\CalibrationDataset_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__CalibrationDataset_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\DronePrint_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__DronePrint_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\Emo_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__Emo_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\ESC-50_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__ESC-50_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\Fusion_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__Fusion_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\H-2_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__H-2_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__MerilainenCompiledSounds_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\S&E_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__S&E_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\UrbanSound_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__UrbanSound_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+
+Original: Wav2Vec2_Vanilla\Epoch5\datasets\Wonjun_Yi_detailed_files_confusion_matrix.png
+New Name: Wav2Vec2_Vanilla__Epoch5__datasets__Wonjun_Yi_detailed_files_confusion_matrix.png
+Path Parts: Wav2Vec2_Vanilla -> Epoch5 -> datasets
+

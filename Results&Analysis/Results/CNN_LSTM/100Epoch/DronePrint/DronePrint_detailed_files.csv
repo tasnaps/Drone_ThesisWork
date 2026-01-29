@@ -1,0 +1,13 @@
+file_id,true_label,predicted_label,drone_probability,aggregation_method,aggregation_threshold,split
+0,1,0,0.09091284,mean_over_windows,0.830499,whole_file
+1,1,0,0.09091823,mean_over_windows,0.830499,whole_file
+2,1,0,0.09091036,mean_over_windows,0.830499,whole_file
+3,1,0,0.03089099,mean_over_windows,0.830499,whole_file
+4,1,0,0.09092944,mean_over_windows,0.830499,whole_file
+5,1,0,0.09093105,mean_over_windows,0.830499,whole_file
+6,1,0,0.09094877,mean_over_windows,0.830499,whole_file
+7,1,0,0.09095141,mean_over_windows,0.830499,whole_file
+8,1,0,0.09093165,mean_over_windows,0.830499,whole_file
+9,1,0,0.09093778,mean_over_windows,0.830499,whole_file
+10,1,0,0.01093266,mean_over_windows,0.830499,whole_file
+11,1,0,0.09092869,mean_over_windows,0.830499,whole_file

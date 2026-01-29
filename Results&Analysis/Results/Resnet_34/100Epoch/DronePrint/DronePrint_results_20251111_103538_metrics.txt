@@ -1,0 +1,12 @@
+Dataset: DronePrint
+Total files: 12
+Threshold used: 0.00004600
+Accuracy: 0.41666667
+Precision: 1.00000000
+Recall: 0.41666667
+F1-Score: 0.58823529
+AUC: nan
+Class distribution: {1: 12}
+Confusion Matrix:
+[[0 0]
+ [7 5]]

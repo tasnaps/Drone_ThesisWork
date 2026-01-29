@@ -1,0 +1,12 @@
+Dataset: WonjunYi
+Total files: 78966
+Threshold used: 0.49950000
+Accuracy: 0.00000000
+Precision: 0.00000000
+Recall: 0.00000000
+F1-Score: 0.00000000
+AUC: nan
+Class distribution: {1: 78966}
+Confusion Matrix:
+[[    0     0]
+ [78966     0]]

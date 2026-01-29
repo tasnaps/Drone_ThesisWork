@@ -1,0 +1,12 @@
+Dataset: UrbanSound
+Total files: 8324
+Threshold used: 0.49650001
+Accuracy: 0.02090341
+Precision: 0.00000000
+Recall: 0.00000000
+F1-Score: 0.00000000
+AUC: nan
+Class distribution: {0: 8324}
+Confusion Matrix:
+[[ 174 8150]
+ [   0    0]]

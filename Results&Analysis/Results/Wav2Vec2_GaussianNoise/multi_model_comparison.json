@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-01-24 08:46:56",
+  "total_models_evaluated": 5,
+  "successful_models": 5,
+  "ensemble_methods_tested": 2,
+  "individual_model_summary": {
+    "Model_checkpoint-10460": {
+      "avg_f1": 0,
+      "avg_accuracy": 0,
+      "num_datasets": 9,
+      "evaluation_time": 5835.535999536514
+    },
+    "Model_checkpoint-2615": {
+      "avg_f1": 0,
+      "avg_accuracy": 0,
+      "num_datasets": 9,
+      "evaluation_time": 5988.569193124771
+    },
+    "Model_checkpoint-523": {
+      "avg_f1": 0,
+      "avg_accuracy": 0,
+      "num_datasets": 9,
+      "evaluation_time": 6013.4867486953735
+    },
+    "Model_checkpoint-5230": {
+      "avg_f1": 0,
+      "avg_accuracy": 0,
+      "num_datasets": 9,
+      "evaluation_time": 6121.454193115234
+    },
+    "Model_checkpoint-7845": {
+      "avg_f1": 0,
+      "avg_accuracy": 0,
+      "num_datasets": 9,
+      "evaluation_time": 6169.73301243782
+    }
+  },
+  "ensemble_summary": {
+    "VotingEnsemble": {
+      "avg_f1": 0.343477139143575,
+      "avg_accuracy": 0.6608904645781527,
+      "num_datasets": 9
+    }
+  },
+  "best_performing": {
+    "by_f1": [
+      "Ensemble_VotingEnsemble",
+      {
+        "avg_f1": 0.343477139143575,
+        "avg_accuracy": 0.6608904645781527,
+        "num_datasets": 9
+      }
+    ],
+    "by_accuracy": [
+      "Ensemble_VotingEnsemble",
+      {
+        "avg_f1": 0.343477139143575,
+        "avg_accuracy": 0.6608904645781527,
+        "num_datasets": 9
+      }
+    ]
+  },
+  "recommendations": [
+    "Best individual model: Model_checkpoint-10460 (F1: 0.000)",
+    "Ensemble methods improve F1 by inf% over best individual model"
+  ]
+}
