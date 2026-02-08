@@ -324,29 +324,65 @@ def generate_dataset_epoch_plot(epoch_data, epoch_num, output_dir, model_name='U
     datasets = list(epoch_data.keys())
     datasets.sort()  # Sort for consistent ordering
 
-    # Generate unique colors for each dataset
-    colors = plt.cm.tab20(np.linspace(0, 1, len(datasets)))
+    # Use accessible colors (colorblind-friendly palette)
+    accessible_colors = [
+        '#0077BB',  # Blue
+        '#EE7733',  # Orange
+        '#009988',  # Teal
+        '#CC3311',  # Red
+        '#33BBEE',  # Cyan
+        '#EE3377',  # Magenta
+        '#BBBBBB',  # Grey
+        '#000000',  # Black
+        '#44AA99',  # Teal green
+        '#882255',  # Wine
+        '#DDCC77',  # Sand
+        '#117733',  # Green
+        '#88CCEE',  # Light blue
+        '#AA4499',  # Purple
+        '#999933',  # Olive
+        '#661100',  # Dark red
+        '#6699CC',  # Steel blue
+        '#AA4466',  # Rose
+        '#332288',  # Indigo
+        '#DDDDDD',  # Light grey
+    ]
+    colors = [accessible_colors[i % len(accessible_colors)] for i in range(len(datasets))]
 
     # Create subplot with more height to accommodate both categories
-    fig, ax = plt.subplots(figsize=(16, max(10, int(len(datasets) * 1.2))))
+    fig, ax = plt.subplots(figsize=(16, max(12, int(len(datasets) * 1.8))))
 
     # Create positions for datasets - each dataset gets 2 rows (drone + unknown)
-    y_spacing = 1.0
+    # Increased spacing to prevent label overlap
+    y_spacing = 1.2
     y_positions = []
     y_labels = []
 
     for i, dataset in enumerate(datasets):
         base_y = i * 2 * y_spacing
-        y_positions.extend([base_y + 0.2, base_y + 0.8])  # drone, unknown
-        y_labels.extend([f'{dataset}\n(Drone)', f'{dataset}\n(Unknown)'])
+        y_positions.extend([base_y + 0.3, base_y + 1.2])  # drone, unknown - more separation
+        y_labels.extend([f'{dataset} (Drone)', f'{dataset} (Unknown)'])
+
+    # Add alternating background shading for each dataset group
+    for i, dataset in enumerate(datasets):
+        base_y = i * 2 * y_spacing
+        # Alternate between light grey and white backgrounds
+        if i % 2 == 0:
+            ax.axhspan(base_y - 0.1, base_y + y_spacing * 2 - 0.3,
+                      facecolor='#F5F5F5', alpha=0.7, zorder=0)
+
+        # Add separator line between dataset groups (except before first)
+        if i > 0:
+            separator_y = base_y - 0.2
+            ax.axhline(y=separator_y, color='#CCCCCC', linestyle='-', linewidth=1.5, zorder=1)
 
     for i, dataset in enumerate(datasets):
         stats = epoch_data[dataset]
         color = colors[i]
 
         # Calculate positions for this dataset
-        drone_y = i * 2 * y_spacing + 0.2
-        unknown_y = i * 2 * y_spacing + 0.8
+        drone_y = i * 2 * y_spacing + 0.3
+        unknown_y = i * 2 * y_spacing + 1.2
 
         # Plot drone statistics with weighted density (true_label = 1)
         if stats['drone']['count'] > 0:
@@ -372,18 +408,19 @@ def generate_dataset_epoch_plot(epoch_data, epoch_num, output_dir, model_name='U
 
         ax.text(1.02, drone_y, f'n={drone_count:,}',
                 transform=ax.get_yaxis_transform(),
-                verticalalignment='center', fontsize=9, color='darkgreen')
+                verticalalignment='center', fontsize=18, color='darkgreen')
         ax.text(1.02, unknown_y, f'n={unknown_count:,}',
                 transform=ax.get_yaxis_transform(),
-                verticalalignment='center', fontsize=9, color='darkred')
+                verticalalignment='center', fontsize=18, color='darkred')
 
     # Formatting
     ax.set_yticks(y_positions)
-    ax.set_yticklabels(y_labels, fontsize=10)
-    ax.set_xlabel('Drone Probability', fontsize=14)
-    ax.set_ylabel('Dataset & Category', fontsize=14)
+    ax.set_yticklabels(y_labels, fontsize=18)
+    ax.set_xlabel('Drone Probability', fontsize=22)
+    ax.set_ylabel('Dataset & Category', fontsize=22)
     ax.set_title(f'{model_name} - Dataset Statistics - Epoch {epoch_num}\n(○ = Drone Median, □ = Unknown Median, Line Thickness = Data Concentration)\nCalibrated Threshold: {threshold:.4f}',
-                fontsize=16, pad=20)
+                fontsize=22, pad=20)
+    ax.tick_params(axis='x', labelsize=16)
 
     # Add grid for better readability
     ax.grid(True, alpha=0.3, axis='x')
@@ -397,11 +434,12 @@ def generate_dataset_epoch_plot(epoch_data, epoch_num, output_dir, model_name='U
     legend_elements = [
         Line2D([0], [0], color='black', linewidth=6, alpha=0.8, label='Drone (thick = high concentration)'),
         Line2D([0], [0], color='black', linewidth=6, alpha=0.6, linestyle='--', label='Unknown (thick = high concentration)'),
-        Line2D([0], [0], marker='o', color='w', markerfacecolor='black', markersize=10, label='Median (Drone)', linestyle='None'),
-        Line2D([0], [0], marker='s', color='w', markerfacecolor='black', markersize=10, label='Median (Unknown)', linestyle='None'),
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='black', markersize=14, label='Median (Drone)', linestyle='None'),
+        Line2D([0], [0], marker='s', color='w', markerfacecolor='black', markersize=14, label='Median (Unknown)', linestyle='None'),
         Line2D([0], [0], color='red', linewidth=3, label=f'Calibrated Threshold ({threshold:.4f})')
     ]
-    ax.legend(handles=legend_elements, bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax.legend(handles=legend_elements, loc='upper center', bbox_to_anchor=(0.5, -0.08),
+              ncol=3, fontsize=16, frameon=True)
 
     # Adjust layout to prevent label cutoff
     plt.tight_layout()
@@ -566,13 +604,35 @@ def generate_summary_across_epochs(epoch_dataset_data, output_dir, model_name='U
         if epoch not in epoch_thresholds:
             epoch_thresholds[epoch] = 0.5  # fallback
 
-    # Generate colors for datasets
-    colors = plt.cm.tab20(np.linspace(0, 1, len(all_datasets)))
+    # Generate accessible colors for datasets (colorblind-friendly palette)
+    accessible_colors = [
+        '#0077BB',  # Blue
+        '#EE7733',  # Orange
+        '#009988',  # Teal
+        '#CC3311',  # Red
+        '#33BBEE',  # Cyan
+        '#EE3377',  # Magenta
+        '#BBBBBB',  # Grey
+        '#000000',  # Black
+        '#44AA99',  # Teal green
+        '#882255',  # Wine
+        '#DDCC77',  # Sand
+        '#117733',  # Green
+        '#88CCEE',  # Light blue
+        '#AA4499',  # Purple
+        '#999933',  # Olive
+        '#661100',  # Dark red
+        '#6699CC',  # Steel blue
+        '#AA4466',  # Rose
+        '#332288',  # Indigo
+        '#DDDDDD',  # Light grey
+    ]
+    colors = [accessible_colors[i % len(accessible_colors)] for i in range(len(all_datasets))]
 
     # Create two separate figures: one for drone, one for unknown
 
     # === DRONE STATISTICS ===
-    fig1, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 16))
+    fig1, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(14, 18))
 
     # Plot drone median probabilities across epochs
     for i, dataset in enumerate(all_datasets):
@@ -586,17 +646,18 @@ def generate_summary_across_epochs(epoch_dataset_data, output_dir, model_name='U
 
         if medians:
             ax1.plot(epoch_list, medians, marker='o', label=dataset,
-                    color=colors[i], linewidth=2, markersize=6)
+                    color=colors[i], linewidth=2, markersize=8)
 
-    ax1.set_xlabel('Epoch', fontsize=12)
-    ax1.set_ylabel('Median Drone Probability', fontsize=12)
-    ax1.set_title(f'{model_name} - Median Drone Probability Across Epochs (Drone Samples Only)', fontsize=14)
+    ax1.set_xlabel('Epoch', fontsize=18)
+    ax1.set_ylabel('Median Drone Probability', fontsize=18)
+    ax1.set_title(f'{model_name} - Median Drone Probability Across Epochs (Drone Samples Only)', fontsize=20)
+    ax1.tick_params(axis='both', labelsize=16)
     ax1.grid(True, alpha=0.3)
-    ax1.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     # Plot calibrated threshold line (varies by epoch)
     threshold_epochs = sorted(epoch_thresholds.keys())
     threshold_values = [epoch_thresholds[e] for e in threshold_epochs]
     ax1.plot(threshold_epochs, threshold_values, color='red', linestyle='--', alpha=0.7, linewidth=2, label='Calibrated Threshold', marker='x')
+    ax1.legend(loc='upper center', bbox_to_anchor=(0.5, -0.12), ncol=4, fontsize=14, frameon=True)
 
     # Plot drone min probabilities across epochs
     for i, dataset in enumerate(all_datasets):
@@ -610,14 +671,15 @@ def generate_summary_across_epochs(epoch_dataset_data, output_dir, model_name='U
 
         if mins:
             ax2.plot(epoch_list, mins, marker='s', label=dataset,
-                    color=colors[i], linewidth=2, markersize=6)
+                    color=colors[i], linewidth=2, markersize=8)
 
-    ax2.set_xlabel('Epoch', fontsize=12)
-    ax2.set_ylabel('Min Drone Probability', fontsize=12)
-    ax2.set_title(f'{model_name} - Minimum Drone Probability Across Epochs (Drone Samples Only)', fontsize=14)
+    ax2.set_xlabel('Epoch', fontsize=18)
+    ax2.set_ylabel('Min Drone Probability', fontsize=18)
+    ax2.set_title(f'{model_name} - Minimum Drone Probability Across Epochs (Drone Samples Only)', fontsize=20)
+    ax2.tick_params(axis='both', labelsize=16)
     ax2.grid(True, alpha=0.3)
-    ax2.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     ax2.plot(threshold_epochs, threshold_values, color='red', linestyle='--', alpha=0.7, linewidth=2, label='Calibrated Threshold', marker='x')
+    ax2.legend(loc='upper center', bbox_to_anchor=(0.5, -0.12), ncol=4, fontsize=14, frameon=True)
 
     # Plot drone max probabilities across epochs
     for i, dataset in enumerate(all_datasets):
@@ -631,16 +693,17 @@ def generate_summary_across_epochs(epoch_dataset_data, output_dir, model_name='U
 
         if maxs:
             ax3.plot(epoch_list, maxs, marker='^', label=dataset,
-                    color=colors[i], linewidth=2, markersize=6)
+                    color=colors[i], linewidth=2, markersize=8)
 
-    ax3.set_xlabel('Epoch', fontsize=12)
-    ax3.set_ylabel('Max Drone Probability', fontsize=12)
-    ax3.set_title(f'{model_name} - Maximum Drone Probability Across Epochs (Drone Samples Only)', fontsize=14)
+    ax3.set_xlabel('Epoch', fontsize=22)
+    ax3.set_ylabel('Max Drone Probability', fontsize=22)
+    ax3.set_title(f'{model_name} - Maximum Drone Probability Across Epochs (Drone Samples Only)', fontsize=24)
+    ax3.tick_params(axis='both', labelsize=18)
     ax3.grid(True, alpha=0.3)
-    ax3.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     ax3.plot(threshold_epochs, threshold_values, color='red', linestyle='--', alpha=0.7, linewidth=2, label='Calibrated Threshold', marker='x')
+    ax3.legend(loc='upper center', bbox_to_anchor=(0.5, -0.12), ncol=4, fontsize=16, frameon=True)
 
-    plt.tight_layout()
+    plt.tight_layout(h_pad=3.0)
 
     # Save drone summary plot
     drone_summary_filepath = os.path.join(output_dir, 'summary_across_epochs_DRONE_weighted.png')
@@ -650,7 +713,7 @@ def generate_summary_across_epochs(epoch_dataset_data, output_dir, model_name='U
     print(f"  Saved drone summary plot: {drone_summary_filepath}")
 
     # === UNKNOWN STATISTICS ===
-    fig2, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 16))
+    fig2, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(14, 18))
 
     # Plot unknown median probabilities across epochs
     for i, dataset in enumerate(all_datasets):
@@ -664,14 +727,15 @@ def generate_summary_across_epochs(epoch_dataset_data, output_dir, model_name='U
 
         if medians:
             ax1.plot(epoch_list, medians, marker='o', label=dataset,
-                    color=colors[i], linewidth=2, markersize=6)
+                    color=colors[i], linewidth=2, markersize=8)
 
-    ax1.set_xlabel('Epoch', fontsize=12)
-    ax1.set_ylabel('Median Drone Probability', fontsize=12)
-    ax1.set_title(f'{model_name} - Median Drone Probability Across Epochs (Unknown Samples Only)', fontsize=14)
+    ax1.set_xlabel('Epoch', fontsize=18)
+    ax1.set_ylabel('Median Drone Probability', fontsize=18)
+    ax1.set_title(f'{model_name} - Median Drone Probability Across Epochs (Unknown Samples Only)', fontsize=20)
+    ax1.tick_params(axis='both', labelsize=16)
     ax1.grid(True, alpha=0.3)
-    ax1.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     ax1.plot(threshold_epochs, threshold_values, color='red', linestyle='--', alpha=0.7, linewidth=2, label='Calibrated Threshold', marker='x')
+    ax1.legend(loc='upper center', bbox_to_anchor=(0.5, -0.12), ncol=4, fontsize=14, frameon=True)
 
     # Plot unknown min probabilities across epochs
     for i, dataset in enumerate(all_datasets):
@@ -685,14 +749,15 @@ def generate_summary_across_epochs(epoch_dataset_data, output_dir, model_name='U
 
         if mins:
             ax2.plot(epoch_list, mins, marker='s', label=dataset,
-                    color=colors[i], linewidth=2, markersize=6)
+                    color=colors[i], linewidth=2, markersize=8)
 
-    ax2.set_xlabel('Epoch', fontsize=12)
-    ax2.set_ylabel('Min Drone Probability', fontsize=12)
-    ax2.set_title(f'{model_name} - Minimum Drone Probability Across Epochs (Unknown Samples Only)', fontsize=14)
+    ax2.set_xlabel('Epoch', fontsize=18)
+    ax2.set_ylabel('Min Drone Probability', fontsize=18)
+    ax2.set_title(f'{model_name} - Minimum Drone Probability Across Epochs (Unknown Samples Only)', fontsize=20)
+    ax2.tick_params(axis='both', labelsize=16)
     ax2.grid(True, alpha=0.3)
-    ax2.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     ax2.plot(threshold_epochs, threshold_values, color='red', linestyle='--', alpha=0.7, linewidth=2, label='Calibrated Threshold', marker='x')
+    ax2.legend(loc='upper center', bbox_to_anchor=(0.5, -0.12), ncol=4, fontsize=14, frameon=True)
 
     # Plot unknown max probabilities across epochs
     for i, dataset in enumerate(all_datasets):
@@ -706,16 +771,17 @@ def generate_summary_across_epochs(epoch_dataset_data, output_dir, model_name='U
 
         if maxs:
             ax3.plot(epoch_list, maxs, marker='^', label=dataset,
-                    color=colors[i], linewidth=2, markersize=6)
+                    color=colors[i], linewidth=2, markersize=8)
 
-    ax3.set_xlabel('Epoch', fontsize=12)
-    ax3.set_ylabel('Max Drone Probability', fontsize=12)
-    ax3.set_title(f'{model_name} - Maximum Drone Probability Across Epochs (Unknown Samples Only)', fontsize=14)
+    ax3.set_xlabel('Epoch', fontsize=22)
+    ax3.set_ylabel('Max Drone Probability', fontsize=22)
+    ax3.set_title(f'{model_name} - Maximum Drone Probability Across Epochs (Unknown Samples Only)', fontsize=24)
+    ax3.tick_params(axis='both', labelsize=18)
     ax3.grid(True, alpha=0.3)
-    ax3.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     ax3.plot(threshold_epochs, threshold_values, color='red', linestyle='--', alpha=0.7, linewidth=2, label='Calibrated Threshold', marker='x')
+    ax3.legend(loc='upper center', bbox_to_anchor=(0.5, -0.12), ncol=4, fontsize=16, frameon=True)
 
-    plt.tight_layout()
+    plt.tight_layout(h_pad=3.0)
 
     # Save unknown summary plot
     unknown_summary_filepath = os.path.join(output_dir, 'summary_across_epochs_UNKNOWN_weighted.png')

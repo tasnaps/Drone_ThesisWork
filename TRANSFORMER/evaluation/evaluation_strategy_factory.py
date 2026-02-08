@@ -69,7 +69,7 @@ from TRANSFORMER.config.config import EvaluationConfig
 class EvaluationStrategy(ABC):
     """Abstract base class for evaluation strategies."""
 
-    def __init__(self, model_path, batch_size, output_dir="C:/Users/tapio/PycharmProjects/gradu/eval_results"):
+    def __init__(self, model_path, batch_size, output_dir="C:/Users/XXX/PycharmProjects/gradu/eval_results"):
         self.model_path = model_path
         self.batch_size = batch_size
         self.output_dir = output_dir

@@ -20,9 +20,10 @@ import librosa
 import librosa.display
 
 # --- Folders to process (these already contain copies of the audio files) ---
-all_augments_audioFolder = r"C:\Users\tapio\Desktop\Aineistot\Augmented_Datasets_Alemadi\Binary_Drone_Audio_AllAugments"
-clipped_audio_files = r"C:\Users\tapio\Desktop\Aineistot\Augmented_Datasets_Alemadi\Binary_Drone_Audio_Clipped"
-Binary_Drone_Audio_GaussianAndBandPass = r"C:\Users\tapio\Desktop\Aineistot\Augmented_Datasets_Alemadi\Binary_Drone_Audio_GaussianAndBandPass"
+#TODO if you want to use augmentation you should do it via this script - unless you fix the bug in augmentation pipeline which fails to select correct augmentation.
+#all_augments_audioFolder = r"C:\Users\XXX\Desktop\Datasets\Augmented_Datasets_Alemadi\Binary_Drone_Audio_AllAugments"
+#clipped_audio_files = r"C:\Users\XXX\Desktop\Datasets\Augmented_Datasets_Alemadi\Binary_Drone_Audio_Clipped"
+#Binary_Drone_Audio_GaussianAndBandPass = r"C:\Users\XXX\Desktop\Datasets\Augmented_Datasets_Alemadi\Binary_Drone_Audio_GaussianAndBandPass"
 
 # --- Augmentation settings (matching data_transformers.py) ---
 GAUSSIAN_NOISE_CONFIG = {

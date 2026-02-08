@@ -125,7 +125,7 @@ def clear_memory():
 class TrainingConfig:
     def __init__(self):
         # Data settings
-        self.data_dir = "C:/Users/tapio/Desktop/Aineistot/Al-Emadi/Binary_Drone_Audio"
+        self.data_dir = "C:/Users/XXX/Desktop/Datasets/Al-Emadi/Binary_Drone_Audio"#TODO adjust your data dir
         self.augment_data = False  # Enable audio augmentation for training
         self.disable_early_stopping = True  # Disable early stopping callback
         # Training hyperparameters
@@ -664,7 +664,7 @@ def finalize_and_save_results(training_args, val_results, detailed_report):
     with open("./reports/final_results.json", 'w') as f:
         json.dump(all_results, f, indent=2)
     ##TODO for linux we might want to use another library than winsound
-    winsound.MessageBeep(MB_ICONASTERISK)
+    #winsound.MessageBeep(MB_ICONASTERISK)
     print(f"Model saved to: {training_args.output_dir}")
     print("Results saved to: ./reports/final_results.json")
 

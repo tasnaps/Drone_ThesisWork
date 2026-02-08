@@ -309,7 +309,7 @@ def main_loop(epoch: int):
         torch.cuda.manual_seed_all(seed)
         torch.cuda.empty_cache()
 
-    # Set output directory to desktop
+    # TODO Set output dir, defauts to desktop
     desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
     output_dir = os.path.join(desktop_path, "resnet34-audio-model-calibrationsetEVAL", f"run-{epoch}")
 

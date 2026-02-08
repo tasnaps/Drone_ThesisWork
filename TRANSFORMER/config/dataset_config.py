@@ -15,61 +15,61 @@ CHUNK_SIZE = int(os.getenv('CHUNK_SIZE', '100'))  # Allow env override
 # Enhanced dataset configuration with metadata
 ENHANCED_DATASETS = {
     "H-2": {
-        "path": "C:/Users/tapio/Desktop/Aineistot/H-2/converted",
+        "path": "C:/Users/XXX/Desktop/Aineistot/H-2/converted",
         "label_override": None,
         "expected_structure": "folder_based",  # unknown/yes_drone folders
         "description": "Mixed dataset with folder structure"
     },
     #"Fusion": {
-    #    "path": "C:/Users/tapio/Desktop/Aineistot/FusionDataset",
+    #    "path": "C:/Users/XXX/Desktop/Aineistot/FusionDataset",
     #    "label_override": None,  # Fixed: Has both yes_drone and unknown folders
     #    "expected_structure": "folder_based",
     #    "description": "Mixed dataset with folder structure"
     #},
     "DronePrint": {
-        "path": "C:/Users/tapio/Desktop/Aineistot/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected",
+        "path": "C:/Users/XXX/Desktop/Aineistot/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected",
         "label_override": "yes_drone",
         "expected_structure": "all_same",
         "description": "All drone samples"
     },
     "MerilainenCompiledSounds": {
-        "path": "C:/Users/tapio/Desktop/Aineistot/MerilainenCompiledSounds",
+        "path": "C:/Users/XXX/Desktop/Aineistot/MerilainenCompiledSounds",
         "label_override": None,
         "expected_structure": "folder_based",
         "description": "Mixed dataset with folder structure"
     },
     "S&E": {
-        "path": "C:/Users/tapio/Desktop/Aineistot/Svanström & Englund/Drone-detection-dataset/Data/Audio",
+        "path": "C:/Users/XXX/Desktop/Aineistot/Svanström & Englund/Drone-detection-dataset/Data/Audio",
         "label_override": None,
         "expected_structure": "folder_based",
         "description": "Mixed dataset with folder structure"
     },
     "Emo": {
-        "path": "C:/Users/tapio/Desktop/Aineistot/EmoSoundscapes/Parsed",
+        "path": "C:/Users/XXX/Desktop/Aineistot/EmoSoundscapes/Parsed",
         "label_override": "unknown",
         "expected_structure": "all_same",
         "description": "All environmental sounds"
     },
     "ESC-50": {
-        "path": "C:/Users/tapio/Desktop/Aineistot/ESC-50-master/audio",
+        "path": "C:/Users/XXX/Desktop/Aineistot/ESC-50-master/audio",
         "label_override": "unknown",
         "expected_structure": "all_same",
         "description": "All environmental sounds"
     },
     "UrbanSound": {
-        "path": "C:/Users/tapio/Desktop/Aineistot/UrbanSound8K/mergedFolder",
+        "path": "C:/Users/XXX/Desktop/Aineistot/UrbanSound8K/mergedFolder",
         "label_override": "unknown",
         "expected_structure": "all_same",
         "description": "All urban sounds"
     },
     "Wonjun_Yi": {
-        "path": "C:/Users/tapio/Desktop/Aineistot/Wonjun",
+        "path": "C:/Users/XXX/Desktop/Aineistot/Wonjun",
         "label_override": "yes_drone",
         "expected_structure": "all_same",
         "description": "All drone samples"
     },
     "CalibrationDataset": {
-        "path": "C:/Users/tapio/Desktop/Aineistot/eval_threshold",
+        "path": "C:/Users/XXX/Desktop/Aineistot/eval_threshold",
         "label_override": None,
         "expected_structure": "folder_based",
         "description": "Mixed dataset with folder structure"

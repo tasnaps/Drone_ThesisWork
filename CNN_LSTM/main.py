@@ -12,7 +12,7 @@ from pathlib import Path
 from data import load_and_split, preprocess_split, collate_fn
 from cnn_lstm_model import WeightedTrainer, compute_metrics, CNNLSTMModel, compute_class_weights
 from transformers import TrainingArguments, SchedulerType, EarlyStoppingCallback
-from common import TRAIN_SET, CALIBRATION_SET
+from common import TRAIN_SET
 warnings.filterwarnings("ignore")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -31,7 +31,8 @@ def mainLoop(epoch: int):
         torch.cuda.manual_seed_all(seed)
         torch.cuda.empty_cache()
 
-    dataset = load_dataset("audiofolder", data_dir="C:/Users/tapio/Desktop/Aineistot/TrainingDatasets")
+    ##todo: Load dataset for training ex: C:/Users/XXX/Desktop/datasets/TrainingDatasets or use the TRAIN_SET path
+    dataset = load_dataset("audiofolder", data_dir="")
     train_data = dataset["train"]
     validation_data = dataset["validation"]
 
@@ -77,7 +78,7 @@ def mainLoop(epoch: int):
         greater_is_better=True,
 
     )
-    # paste this to callbacks if you want early stopping[EarlyStoppingCallback(early_stopping_patience=3)]
+
     final_trainer = WeightedTrainer(
         model=CNNLSTMModel(num_labels=2).to(device),
         args=final_training_args,
@@ -86,7 +87,7 @@ def mainLoop(epoch: int):
         eval_dataset=ds["validation"],
         compute_metrics=compute_metrics,
         class_weights = class_weights,
-        #callbacks=[EarlyStoppingCallback(early_stopping_patience=40)]
+        #callbacks=[EarlyStoppingCallback(early_stopping_patience=40)] IF YOU WANT EARLY STOPPING
     )
     final_trainer.train()
     final_trainer.save_model(str(model_dir))
