@@ -89,7 +89,7 @@ Configure paths in `config.py` and `resnet_34.py`, then run the training script.
 
 ### Using the CLI (Recommended)
 
-Always use the CLI to evaluate models from the **root directory**:
+Always use the CLI to evaluate transformers models from the **root directory**:
 
 ```bash
 # Single model evaluation
@@ -106,6 +106,10 @@ python -m TRANSFORMER.cli multi-model --base-strategy file
 | `--calibrate` | Enable calibration |
 | `--calibration-key <key>` | Specify calibration dataset (e.g., `"CalibrationDataset"`) |
 | `--force-recalibrate` | Force recalibration |
+
+### CNN-LSTM & Resnet-34
+
+For evaluation the non-SSL models: you can simply run the evaluation scripts after checkinig the paths.
 
 ### Output
 
