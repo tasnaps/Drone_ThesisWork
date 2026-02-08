@@ -22,19 +22,19 @@ except Exception:
 # A list of all the directories containing your CLEANED evaluation datasets.
 # The script will look for 'drone' and 'unknown' subfolders inside each of these.
 SOURCE_DATASETS = [
-    "C:/Users/tapio/Desktop/Aineistot/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected",
-    "C:/Users/tapio/Desktop/Aineistot/EmoSoundscapes/Parsed",
-    "C:/Users/tapio/Desktop/Aineistot/ESC-50-master/audio",
-    "C:/Users/tapio/Desktop/Aineistot/H-2/converted",
-    "C:/Users/tapio/Desktop/Aineistot/Svanström & Englund/Drone-detection-dataset/Data/Audio",
-    "C:/Users/tapio/Desktop/Aineistot/TapioCollection",
-    "C:/Users/tapio/Desktop/Aineistot/UrbanSound8K/mergedFolder",
-    "C:/Users/tapio/Desktop/Aineistot/Wonjun",
+    "C:/Users/XXX/Desktop/Datasests/DronePrint/DronePrint/Dataset/DS1/ExperimentallyCollected",
+    "C:/Users/XXX/Desktop/Datasests/EmoSoundscapes/Parsed",
+    "C:/Users/XXX/Desktop/Datasests/ESC-50-master/audio",
+    "C:/Users/XXX/Desktop/Datasests/H-2/converted",
+    "C:/Users/XXX/Desktop/Datasests/Svanström & Englund/Drone-detection-dataset/Data/Audio",
+    "C:/Users/XXX/Desktop/Datasests/TapioCollection",
+    "C:/Users/XXX/Desktop/Datasests/UrbanSound8K/mergedFolder",
+    "C:/Users/XXX/Desktop/Datasests/Wonjun",
 ]
 
 # The destination directory where the calibration files will be moved.
 # This directory will be created if it doesn't exist.
-CALIBRATION_DIR = "C:/Users/tapio/Desktop/Aineistot/eval_threshold"
+CALIBRATION_DIR = "C:/Users/XXX/Desktop/Aineistot/eval_threshold"
 
 # Deprecated: no longer used (we allocate by fairness, not percentage)
 # CALIBRATION_SPLIT_RATIO = 0.2
