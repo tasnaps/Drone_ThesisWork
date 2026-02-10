@@ -152,3 +152,8 @@ If your dataset only has one class, make sure to use the label override option i
 ```
 
 ---
+
+## License
+
+This project is licensed under a non-commercial license. See [LICENSE](LICENSE) for details.
+Commercial use is prohibited.
