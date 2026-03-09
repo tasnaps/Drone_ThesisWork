@@ -1,0 +1,54 @@
+{
+  "best_global_step": 293,
+  "best_metric": 0.8868613138686131,
+  "best_model_checkpoint": "C:\\Users\\tapio\\Desktop\\cnn_lstm_model_20250930_131619\\checkpoint-293",
+  "epoch": 1.0,
+  "eval_steps": 500,
+  "global_step": 293,
+  "is_hyper_param_search": false,
+  "is_local_process_zero": true,
+  "is_world_process_zero": true,
+  "log_history": [
+    {
+      "epoch": 1.0,
+      "grad_norm": 0.2872576117515564,
+      "learning_rate": 0.00017519999999999998,
+      "loss": 0.3897,
+      "step": 293
+    },
+    {
+      "epoch": 1.0,
+      "eval_accuracy": 0.9735155916275096,
+      "eval_avg_precision": 0.9073333485072161,
+      "eval_f1": 0.8868613138686131,
+      "eval_loss": 0.21597705781459808,
+      "eval_precision": 0.9604743083003953,
+      "eval_recall": 0.823728813559322,
+      "eval_runtime": 10.6968,
+      "eval_samples_per_second": 218.85,
+      "eval_steps_per_second": 13.742,
+      "step": 293
+    }
+  ],
+  "logging_steps": 500,
+  "max_steps": 293,
+  "num_input_tokens_seen": 0,
+  "num_train_epochs": 1,
+  "save_steps": 500,
+  "stateful_callbacks": {
+    "TrainerControl": {
+      "args": {
+        "should_epoch_stop": false,
+        "should_evaluate": false,
+        "should_log": false,
+        "should_save": true,
+        "should_training_stop": true
+      },
+      "attributes": {}
+    }
+  },
+  "total_flos": 0.0,
+  "train_batch_size": 16,
+  "trial_name": null,
+  "trial_params": null
+}
