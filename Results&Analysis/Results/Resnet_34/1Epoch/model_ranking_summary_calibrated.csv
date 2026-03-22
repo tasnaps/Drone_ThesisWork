@@ -1,0 +1,2 @@
+Rank,Model,Epoch,Weighted_Brier,Avg_Brier,Median_Brier,Min_Brier,Max_Brier,Weighted_Accuracy,Avg_Accuracy,Weighted_F1,Avg_F1,Median_F1,Avg_Precision,Avg_Recall,Median_Threshold,Total_Samples,Total_Datasets,Two_Class,Single_Class
+1,Resnet_34,1,0.9639,0.5930,0.8168,0.0000,1.0000,0.0383,0.4080,0.6344,0.7138,0.7138,0.6081,0.9737,0.99720400,92490,8,2,6

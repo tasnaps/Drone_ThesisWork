@@ -1,0 +1,11 @@
+Model,Epoch,Dataset,Is_Single_Class,Calibrated_Threshold,Optimized_Threshold,Threshold_Diff,Calibrated_F1,Optimized_F1,F1_Improvement,Calibrated_Brier,Optimized_Brier,Brier_Improvement
+Resnet_34,1,CalibrationDataset,No,0.99720400,0.96616160,-0.03104240,0.1375,0.1372,-0.0003,0.9253,0.9253,+0.0000
+Resnet_34,1,DronePrint,Yes,0.99720400,0.99720400,+0.00000000,nan,nan,+nan,0.0000,0.0000,+0.0000
+Resnet_34,1,Emo,Yes,0.99720400,0.99720400,+0.00000000,nan,nan,+nan,1.0000,1.0000,+0.0000
+Resnet_34,1,ESC-50,Yes,0.99720400,0.96172004,-0.03548396,nan,nan,+nan,0.9993,0.9993,+0.0000
+Resnet_34,1,Fusion,No,0.99720400,0.97618055,-0.02102345,0.0655,0.0654,-0.0000,0.9639,0.9639,+0.0000
+Resnet_34,1,H-2,Yes,0.99720400,0.99720400,+0.00000000,nan,nan,+nan,0.0000,0.0000,+0.0000
+Resnet_34,1,S&E,No,0.99720400,0.97618055,-0.02102345,0.4865,0.5067,+0.0202,0.6607,0.6607,+0.0000
+Resnet_34,1,Authors,No,0.99720400,0.99720400,+0.00000000,0.9412,0.9412,+0.0000,0.1111,0.1111,+0.0000
+Resnet_34,1,UrbanSound,Yes,0.99720400,0.97930469,-0.01789931,nan,nan,+nan,0.9729,0.9729,+0.0000
+Resnet_34,1,Wonjun_Yi,Yes,0.99720400,0.99720400,+0.00000000,nan,nan,+nan,1.0000,1.0000,+0.0000

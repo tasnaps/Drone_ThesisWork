@@ -6,6 +6,7 @@ import os
 import sys
 import seaborn as sns
 
+
 def generate_histogram(df, csv_filepath):
     prob_0 = df[df['true_label'] == 0]['drone_probability']
     prob_1 = df[df['true_label'] == 1]['drone_probability']
@@ -22,10 +23,14 @@ def generate_histogram(df, csv_filepath):
         num_bins = 2000
 
     epsilon = 1e-10
-    min_prob = max(all_probs.min(), epsilon)
-    max_prob = min(all_probs.max(), 1 - epsilon)
-    bins = np.logspace(np.log10(min_prob), np.log10(max_prob), num_bins)
+    min_prob = max(float(all_probs.min()), epsilon)
+    max_prob = min(float(all_probs.max()), 1 - epsilon)
 
+    if min_prob >= max_prob:
+        print("  Probability range too narrow, skipping histogram.")
+        return
+
+    bins = np.logspace(np.log10(min_prob), np.log10(max_prob), num_bins)
     plt.figure(figsize=(12, 8))
     plt.hist(prob_0, bins=bins, alpha=0.6, label=f'No Drone (n={len(prob_0):,})',
              color='red', density=False)
@@ -35,29 +40,50 @@ def generate_histogram(df, csv_filepath):
     plt.xscale('log')
 
     threshold = float(df['aggregation_threshold'].iloc[0])
-    plt.axvline(x=threshold, color='black', linestyle='--', alpha=0.7, linewidth=1.5,
+    plt.axvline(x=threshold, color='black', linestyle='--', alpha=0.9, linewidth=2.5,
                 label='Decision Threshold')
 
-    plt.xlabel('Drone Probability (log scale)', fontsize=14)
-    plt.ylabel('Count (log scale)', fontsize=14)
+    plt.ylabel('Count (log scale)', fontsize=20)
 
     filename = os.path.basename(csv_filepath)
-    plt.title(f'{filename}\nBins: {num_bins} | Total: {total_samples:,} samples', fontsize=12)
-    plt.legend(fontsize=12)
+    plt.title(f'{filename}\nBins: {num_bins} | Total: {total_samples:,} samples', fontsize=16)
+    plt.legend(fontsize=19)
     plt.grid(True, alpha=0.3)
 
-    x_ticks = [0.001, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99, 0.999]
+    from matplotlib.ticker import FormatStrFormatter, NullFormatter
+
+    ax = plt.gca()
+
+    # --- X-axis: force short decimal labels, no scientific notation ---
+    x_ticks = [0.001, 0.01, 0.1, 0.9]
     valid_ticks = [tick for tick in x_ticks if min_prob <= tick <= max_prob]
-    plt.xticks(valid_ticks)
 
-    from matplotlib.ticker import FormatStrFormatter
-    plt.gca().xaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+    if valid_ticks:
+        ax.set_xticks(valid_ticks)
+        ax.xaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+        plt.xlabel('Drone Probability (log scale)', fontsize=20)
+    else:
+        # Narrow data range (e.g. 0.986–0.988) — generate ticks within actual range
+        auto_ticks = np.linspace(min_prob, max_prob, 5)
+        ax.set_xticks(auto_ticks)
+        # Use enough decimals to distinguish narrow-range values
+        ax.xaxis.set_major_formatter(FormatStrFormatter('%.4f'))
+        plt.xlabel('Drone Probability (log scale, narrow range)', fontsize=20)
+    ax.xaxis.set_minor_formatter(NullFormatter())  # hide auto minor tick labels
 
-    plt.tight_layout()
+    # --- Y-axis: suppress scientific notation on minor ticks ---
+    ax.yaxis.set_minor_formatter(NullFormatter())
+
+    # --- Consistent font size for all ticks ---
+    ax.tick_params(axis='both', which='major', labelsize=19)
+    ax.tick_params(axis='both', which='minor', labelsize=0)  # hide minor labels entirely
+
+    # --- Fixed margins so every plot image is the same pixel size ---
+    plt.subplots_adjust(left=0.12, right=0.95, top=0.90, bottom=0.15)
 
     base_name = os.path.splitext(csv_filepath)[0]
     plot_filepath = f"{base_name}_histogram.png"
-    plt.savefig(plot_filepath, dpi=300, bbox_inches='tight')
+    plt.savefig(plot_filepath, dpi=300)
     plt.close()
 
     print(f"  Plot saved to: {plot_filepath}")
@@ -250,8 +276,8 @@ def generate_bayes_error_plot(df, csv_filepath, prior_range=(-4, 4), points=1000
     plt.plot(prior_logits, norm_e, label='Normalized Bayes error', color='tab:blue')
     plt.plot(prior_logits, norm_emin, label='Normalized minDCF', color='tab:green', linestyle='--')
     plt.axhline(1.0, color='black', linestyle=':', label='Default system')
-    plt.xlabel('logit(˜π)')
-    plt.ylabel('E(˜π) / E₀(˜π)')
+    plt.xlabel(r'$\mathrm{logit}(\tilde{\pi})$', fontsize=18)
+    plt.ylabel(r'$E(\tilde{\pi})\ /\ E_0(\tilde{\pi})$', fontsize=18)
     plt.title(f'Normalized Bayes Error - {os.path.basename(csv_filepath)}')
     plt.grid(True, alpha=0.3)
     plt.legend()
