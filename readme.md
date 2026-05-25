@@ -2,6 +2,9 @@
 
 A comprehensive audio classification pipeline for drone detection using multiple deep learning architectures: **CNN-LSTM**, **ResNet-34**, and **Transformer-based models**.
 
+Some of the bugfixes and code maintenance is done on the new repository. Link will be updated after conference results.
+
+Model downloads: https://huggingface.co/A4821kL/acoustic-drone-detection/tree/main
 ---
 
 ## Table of Contents
